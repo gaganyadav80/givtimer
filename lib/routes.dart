@@ -1,5 +1,5 @@
 import 'package:flow_builder/flow_builder.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/pages.dart';
@@ -10,7 +10,7 @@ abstract class RouterName {
   static const String homeRoute = '/home';
   static const String loginRoute = '/login';
   static const String signupRoute = '/signup';
-  static const String verificationRoute = '/verification';
+  // static const String verificationRoute = '/verification';
 }
 
 abstract class Router {
@@ -39,11 +39,11 @@ abstract class Router {
         path: RouterName.signupRoute,
         builder: (context, state) => const SignUpPage(),
       ),
-      GoRoute(
-        name: RouterName.verificationRoute,
-        path: RouterName.verificationRoute,
-        builder: (context, state) => const VerificationPage(),
-      ),
+      // GoRoute(
+      //   name: RouterName.verificationRoute,
+      //   path: RouterName.verificationRoute,
+      //   builder: (context, state) => const VerificationPage(),
+      // ),
     ],
   );
 }

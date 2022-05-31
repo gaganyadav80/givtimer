@@ -43,7 +43,7 @@ class AuthenticationRepository {
   ///
   /// Emits [User.empty] if the user is not authenticated.
   Stream<AuthUser> get user {
-    return _firebaseAuth.authStateChanges().map((firebaseUser) {
+    return _firebaseAuth.userChanges().map((firebaseUser) {
       final user = firebaseUser == null ? AuthUser.empty : firebaseUser.toUser;
       _cache.write<AuthUser>(key: userCacheKey, value: user);
       return user;
@@ -59,19 +59,25 @@ class AuthenticationRepository {
   /// Creates a new user with the provided [email] and [password].
   ///
   /// Throws a [SignUpWithEmailAndPasswordFailure] if an exception occurs.
-  Future<void> signUp(
-      {required String email, required String password, String? name}) async {
+  Future<void> signUp({
+    required String email,
+    required String password,
+    String? name,
+    bool sendVerification = false,
+  }) async {
     try {
       final _userCred = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
+      final firebase_auth.User _user = _userCred.user!;
       if (name != null) {
-        final firebase_auth.User _user = _userCred.user!;
         _user.updateDisplayName(name);
         _user.reload();
-        _cache.write<AuthUser>(key: userCacheKey, value: _user.toUser);
+      }
+      if (sendVerification) {
+        _user.sendEmailVerification();
       }
     } on FirebaseAuthException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
@@ -128,6 +134,18 @@ class AuthenticationRepository {
     }
   }
 
+  /// Sends verification mail to the user.
+  ///
+  /// Throws a [SendVerificationEmailFailure] if an exception occurs.
+  Future<void> sendVerificationEmail() async {
+    try {
+      final firebaseUser = _firebaseAuth.currentUser!;
+      firebaseUser.sendEmailVerification();
+    } catch (_) {
+      throw SendVerificationEmailFailure();
+    }
+  }
+
   /// Signs out the current user which will emit
   /// [User.empty] from the [user] Stream.
   ///
@@ -136,7 +154,7 @@ class AuthenticationRepository {
     try {
       await Future.wait([
         _firebaseAuth.signOut(),
-        _googleSignIn.signOut(),
+        // _googleSignIn.signOut(),
       ]);
     } catch (_) {
       throw LogOutFailure();

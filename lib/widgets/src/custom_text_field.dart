@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
     required this.maxLines,
     this.fieldController,
     this.errorText,
+    this.showErrorText = true,
     this.currentNode,
     this.nextNode,
     this.obscureText,
@@ -28,6 +29,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? fieldController;
   final String hintText;
   final String? errorText;
+  final bool showErrorText;
   final TextInputType keyboardType;
   final bool? obscureText;
   final int maxLines;
@@ -78,6 +80,8 @@ class CustomTextField extends StatelessWidget {
         // enabledBorder: kInputBorderStyle,
         // hintStyle:
         // Theme.of(context).textTheme.caption!.copyWith(fontSize: 14.w),
+        errorStyle:
+            showErrorText ? null : const TextStyle(fontSize: 0, height: 0),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 15, vertical: 19),
         hintText: hintText,

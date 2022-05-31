@@ -16,6 +16,12 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
+        // if (state.status.isSubmissionSuccess) {
+        //   final isVerified = context
+        //       .select((AppBloc element) => element.state.user.isVerified!);
+
+        //   if (isVerified) {}
+        // }
         if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -67,9 +73,12 @@ class _EmailInput extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
           hintText: 'Email',
           maxLines: 1,
-          prefixIcon: const Icon(LineIcons.envelope),
+          prefixIcon: state.email.invalid
+              ? const Icon(LineIcons.exclamation, color: Colors.red)
+              : const Icon(LineIcons.envelope),
           textInputAction: TextInputAction.next,
-          errorText: state.email.invalid ? 'Invalid Email' : null,
+          errorText: state.email.invalid ? '' : null,
+          showErrorText: false,
         );
       },
     );
@@ -84,7 +93,8 @@ class _PasswordInput extends StatelessWidget {
           previous.isLoginObscure != current.isLoginObscure,
       builder: (context, state) {
         return CustomTextField(
-          onChanged: (email) => context.read<LoginCubit>().emailChanged(email),
+          onChanged: (email) =>
+              context.read<LoginCubit>().passwordChanged(email),
           keyboardType: TextInputType.visiblePassword,
           hintText: 'Password',
           maxLines: 1,

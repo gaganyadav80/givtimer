@@ -24,7 +24,15 @@ class SignUpState extends Equatable {
   final bool isConfirmPasswordObscure;
 
   @override
-  List<Object> get props => [name, email, password, confirmedPassword, status];
+  List<Object> get props => [
+        name,
+        email,
+        password,
+        confirmedPassword,
+        status,
+        isPasswordObscure,
+        isConfirmPasswordObscure
+      ];
 
   SignUpState copyWith({
     String? name,

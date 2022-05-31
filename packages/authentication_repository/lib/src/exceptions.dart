@@ -137,3 +137,6 @@ class LogInWithGoogleFailure implements Exception {
 
 /// Thrown during the logout process if a failure occurs.
 class LogOutFailure implements Exception {}
+
+/// Thrown if sending the verification email is failed
+class SendVerificationEmailFailure implements Exception {}

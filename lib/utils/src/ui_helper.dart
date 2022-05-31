@@ -20,3 +20,9 @@ class VSpace extends StatelessWidget {
     return SizedBox(height: height);
   }
 }
+
+void showBasicSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(SnackBar(content: Text(message)));
+}

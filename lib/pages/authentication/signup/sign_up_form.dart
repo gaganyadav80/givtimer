@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -15,13 +16,10 @@ class SignUpForm extends StatelessWidget {
     return BlocListener<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
-          Navigator.of(context).pop();
+          showBasicSnackBar(context, 'Verification mail is sent');
+          context.pop();
         } else if (state.status.isSubmissionFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? 'Sign Up Failure')),
-            );
+          showBasicSnackBar(context, state.errorMessage ?? 'Sign Up Failure');
         }
       },
       child: SingleChildScrollView(
@@ -80,11 +78,14 @@ class _EmailInput extends StatelessWidget {
         return CustomTextField(
           hintText: 'Email',
           keyboardType: TextInputType.emailAddress,
-          prefixIcon: const Icon(LineIcons.envelope),
+          prefixIcon: state.email.invalid
+              ? const Icon(LineIcons.exclamation, color: Colors.red)
+              : const Icon(LineIcons.envelope),
           textInputAction: TextInputAction.next,
           maxLines: 1,
           onChanged: (name) => context.read<SignUpCubit>().emailChanged(name),
-          errorText: state.email.invalid ? 'Invalid Email' : null,
+          errorText: state.email.invalid ? '' : null,
+          showErrorText: false,
         );
       },
     );
@@ -105,13 +106,14 @@ class _PasswordInput extends StatelessWidget {
           hintText: 'Password',
           maxLines: 1,
           prefixIcon: const Icon(LineIcons.lock),
-          textInputAction: TextInputAction.done,
+          textInputAction: TextInputAction.next,
           obscureText: state.isPasswordObscure,
           suffix: state.isPasswordObscure
               ? IconButton(
                   icon: const Icon(LineIcons.eyeSlash, color: Colors.grey),
-                  onPressed: () =>
-                      context.read<SignUpCubit>().togglePasswordObscure(),
+                  onPressed: () {
+                    context.read<SignUpCubit>().togglePasswordObscure();
+                  },
                 )
               : IconButton(
                   icon: const Icon(LineIcons.eye),
