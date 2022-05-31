@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/firebase_options.dart';
 import 'package:givtimer/logic/logic.dart';
-import 'package:givtimer/pages/pages.dart';
 import 'package:givtimer/routes.dart' as rt;
 import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';

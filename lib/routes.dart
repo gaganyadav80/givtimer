@@ -11,6 +11,7 @@ abstract class RouterName {
   static const String loginRoute = '/login';
   static const String signupRoute = '/signup';
   // static const String verificationRoute = '/verification';
+  static const String profileRoute = '/profile';
 }
 
 abstract class Router {
@@ -44,6 +45,11 @@ abstract class Router {
       //   path: RouterName.verificationRoute,
       //   builder: (context, state) => const VerificationPage(),
       // ),
+      GoRoute(
+        name: RouterName.profileRoute,
+        path: RouterName.profileRoute,
+        builder: (context, state) => const ProfilePage(),
+      )
     ],
   );
 }

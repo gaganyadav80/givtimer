@@ -73,8 +73,8 @@ class AuthenticationRepository {
 
       final firebase_auth.User _user = _userCred.user!;
       if (name != null) {
-        _user.updateDisplayName(name);
-        _user.reload();
+        await _user.updateDisplayName(name);
+        await _user.reload();
       }
       if (sendVerification) {
         _user.sendEmailVerification();
@@ -137,12 +137,25 @@ class AuthenticationRepository {
   /// Sends verification mail to the user.
   ///
   /// Throws a [SendVerificationEmailFailure] if an exception occurs.
-  Future<void> sendVerificationEmail() async {
+  // Future<void> sendVerificationEmail() async {
+  //   try {
+  //     final firebaseUser = _firebaseAuth.currentUser!;
+  //     await firebaseUser.sendEmailVerification();
+  //   } catch (_) {
+  //     throw SendVerificationEmailFailure();
+  //   }
+  // }
+
+  /// Sends verification mail to the user.
+  ///
+  /// Throws a [SendVerificationEmailFailure] if an exception occurs.
+  Future<void> updateProfilePhoto(String url) async {
     try {
       final firebaseUser = _firebaseAuth.currentUser!;
-      firebaseUser.sendEmailVerification();
+      await firebaseUser.updatePhotoURL(url);
+      await firebaseUser.reload();
     } catch (_) {
-      throw SendVerificationEmailFailure();
+      throw Exception('Failed to update profile photo');
     }
   }
 

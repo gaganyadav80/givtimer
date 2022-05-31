@@ -8,7 +8,12 @@ final theme = ThemeData(
   primaryColorLight: const Color(0xFFB2EBF2),
   primaryColor: const Color(0xFF00BCD4),
   colorScheme: const ColorScheme.light(secondary: Color(0xFF009688)),
-  scaffoldBackgroundColor: const Color(0xFFE0F2F1),
+  // scaffoldBackgroundColor: const Color(0xFFF2F2F7),
+  appBarTheme: const AppBarTheme(
+    elevation: 0,
+    backgroundColor: Color(0xFFFAFAFA),
+    iconTheme: IconThemeData(color: Colors.black),
+  ),
   inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(kDefaultRadius),
