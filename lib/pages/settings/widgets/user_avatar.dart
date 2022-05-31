@@ -1,4 +1,3 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
@@ -13,14 +12,14 @@ class UserAvatar extends StatelessWidget {
       builder: (context, state) {
         return InkWell(
           onTap: () async {
-            final url = await showDialog<String?>(
+            await showDialog<String?>(
               context: context,
               builder: (context) => const _UserAvatarDialog(),
-            );
-
-            if (url != null) {
-              context.read<AuthenticationRepository>().updateProfilePhoto(url);
-            }
+            ).then((value) {
+              if (value != null) {
+                context.read<SettingsCubit>().updateProfilePhoto(value);
+              }
+            });
           },
           child: CircleAvatar(
             radius: 60,
