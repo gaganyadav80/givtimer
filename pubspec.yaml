@@ -29,7 +29,7 @@ dependencies:
   google_sign_in: ^5.3.2
   hive: ^2.2.1
   hive_flutter: ^1.1.0
-  hydrated_bloc: ^8.1.0
+  hydrated_bloc: ^9.0.0-dev.2
   intl: ^0.17.0
   line_icons: ^2.0.1
   neon_circular_timer: ^0.0.7

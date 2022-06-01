@@ -44,7 +44,7 @@ class _UserAvatarDialog extends StatelessWidget {
       children: [
         Wrap(
           children: List.generate(
-            10,
+            9,
             (index) => Padding(
               padding: const EdgeInsets.all(8),
               child: InkWell(

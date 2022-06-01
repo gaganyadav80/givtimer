@@ -4,6 +4,7 @@ import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/settings/widgets/user_avatar.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -57,7 +58,10 @@ class _LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlueButton(
       title: 'Logout',
-      onPressed: () => context.read<SettingsCubit>().logout(),
+      onPressed: () {
+        context.read<SettingsCubit>().logout();
+        GoRouter.of(context).pop();
+      },
     );
   }
 }

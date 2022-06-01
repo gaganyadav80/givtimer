@@ -28,7 +28,7 @@ class _HomePageBody extends StatelessWidget {
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             return [
-              const Center(child: Text('Home')),
+              const TimerPage(),
               const Center(child: Text('Chart [Paid]')),
               const SettingsPage(),
             ][state.homeIdx];
@@ -45,14 +45,17 @@ class _HomePageBody extends StatelessWidget {
               BottomNavigationBarItem(
                 icon: Icon(LineIcons.home),
                 label: 'Home',
+                tooltip: '',
               ),
               BottomNavigationBarItem(
                 icon: Icon(LineIcons.lineChart),
                 label: 'Chart',
+                tooltip: '',
               ),
               BottomNavigationBarItem(
                 icon: Icon(LineIcons.cog),
                 label: 'Settings',
+                tooltip: '',
               ),
             ],
           );

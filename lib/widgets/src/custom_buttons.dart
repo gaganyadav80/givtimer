@@ -38,14 +38,14 @@ class BlueButton extends StatelessWidget {
       shadowColor: Theme.of(context).primaryColor.withOpacity(0.5),
       child: SizedBox(
         height: height ?? 60,
-        child: TextButton(
+        child: ElevatedButton(
           onPressed: onPressed,
           style: TextButton.styleFrom(
             elevation: 0,
-            backgroundColor: backgroundColor ?? Theme.of(context).primaryColor,
+            // backgroundColor: backgroundColor ?? Theme.of(context).primaryColor,
             shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
             padding: const EdgeInsets.symmetric(vertical: 15),
-            primary: Colors.lightBlue[900],
+            // primary: Colors.lightBlue[900],
           ),
           child: Center(
             child: isLoading
@@ -101,6 +101,47 @@ class BorderTextButton extends StatelessWidget {
           child: isLoading
               ? const CircularLoading()
               : child ?? title!.text.buttonText(context).make(),
+        ),
+      ),
+    );
+  }
+}
+
+class RoundedElevatedButton extends StatelessWidget {
+  const RoundedElevatedButton({
+    Key? key,
+    required this.onPressed,
+    required this.icon,
+    required this.label,
+    this.height = 60,
+    this.width = 210,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+  final IconData icon;
+  final String label;
+  final double height;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 60,
+      width: 210,
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(icon),
+        label: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 18,
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          elevation: 24,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
         ),
       ),
     );

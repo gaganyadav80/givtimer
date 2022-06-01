@@ -4,3 +4,6 @@ export 'authentication/verification/verification_page.dart';
 export 'home/home_page.dart';
 export 'settings/settings_page.dart';
 export 'settings/views/profile_page.dart';
+export 'timer/timer_page.dart';
+export 'timer/views/set_alarm_page.dart';
+export 'timer/views/set_timer_page.dart';

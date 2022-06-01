@@ -6,7 +6,7 @@ final theme = ThemeData(
   textTheme: GoogleFonts.openSansTextTheme(),
   primaryColorDark: const Color(0xFF0097A7),
   primaryColorLight: const Color(0xFFB2EBF2),
-  primaryColor: const Color(0xFF00BCD4),
+  // primaryColor: const Color(0xFF00BCD4),
   colorScheme: const ColorScheme.light(secondary: Color(0xFF009688)),
   // scaffoldBackgroundColor: const Color(0xFFF2F2F7),
   appBarTheme: const AppBarTheme(

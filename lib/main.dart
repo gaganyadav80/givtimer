@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -11,30 +13,29 @@ import 'package:givtimer/utils/utils.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<void> main() {
-  return BlocOverrides.runZoned(
+void main() {
+  HydratedBlocOverrides.runZoned(
     () async {
-      WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
 
       final authenticationRepository = AuthenticationRepository();
       await authenticationRepository.user.first;
-
-      final storage = await HydratedStorage.build(
+      return runApp(
+        App(authenticationRepository: authenticationRepository),
+      );
+    },
+    blocObserver: AppBlocObserver(),
+    createStorage: () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      log('Hello');
+      return HydratedStorage.build(
         storageDirectory: kIsWeb
             ? HydratedStorage.webStorageDirectory
             : await getTemporaryDirectory(),
       );
-      HydratedBlocOverrides.runZoned(
-        () => runApp(
-          App(authenticationRepository: authenticationRepository),
-        ),
-        storage: storage,
-      );
     },
-    blocObserver: AppBlocObserver(),
   );
 }
 

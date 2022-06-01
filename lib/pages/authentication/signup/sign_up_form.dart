@@ -169,10 +169,13 @@ class _SignUpButton extends StatelessWidget {
       builder: (context, state) {
         return state.status.isSubmissionInProgress
             ? const BlueButton(isLoading: true)
-            : BlueButton(
-                title: 'Sign Up',
-                onPressed: () =>
-                    context.read<SignUpCubit>().signUpFormSubmitted(),
+            : Hero(
+                tag: 'auth-button-hero',
+                child: BlueButton(
+                  title: 'Sign Up',
+                  onPressed: () =>
+                      context.read<SignUpCubit>().signUpFormSubmitted(),
+                ),
               );
       },
     );
@@ -182,12 +185,9 @@ class _SignUpButton extends StatelessWidget {
 class _GoogleLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: 'google-button',
-      child: GoogleButton(
-        title: 'Sign up with google',
-        onPressed: () => context.read<SignUpCubit>().logInWithGoogle(),
-      ),
+    return GoogleButton(
+      title: 'Sign up with google',
+      onPressed: () => context.read<SignUpCubit>().logInWithGoogle(),
     );
   }
 }
