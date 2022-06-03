@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:givtimer/utils/utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:givtimer/logic/logic.dart';
+import 'package:givtimer/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -10,7 +11,7 @@ class SelectTimeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: kDefaultHorizontalPadding,
+      padding: const EdgeInsets.only(top: 20),
       child: Row(
         children: [
           Expanded(
@@ -20,31 +21,27 @@ class SelectTimeWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.grey[300],
+                border:
+                    Border.all(color: kPurpleColor.withOpacity(0.4), width: 2),
               ),
-              child: TextField(
-                style: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline2,
-                ),
-                keyboardType: TextInputType.number,
-                textAlign: TextAlign.center,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(2),
-                  FilteringTextInputFormatter.allow(
-                    RegExp(r'^(2[0-4]|1[0-9]|[1-9])$'),
-                  ),
-                ],
-                decoration: InputDecoration(
-                  hintText: 'h',
-                  hintStyle: GoogleFonts.dmSerifDisplay(
-                    textStyle: Theme.of(context).textTheme.headline2,
-                    color: Colors.grey[400],
-                  ),
+              child: Center(
+                child: BlocBuilder<TimerCubit, TimerState>(
+                  buildWhen: (previous, current) =>
+                      previous.seconds != current.seconds,
+                  builder: (context, state) {
+                    return Text(
+                      '${context.read<TimerCubit>().getDurationHours()}',
+                      style: GoogleFonts.dmSerifDisplay(
+                        textStyle: Theme.of(context).textTheme.headline2,
+                        color: Colors.grey[500],
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
           ),
-          ':'.text.headline2(context).make().pSymmetric(h: 5),
+          ':'.text.headline2(context).make().pLTRB(5, 0, 5, 10),
           Expanded(
             child: Container(
               height: 120,
@@ -52,60 +49,20 @@ class SelectTimeWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.grey[300],
+                border:
+                    Border.all(color: kPurpleColor.withOpacity(0.4), width: 2),
               ),
-              child: TextField(
-                style: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline2,
-                ),
-                keyboardType: TextInputType.number,
-                textAlign: TextAlign.center,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(2),
-                  FilteringTextInputFormatter.allow(
-                    RegExp(r'^[0-5]?[0-9]$'),
-                  ),
-                ],
-                decoration: InputDecoration(
-                  hintText: 'm',
-                  hintStyle: GoogleFonts.dmSerifDisplay(
-                    textStyle: Theme.of(context).textTheme.headline2,
-                    color: Colors.grey[400],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          ':'.text.headline2(context).make().pSymmetric(h: 5),
-          Expanded(
-            child: Container(
-              height: 120,
-              width: 60,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey[300],
-              ),
-              child: TextField(
-                style: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline2,
-                ),
-                // autofocus: true,
-                keyboardType: TextInputType.number,
-                textAlign: TextAlign.center,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(2),
-                  FilteringTextInputFormatter.allow(
-                    RegExp(r'^[0-5]?[0-9]$'),
-                  ),
-                ],
-                decoration: InputDecoration(
-                  // border: InputBorder.none,
-                  hintText: 's',
-                  hintStyle: GoogleFonts.dmSerifDisplay(
-                    textStyle: Theme.of(context).textTheme.headline2,
-                    color: Colors.grey[400],
-                  ),
+              child: Center(
+                child: BlocBuilder<TimerCubit, TimerState>(
+                  builder: (context, state) {
+                    return Text(
+                      '${context.read<TimerCubit>().getDurationMinutes()}',
+                      style: GoogleFonts.dmSerifDisplay(
+                        textStyle: Theme.of(context).textTheme.headline2,
+                        color: Colors.grey[500],
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

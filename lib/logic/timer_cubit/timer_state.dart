@@ -1,42 +1,18 @@
 part of 'timer_cubit.dart';
 
 class TimerState extends Equatable {
-  const TimerState({
-    this.usePomodoro = false,
-    this.breakDuration = 5,
-    this.longBreakDuration = 15,
-    this.pomodoroCount = 4,
-    this.pomodoroDuration = 25,
-  });
+  const TimerState({this.duration = Duration.zero, this.seconds = 0});
 
-  final bool usePomodoro;
-  final double pomodoroDuration;
-  final double breakDuration;
-  final double longBreakDuration;
-  final double pomodoroCount;
+  final Duration duration;
+  final int seconds;
 
   @override
-  List<Object> get props => [
-        usePomodoro,
-        pomodoroDuration,
-        breakDuration,
-        longBreakDuration,
-        pomodoroCount
-      ];
+  List<Object> get props => [duration, seconds];
 
-  TimerState copyWith({
-    bool? usePomodoro,
-    double? pomodoroDuration,
-    double? breakDuration,
-    double? longBreakDuration,
-    double? pomodoroCount,
-  }) {
+  TimerState copyWith({Duration? duration, int? seconds}) {
     return TimerState(
-      usePomodoro: usePomodoro ?? this.usePomodoro,
-      pomodoroDuration: pomodoroDuration ?? this.pomodoroDuration,
-      breakDuration: breakDuration ?? this.breakDuration,
-      longBreakDuration: longBreakDuration ?? this.longBreakDuration,
-      pomodoroCount: pomodoroCount ?? this.pomodoroCount,
+      duration: duration ?? this.duration,
+      seconds: seconds ?? this.seconds,
     );
   }
 }

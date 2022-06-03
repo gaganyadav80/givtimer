@@ -18,71 +18,69 @@ class TimerPomodoroWidget extends StatefulWidget {
 class _TimerPomodoroWidgetState extends State<TimerPomodoroWidget> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: kDefaultHorizontalPadding,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BlocBuilder<TimerCubit, TimerState>(
-              buildWhen: (previous, current) =>
-                  previous.pomodoroDuration != current.pomodoroDuration,
-              builder: (context, state) {
-                return _PomodoroValueSlider(
-                  onChanged: (value) =>
-                      context.read<TimerCubit>().pomodoroDuration(value),
-                  title: 'Pomodoro duration',
-                  value: state.pomodoroDuration,
-                  maxValue: 60,
-                  minValue: 5,
-                );
-              },
-            ),
-            BlocBuilder<TimerCubit, TimerState>(
-              buildWhen: (previous, current) =>
-                  previous.breakDuration != current.breakDuration,
-              builder: (context, state) {
-                return _PomodoroValueSlider(
-                  onChanged: (value) =>
-                      context.read<TimerCubit>().breakDuration(value),
-                  title: 'Break duration',
-                  value: state.breakDuration,
-                  maxValue: 30,
-                  minValue: 5,
-                );
-              },
-            ),
-            BlocBuilder<TimerCubit, TimerState>(
-              buildWhen: (previous, current) =>
-                  previous.longBreakDuration != current.longBreakDuration,
-              builder: (context, state) {
-                return _PomodoroValueSlider(
-                  onChanged: (value) =>
-                      context.read<TimerCubit>().longBreakDuration(value),
-                  title: 'Long break duration',
-                  value: state.longBreakDuration,
-                  maxValue: 30,
-                  minValue: 5,
-                );
-              },
-            ),
-            BlocBuilder<TimerCubit, TimerState>(
-              buildWhen: (previous, current) =>
-                  previous.pomodoroCount != current.pomodoroCount,
-              builder: (context, state) {
-                return _PomodoroValueSlider(
-                  onChanged: (value) =>
-                      context.read<TimerCubit>().pomodoroCount(value),
-                  title: 'Pomodoro sets',
-                  value: state.pomodoroCount,
-                  maxValue: 10,
-                  minValue: 1,
-                );
-              },
-            ),
-          ],
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        BlocBuilder<PomodoroCubit, PomodoroState>(
+          buildWhen: (previous, current) =>
+              previous.pomodoroDuration != current.pomodoroDuration,
+          builder: (context, state) {
+            return _PomodoroValueSlider(
+              onChanged: (value) => context
+                  .read<PomodoroCubit>()
+                  .pomodoroDuration(value.floorToDouble()),
+              title: 'Pomodoro duration',
+              value: state.pomodoroDuration,
+              maxValue: 60,
+              minValue: 5,
+            );
+          },
         ),
-      ),
+        BlocBuilder<PomodoroCubit, PomodoroState>(
+          buildWhen: (previous, current) =>
+              previous.breakDuration != current.breakDuration,
+          builder: (context, state) {
+            return _PomodoroValueSlider(
+              onChanged: (value) =>
+                  context.read<PomodoroCubit>().breakDuration(value),
+              title: 'Break duration',
+              value: state.breakDuration,
+              maxValue: 30,
+              minValue: 5,
+            );
+          },
+        ),
+        BlocBuilder<PomodoroCubit, PomodoroState>(
+          buildWhen: (previous, current) =>
+              previous.longBreakDuration != current.longBreakDuration,
+          builder: (context, state) {
+            return _PomodoroValueSlider(
+              onChanged: (value) =>
+                  context.read<PomodoroCubit>().longBreakDuration(value),
+              title: 'Long break duration',
+              value: state.longBreakDuration,
+              maxValue: 30,
+              minValue: 5,
+            );
+          },
+        ),
+        BlocBuilder<PomodoroCubit, PomodoroState>(
+          buildWhen: (previous, current) =>
+              previous.pomodoroCount != current.pomodoroCount,
+          builder: (context, state) {
+            return _PomodoroValueSlider(
+              onChanged: (value) => context
+                  .read<PomodoroCubit>()
+                  .pomodoroCount(value.ceilToDouble()),
+              title: 'Pomodoro sets',
+              value: state.pomodoroCount,
+              maxValue: 10,
+              minValue: 1,
+            );
+          },
+        ),
+      ],
     );
   }
 }
@@ -128,7 +126,7 @@ class _PomodoroValueSlider extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '${value.toInt()} min',
+                  '${value.ceil()} min',
                 ),
               ],
             ),
@@ -143,7 +141,7 @@ class _PomodoroValueSlider extends StatelessWidget {
                 activeColor: kPurpleColor,
                 max: maxValue,
                 min: minValue,
-                divisions: maxValue ~/ minValue,
+                divisions: (maxValue ~/ minValue) - 1,
               ),
             ),
           ],

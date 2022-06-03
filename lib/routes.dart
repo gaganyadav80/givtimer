@@ -12,8 +12,10 @@ abstract class RouterName {
   static const String signupRoute = '/signup';
   // static const String verificationRoute = '/verification';
   static const String profileRoute = '/profile';
+  static const String setPomodoroRoute = '/pomodoro';
   static const String setTimerRoute = '/setTimer';
   static const String setAlarmRoute = '/setAlarm';
+  static const String startTimerClockRoute = '/startTimerClock';
 }
 
 abstract class Router {
@@ -53,6 +55,11 @@ abstract class Router {
         builder: (context, state) => const ProfilePage(),
       ),
       GoRoute(
+        name: RouterName.setPomodoroRoute,
+        path: RouterName.setPomodoroRoute,
+        builder: (context, state) => const SetPomodoroPage(),
+      ),
+      GoRoute(
         name: RouterName.setTimerRoute,
         path: RouterName.setTimerRoute,
         builder: (context, state) => const SetTimerPage(),
@@ -61,6 +68,13 @@ abstract class Router {
         name: RouterName.setAlarmRoute,
         path: RouterName.setAlarmRoute,
         builder: (context, state) => const SetAlarmPage(),
+      ),
+      GoRoute(
+        name: RouterName.startTimerClockRoute,
+        path: RouterName.startTimerClockRoute,
+        builder: (context, state) => StartClockPage(
+          timerCubit: state.extra! as TimerCubit,
+        ),
       )
     ],
   );

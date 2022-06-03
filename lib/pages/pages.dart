@@ -6,4 +6,6 @@ export 'settings/settings_page.dart';
 export 'settings/views/profile_page.dart';
 export 'timer/timer_page.dart';
 export 'timer/views/set_alarm_page.dart';
+export 'timer/views/set_pomodoro_page.dart';
 export 'timer/views/set_timer_page.dart';
+export 'timer/views/start_clock.dart';

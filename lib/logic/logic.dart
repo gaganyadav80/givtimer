@@ -1,6 +1,7 @@
 export 'app_bloc/app_bloc.dart';
 export 'home_cubit/home_cubit.dart';
 export 'login_cubit/login_cubit.dart';
+export 'pomodoro_cubit/pomodoro_cubit.dart';
 export 'settings_cubit/settings_cubit.dart';
 export 'signup_cubit/sign_up_cubit.dart';
 export 'timer_cubit/timer_cubit.dart';

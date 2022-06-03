@@ -25,6 +25,15 @@ class TimerPage extends StatelessWidget {
             ),
             const VSpace(40),
             Hero(
+              tag: 'set-pomodoro-button',
+              child: RoundedElevatedButton(
+                onPressed: () => context.pushNamed(RouterName.setPomodoroRoute),
+                icon: LineIcons.stopwatch,
+                label: 'Pomodoro',
+              ),
+            ),
+            const VSpace(20),
+            Hero(
               tag: 'set-timer-button',
               child: RoundedElevatedButton(
                 onPressed: () => context.pushNamed(RouterName.setTimerRoute),
@@ -33,10 +42,13 @@ class TimerPage extends StatelessWidget {
               ),
             ),
             const VSpace(20),
-            RoundedElevatedButton(
-              onPressed: () => context.pushNamed(RouterName.setAlarmRoute),
-              icon: LineIcons.bell,
-              label: 'Set alarm',
+            Hero(
+              tag: 'set-alarm-button',
+              child: RoundedElevatedButton(
+                onPressed: () => context.pushNamed(RouterName.setAlarmRoute),
+                icon: LineIcons.bell,
+                label: 'Set alarm',
+              ),
             ),
           ],
         ),

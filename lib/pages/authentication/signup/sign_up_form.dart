@@ -60,7 +60,7 @@ class _NameInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomTextField(
       hintText: 'Name',
-      keyboardType: TextInputType.name,
+      textInputType: TextInputType.name,
       prefixIcon: const Icon(LineIcons.user),
       textInputAction: TextInputAction.next,
       maxLines: 1,
@@ -77,7 +77,7 @@ class _EmailInput extends StatelessWidget {
       builder: (context, state) {
         return CustomTextField(
           hintText: 'Email',
-          keyboardType: TextInputType.emailAddress,
+          textInputType: TextInputType.emailAddress,
           prefixIcon: state.email.invalid
               ? const Icon(LineIcons.exclamation, color: Colors.red)
               : const Icon(LineIcons.envelope),
@@ -102,7 +102,7 @@ class _PasswordInput extends StatelessWidget {
         return CustomTextField(
           onChanged: (password) =>
               context.read<SignUpCubit>().passwordChanged(password),
-          keyboardType: TextInputType.visiblePassword,
+          textInputType: TextInputType.visiblePassword,
           hintText: 'Password',
           maxLines: 1,
           prefixIcon: const Icon(LineIcons.lock),
@@ -136,7 +136,7 @@ class _ConfirmPasswordInput extends StatelessWidget {
         return CustomTextField(
           onChanged: (cpass) =>
               context.read<SignUpCubit>().confirmedPasswordChanged(cpass),
-          keyboardType: TextInputType.visiblePassword,
+          textInputType: TextInputType.visiblePassword,
           hintText: 'Confirm Password',
           maxLines: 1,
           prefixIcon: const Icon(LineIcons.lock),

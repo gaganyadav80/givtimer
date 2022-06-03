@@ -7,10 +7,10 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     Key? key,
     required this.hintText,
-    required this.keyboardType,
-    required this.prefixIcon,
-    required this.textInputAction,
-    required this.maxLines,
+    this.textInputType,
+    this.prefixIcon,
+    this.textInputAction,
+    this.maxLines,
     this.fieldController,
     this.errorText,
     this.showErrorText = true,
@@ -30,18 +30,18 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final String? errorText;
   final bool showErrorText;
-  final TextInputType keyboardType;
+  final TextInputType? textInputType;
   final bool? obscureText;
-  final int maxLines;
+  final int? maxLines;
   final bool? enabled;
   final bool? readOnly;
   final Widget? suffix;
-  final TextInputAction textInputAction;
+  final TextInputAction? textInputAction;
   final FocusNode? currentNode;
   final FocusNode? nextNode;
   final List<TextInputFormatter>? inputFormatters;
   final TextCapitalization? textCapitalization;
-  final Icon prefixIcon;
+  final Icon? prefixIcon;
   final int? maxLength;
   final TextChangeCallback? onChanged;
 
@@ -49,6 +49,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       focusNode: currentNode,
+      controller: fieldController,
       onSubmitted: (value) {
         if (currentNode != null) {
           currentNode!.unfocus();
@@ -57,15 +58,14 @@ class CustomTextField extends StatelessWidget {
       },
       onChanged: onChanged,
       textInputAction: textInputAction,
-      enabled: enabled ?? true,
+      enabled: enabled,
       readOnly: readOnly ?? false,
       maxLines: maxLines,
       maxLength: maxLength,
       maxLengthEnforcement:
           maxLength != null ? MaxLengthEnforcement.enforced : null,
-      controller: fieldController,
       cursorColor: Colors.black,
-      keyboardType: keyboardType,
+      keyboardType: textInputType,
       obscureText: obscureText ?? false,
       textCapitalization: textCapitalization ?? TextCapitalization.none,
       textAlignVertical: TextAlignVertical.center,

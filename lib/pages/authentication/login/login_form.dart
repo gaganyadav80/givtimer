@@ -70,7 +70,7 @@ class _EmailInput extends StatelessWidget {
       builder: (context, state) {
         return CustomTextField(
           onChanged: (email) => context.read<LoginCubit>().emailChanged(email),
-          keyboardType: TextInputType.emailAddress,
+          textInputType: TextInputType.emailAddress,
           hintText: 'Email',
           maxLines: 1,
           prefixIcon: state.email.invalid
@@ -95,7 +95,7 @@ class _PasswordInput extends StatelessWidget {
         return CustomTextField(
           onChanged: (email) =>
               context.read<LoginCubit>().passwordChanged(email),
-          keyboardType: TextInputType.visiblePassword,
+          textInputType: TextInputType.visiblePassword,
           hintText: 'Password',
           maxLines: 1,
           prefixIcon: const Icon(LineIcons.lock),

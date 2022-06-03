@@ -2,29 +2,37 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:neon_circular_timer/neon_circular_timer.dart';
 
 part 'timer_state.dart';
 
 class TimerCubit extends Cubit<TimerState> {
   TimerCubit() : super(const TimerState());
 
-  void usePomodoro(bool value) {
-    emit(state.copyWith(usePomodoro: value));
+  void setDuration(Duration value) {
+    final seconds = value.inSeconds;
+    emit(state.copyWith(duration: value, seconds: seconds));
   }
 
-  void pomodoroDuration(double value) {
-    emit(state.copyWith(pomodoroDuration: value));
+  bool isTimerSet() => state.seconds > 0;
+
+  int getDurationInSeconds() => state.seconds;
+
+  int getDurationHours() {
+    final hours = state.seconds ~/ 3600;
+    return hours;
   }
 
-  void breakDuration(double value) {
-    emit(state.copyWith(breakDuration: value));
+  int getDurationMinutes() {
+    final minutes = (state.seconds % 3600) ~/ 60;
+    return minutes;
   }
 
-  void longBreakDuration(double value) {
-    emit(state.copyWith(longBreakDuration: value));
-  }
-
-  void pomodoroCount(double value) {
-    emit(state.copyWith(pomodoroCount: value));
+  TextFormat getTimerTextFormat() {
+    if (state.seconds >= 3600) {
+      return TextFormat.HH_MM_SS;
+    } else {
+      return TextFormat.MM_SS;
+    }
   }
 }
