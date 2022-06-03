@@ -11,7 +11,9 @@ class SetAlarmPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [],
+          children: [
+            Container(),
+          ],
         ),
       ),
     );

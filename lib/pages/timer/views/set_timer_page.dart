@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:givtimer/logic/logic.dart';
+import 'package:givtimer/pages/timer/views/widgets/timer_pomodoro.dart';
+import 'package:givtimer/pages/timer/views/widgets/timer_select_time.dart';
+import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,149 +16,110 @@ class SetTimerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Stack(
-          children: [
-            Column(
-              // mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Select the duration',
-                  style: GoogleFonts.dmSerifDisplay(
-                    textStyle: Theme.of(context).textTheme.headline2,
-                  ),
-                ),
-                const VSpace(30),
-                _SelectTimeWidget(),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 40),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Hero(
-                  tag: 'set-timer-button',
-                  child: RoundedElevatedButton(
-                    onPressed: () {},
-                    icon: LineIcons.play,
-                    label: 'Start',
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return BlocProvider(
+      create: (context) => TimerCubit(),
+      child: const _TimerPageBody(),
     );
   }
 }
 
-class _SelectTimeWidget extends StatelessWidget {
+class _TimerPageBody extends StatefulWidget {
+  const _TimerPageBody({Key? key}) : super(key: key);
+
+  @override
+  State<_TimerPageBody> createState() => _TimerPageBodyState();
+}
+
+class _TimerPageBodyState extends State<_TimerPageBody>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 2);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            height: 120,
-            width: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.grey[300],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Select the duration',
+          style: GoogleFonts.dmSerifDisplay(
+            textStyle: Theme.of(context).textTheme.headline4,
+          ),
+        ),
+      ),
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Padding(
+          //   padding: kDefaultHorizontalPadding,
+          //   child: Text(
+          //     'Select the duration',
+          //     style: GoogleFonts.dmSerifDisplay(
+          //       textStyle: Theme.of(context).textTheme.headline4,
+          //     ),
+          //   ),
+          // ),
+          const Padding(
+            padding: EdgeInsets.only(top: 5),
+            child: Center(
+              child: Icon(LineIcons.snowflake, color: kPurpleColor),
             ),
-            child: TextField(
-              style: GoogleFonts.dmSerifDisplay(
-                textStyle: Theme.of(context).textTheme.headline2,
-              ),
-              keyboardType: TextInputType.number,
-              textAlign: TextAlign.center,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(2),
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'^(2[0-4]|1[0-9]|[1-9])$'),
+          ),
+          BlocBuilder<TimerCubit, TimerState>(
+            buildWhen: (previous, current) =>
+                previous.usePomodoro != current.usePomodoro,
+            builder: (context, state) {
+              return ListTile(
+                title: 'Use pomodoro timer'.text.size(20).medium.gray700.make(),
+                horizontalTitleGap: 0,
+                leading: const Icon(LineIcons.stopwatch),
+                trailing: CupertinoSwitch(
+                  value: state.usePomodoro,
+                  activeColor: kPurpleColor,
+                  onChanged: (value) {
+                    context.read<TimerCubit>().usePomodoro(value);
+                    if (value) {
+                      _tabController.animateTo(1);
+                    } else {
+                      _tabController.animateTo(0);
+                    }
+                  },
                 ),
+              );
+            },
+          ),
+          const Divider(indent: 20, endIndent: 20, thickness: 1),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: const [
+                SelectTimeWidget(),
+                TimerPomodoroWidget(),
               ],
-              decoration: InputDecoration(
-                hintText: 'h',
-                hintStyle: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline2,
-                  color: Colors.grey[400],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50, top: 20),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Hero(
+                tag: 'set-timer-button',
+                child: RoundedElevatedButton(
+                  onPressed: () {},
+                  icon: LineIcons.play,
+                  label: 'Start',
                 ),
               ),
             ),
           ),
-        ),
-        ':'.text.headline2(context).make().pSymmetric(h: 5),
-        Expanded(
-          child: Container(
-            height: 120,
-            width: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.grey[300],
-            ),
-            child: TextField(
-              style: GoogleFonts.dmSerifDisplay(
-                textStyle: Theme.of(context).textTheme.headline2,
-              ),
-              keyboardType: TextInputType.number,
-              textAlign: TextAlign.center,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(2),
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'^[0-5]?[0-9]$'),
-                ),
-              ],
-              decoration: InputDecoration(
-                hintText: 'm',
-                hintStyle: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline2,
-                  color: Colors.grey[400],
-                ),
-              ),
-            ),
-          ),
-        ),
-        ':'.text.headline2(context).make().pSymmetric(h: 5),
-        Expanded(
-          child: Container(
-            height: 120,
-            width: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.grey[300],
-            ),
-            child: TextField(
-              style: GoogleFonts.dmSerifDisplay(
-                textStyle: Theme.of(context).textTheme.headline2,
-              ),
-              // autofocus: true,
-              keyboardType: TextInputType.number,
-              textAlign: TextAlign.center,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(2),
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'^[0-5]?[0-9]$'),
-                ),
-              ],
-              decoration: InputDecoration(
-                // border: InputBorder.none,
-                hintText: 's',
-                hintStyle: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline2,
-                  color: Colors.grey[400],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

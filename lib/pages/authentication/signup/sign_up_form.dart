@@ -24,7 +24,7 @@ class SignUpForm extends StatelessWidget {
       },
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: kDefaultHorizontalPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

@@ -12,6 +12,9 @@ final BorderRadius kBorderRadius = BorderRadius.circular(kDefaultRadius);
 
 const double kDefaultRadius = 8;
 
+const EdgeInsets kDefaultHorizontalPadding =
+    EdgeInsets.symmetric(horizontal: 20);
+
 final OutlineInputBorder kInputBorderStyle = OutlineInputBorder(
   borderRadius: kBorderRadius,
   borderSide: const BorderSide(

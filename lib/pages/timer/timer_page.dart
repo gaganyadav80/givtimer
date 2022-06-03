@@ -12,31 +12,34 @@ class TimerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "Let's start.",
-            style: GoogleFonts.dmSerifDisplay(
-              textStyle: Theme.of(context).textTheme.headline2,
+      child: Padding(
+        padding: kDefaultHorizontalPadding,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Let's start.",
+              style: GoogleFonts.dmSerifDisplay(
+                textStyle: Theme.of(context).textTheme.headline2,
+              ),
             ),
-          ),
-          const VSpace(40),
-          Hero(
-            tag: 'set-timer-button',
-            child: RoundedElevatedButton(
-              onPressed: () => context.pushNamed(RouterName.setTimerRoute),
-              icon: LineIcons.clock,
-              label: 'Set timer',
+            const VSpace(40),
+            Hero(
+              tag: 'set-timer-button',
+              child: RoundedElevatedButton(
+                onPressed: () => context.pushNamed(RouterName.setTimerRoute),
+                icon: LineIcons.clock,
+                label: 'Set timer',
+              ),
             ),
-          ),
-          const VSpace(20),
-          RoundedElevatedButton(
-            onPressed: () => context.pushNamed(RouterName.setAlarmRoute),
-            icon: LineIcons.bell,
-            label: 'Set alarm',
-          ),
-        ],
+            const VSpace(20),
+            RoundedElevatedButton(
+              onPressed: () => context.pushNamed(RouterName.setAlarmRoute),
+              icon: LineIcons.bell,
+              label: 'Set alarm',
+            ),
+          ],
+        ),
       ),
     );
   }
