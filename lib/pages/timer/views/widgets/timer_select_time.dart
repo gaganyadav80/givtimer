@@ -21,8 +21,8 @@ class SelectTimeWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.grey[300],
-                border:
-                    Border.all(color: kPurpleColor.withOpacity(0.4), width: 2),
+                // border:
+                //  Border.all(color: kPurpleColor.withOpacity(0.4), width: 2),
               ),
               child: Center(
                 child: BlocBuilder<TimerCubit, TimerState>(
@@ -30,7 +30,7 @@ class SelectTimeWidget extends StatelessWidget {
                       previous.seconds != current.seconds,
                   builder: (context, state) {
                     return Text(
-                      '${context.read<TimerCubit>().getDurationHours()}',
+                      '${context.read<TimerCubit>().getDurationHours()} h',
                       style: GoogleFonts.dmSerifDisplay(
                         textStyle: Theme.of(context).textTheme.headline2,
                         color: Colors.grey[500],
@@ -49,14 +49,14 @@ class SelectTimeWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.grey[300],
-                border:
-                    Border.all(color: kPurpleColor.withOpacity(0.4), width: 2),
+                // border:
+                //  Border.all(color: kPurpleColor.withOpacity(0.4), width: 2),
               ),
               child: Center(
                 child: BlocBuilder<TimerCubit, TimerState>(
                   builder: (context, state) {
                     return Text(
-                      '${context.read<TimerCubit>().getDurationMinutes()}',
+                      '${context.read<TimerCubit>().getDurationMinutes()} m',
                       style: GoogleFonts.dmSerifDisplay(
                         textStyle: Theme.of(context).textTheme.headline2,
                         color: Colors.grey[500],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -20,10 +21,14 @@ class BottomStartButton extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         child: Hero(
           tag: heroTag,
-          child: RoundedElevatedButton(
-            onPressed: onPressed,
-            icon: LineIcons.play,
-            label: 'Start',
+          child: SizedBox(
+            height: kRoundedElevatedButtonHeight,
+            width: kRoundedElevatedButtonWidth,
+            child: RoundedElevatedButton(
+              onPressed: onPressed,
+              icon: LineIcons.play,
+              label: 'Start',
+            ),
           ),
         ),
       ),

@@ -14,6 +14,9 @@ class TimerCubit extends Cubit<TimerState> {
     emit(state.copyWith(duration: value, seconds: seconds));
   }
 
+  void setActivityName(String value) =>
+      emit(state.copyWith(activityName: value));
+
   bool isTimerSet() => state.seconds > 0;
 
   int getDurationInSeconds() => state.seconds;

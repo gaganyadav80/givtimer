@@ -39,7 +39,7 @@ class BlueButton extends StatelessWidget {
       child: SizedBox(
         height: height ?? 60,
         child: ElevatedButton(
-          onPressed: onPressed,
+          onPressed: onPressed ?? () {},
           style: TextButton.styleFrom(
             elevation: 0,
             // backgroundColor: backgroundColor ?? Theme.of(context).primaryColor,
@@ -113,35 +113,33 @@ class RoundedElevatedButton extends StatelessWidget {
     required this.onPressed,
     required this.icon,
     required this.label,
-    this.height = 60,
-    this.width = 210,
+    this.prefix,
+    // this.height = 60,
+    // this.width = 210,
   }) : super(key: key);
 
   final VoidCallback onPressed;
   final IconData icon;
   final String label;
-  final double height;
-  final double width;
+  final Widget? prefix;
+  // final double height;
+  // final double? width;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60,
-      width: 210,
-      child: ElevatedButton.icon(
-        onPressed: onPressed,
-        icon: Icon(icon),
-        label: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 18,
-          ),
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: prefix ?? Icon(icon),
+      label: Text(
+        label,
+        style: const TextStyle(
+          fontSize: 18,
         ),
-        style: ElevatedButton.styleFrom(
-          elevation: 24,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
+      ),
+      style: ElevatedButton.styleFrom(
+        elevation: 16,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
         ),
       ),
     );

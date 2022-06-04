@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:givtimer/theme.dart';
 
 typedef TextChangeCallback = void Function(String value);
 
@@ -24,6 +25,7 @@ class CustomTextField extends StatelessWidget {
     this.inputFormatters,
     this.maxLength,
     this.onChanged,
+    this.enabledBorder,
   }) : super(key: key);
 
   final TextEditingController? fieldController;
@@ -44,6 +46,7 @@ class CustomTextField extends StatelessWidget {
   final Icon? prefixIcon;
   final int? maxLength;
   final TextChangeCallback? onChanged;
+  final InputBorder? enabledBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +78,7 @@ class CustomTextField extends StatelessWidget {
         prefixIcon: prefixIcon,
         suffixIcon: suffix,
         errorText: errorText,
+        enabledBorder: enabledBorder,
         // border: kInputBorderStyle,
         // focusedBorder: kInputBorderStyle,
         // enabledBorder: kInputBorderStyle,

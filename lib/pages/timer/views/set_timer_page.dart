@@ -6,11 +6,10 @@ import 'package:givtimer/pages/timer/views/widgets/bottom_start_button.dart';
 import 'package:givtimer/pages/timer/views/widgets/timer_select_time.dart';
 import 'package:givtimer/pages/timer/views/widgets/top_activity_name.dart';
 import 'package:givtimer/routes.dart';
+import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
 
 class SetTimerPage extends StatelessWidget {
   const SetTimerPage({Key? key}) : super(key: key);
@@ -30,7 +29,6 @@ class _TimerPageBody extends StatelessWidget {
   void _showDialog(Widget child, BuildContext context) {
     showCupertinoModalPopup<void>(
       context: context,
-      barrierDismissible: false,
       builder: (BuildContext context) => _BuildDailog(child),
     );
   }
@@ -47,7 +45,11 @@ class _TimerPageBody extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TopHeadAndActivityNameWidget(title: 'Timer'),
+                TopHeadAndActivityNameWidget(
+                  title: 'Timer',
+                  onTextChanged: (String value) =>
+                      context.read<TimerCubit>().setActivityName(value),
+                ),
                 const SelectTimeWidget(),
                 const VSpace(40),
                 BlueButton(
@@ -67,7 +69,21 @@ class _TimerPageBody extends StatelessWidget {
                 ),
               ],
             ),
-            BottomStartButton(heroTag: 'set-timer-button', onPressed: () {}),
+            BottomStartButton(
+              heroTag: 'set-timer-button',
+              onPressed: () {
+                if (context.read<TimerCubit>().state.activityName.isEmpty) {
+                  showBasicSnackBar(context, 'Please enter activity name');
+                } else if (!context.read<TimerCubit>().isTimerSet()) {
+                  showBasicSnackBar(context, 'Please select duration');
+                } else {
+                  context.pushNamed(
+                    RouterName.startTimerClockRoute,
+                    extra: context.read<TimerCubit>(),
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),
@@ -82,54 +98,24 @@ class _BuildDailog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 310,
-      padding: const EdgeInsets.only(top: 6),
-      // The Bottom margin is provided to align the popup above
-      // the system navigation bar.
-      margin: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: kBorderRadius,
-        // Provide a background color for the popup.
-        color: CupertinoColors.systemBackground.resolveFrom(context),
-      ),
-      // Use a SafeArea widget to avoid system overlaps.
-      child: SafeArea(
-        top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        'Cancle',
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const HSpace(20),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Done'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            child,
-          ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Container(
+        height: 280,
+        // The Bottom margin is provided to align the popup above
+        // the system navigation bar.
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          // Provide a background color for the popup.
+          color: CupertinoColors.systemBackground.resolveFrom(context),
+        ),
+        // Use a SafeArea widget to avoid system overlaps.
+        child: SafeArea(
+          top: false,
+          child: child,
         ),
       ),
     );

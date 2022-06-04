@@ -5,6 +5,7 @@ import 'package:givtimer/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class TimerPage extends StatelessWidget {
   const TimerPage({Key? key}) : super(key: key);
@@ -26,29 +27,51 @@ class TimerPage extends StatelessWidget {
             const VSpace(40),
             Hero(
               tag: 'set-pomodoro-button',
-              child: RoundedElevatedButton(
-                onPressed: () => context.pushNamed(RouterName.setPomodoroRoute),
-                icon: LineIcons.stopwatch,
-                label: 'Pomodoro',
+              child: SizedBox(
+                width: double.infinity,
+                height: kRoundedElevatedButtonHeight,
+                child: RoundedElevatedButton(
+                  onPressed: () =>
+                      context.pushNamed(RouterName.setPomodoroRoute),
+                  icon: LineIcons.stopwatch,
+                  label: 'Pomodoro',
+                  // width: double.infinity,
+                ),
               ),
             ),
             const VSpace(20),
-            Hero(
-              tag: 'set-timer-button',
-              child: RoundedElevatedButton(
-                onPressed: () => context.pushNamed(RouterName.setTimerRoute),
-                icon: LineIcons.clock,
-                label: 'Set timer',
-              ),
-            ),
-            const VSpace(20),
-            Hero(
-              tag: 'set-alarm-button',
-              child: RoundedElevatedButton(
-                onPressed: () => context.pushNamed(RouterName.setAlarmRoute),
-                icon: LineIcons.bell,
-                label: 'Set alarm',
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Hero(
+                    tag: 'set-timer-button',
+                    child: SizedBox(
+                      height: kRoundedElevatedButtonHeight,
+                      child: RoundedElevatedButton(
+                        onPressed: () =>
+                            context.pushNamed(RouterName.setTimerRoute),
+                        icon: LineIcons.clock,
+                        label: 'Set timer',
+                      ),
+                    ),
+                  ),
+                ),
+                const HSpace(10),
+                Expanded(
+                  child: Hero(
+                    tag: 'set-alarm-button',
+                    child: SizedBox(
+                      height: kRoundedElevatedButtonHeight,
+                      child: RoundedElevatedButton(
+                        onPressed: () =>
+                            context.pushNamed(RouterName.setAlarmRoute),
+                        icon: LineIcons.bell,
+                        label: 'Set alarm',
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

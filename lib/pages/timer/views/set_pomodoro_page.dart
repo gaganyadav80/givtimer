@@ -4,12 +4,7 @@ import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/timer/views/widgets/bottom_start_button.dart';
 import 'package:givtimer/pages/timer/views/widgets/timer_pomodoro.dart';
 import 'package:givtimer/pages/timer/views/widgets/top_activity_name.dart';
-import 'package:givtimer/routes.dart';
 import 'package:givtimer/utils/utils.dart';
-import 'package:givtimer/widgets/widgets.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
 
 class SetPomodoroPage extends StatelessWidget {
   const SetPomodoroPage({Key? key}) : super(key: key);
