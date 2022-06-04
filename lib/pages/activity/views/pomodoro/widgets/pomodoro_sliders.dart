@@ -8,14 +8,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 typedef SliderChangeCallback = void Function(double value);
 
-class TimerPomodoroWidget extends StatefulWidget {
-  const TimerPomodoroWidget({Key? key}) : super(key: key);
+class PomodoroConfigureWidget extends StatefulWidget {
+  const PomodoroConfigureWidget({Key? key}) : super(key: key);
 
   @override
-  State<TimerPomodoroWidget> createState() => _TimerPomodoroWidgetState();
+  State<PomodoroConfigureWidget> createState() =>
+      _PomodoroConfigureWidgetState();
 }
 
-class _TimerPomodoroWidgetState extends State<TimerPomodoroWidget> {
+class _PomodoroConfigureWidgetState extends State<PomodoroConfigureWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(

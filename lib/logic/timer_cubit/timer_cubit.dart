@@ -31,7 +31,7 @@ class TimerCubit extends Cubit<TimerState> {
     return minutes;
   }
 
-  TextFormat getTimerTextFormat() {
+  TextFormat getTextFormat() {
     if (state.seconds >= 3600) {
       return TextFormat.HH_MM_SS;
     } else {

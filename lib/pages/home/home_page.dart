@@ -28,7 +28,7 @@ class _HomePageBody extends StatelessWidget {
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             return [
-              const TimerPage(),
+              const ActivityPage(),
               const Center(child: Text('Chart [Paid]')),
               const SettingsPage(),
             ][state.homeIdx];

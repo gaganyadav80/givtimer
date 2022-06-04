@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:givtimer/pages/timer/views/widgets/bottom_start_button.dart';
-import 'package:givtimer/pages/timer/views/widgets/top_activity_name.dart';
+import 'package:givtimer/pages/activity/views/widgets/widgets.dart';
 import 'package:givtimer/utils/utils.dart';
 
 class SetAlarmPage extends StatelessWidget {

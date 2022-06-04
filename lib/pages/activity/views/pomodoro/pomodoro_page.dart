@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
-import 'package:givtimer/pages/timer/views/widgets/bottom_start_button.dart';
-import 'package:givtimer/pages/timer/views/widgets/timer_pomodoro.dart';
-import 'package:givtimer/pages/timer/views/widgets/top_activity_name.dart';
+import 'package:givtimer/pages/activity/views/pomodoro/widgets/pomodoro_sliders.dart';
+import 'package:givtimer/pages/activity/views/widgets/widgets.dart';
 import 'package:givtimer/utils/utils.dart';
 
 class SetPomodoroPage extends StatelessWidget {
@@ -34,7 +33,7 @@ class _PomodoroPageBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 TopHeadAndActivityNameWidget(title: 'Pomodoro'),
-                TimerPomodoroWidget(),
+                PomodoroConfigureWidget(),
               ],
             ),
             BottomStartButton(heroTag: 'set-pomodoro-button', onPressed: () {}),

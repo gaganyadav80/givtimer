@@ -5,10 +5,9 @@ import 'package:givtimer/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:velocity_x/velocity_x.dart';
 
-class TimerPage extends StatelessWidget {
-  const TimerPage({Key? key}) : super(key: key);
+class ActivityPage extends StatelessWidget {
+  const ActivityPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
-class StartClockWaveWidget extends StatelessWidget {
-  const StartClockWaveWidget({Key? key}) : super(key: key);
+class ClockWaveWidget extends StatelessWidget {
+  const ClockWaveWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

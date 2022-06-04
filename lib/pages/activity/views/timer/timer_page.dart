@@ -2,14 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
-import 'package:givtimer/pages/timer/views/widgets/bottom_start_button.dart';
-import 'package:givtimer/pages/timer/views/widgets/timer_select_time.dart';
-import 'package:givtimer/pages/timer/views/widgets/top_activity_name.dart';
-import 'package:givtimer/routes.dart';
-import 'package:givtimer/theme.dart';
+import 'package:givtimer/pages/activity/activity_clock_page.dart';
+import 'package:givtimer/pages/activity/views/timer/widgets/timer_select_time.dart';
+import 'package:givtimer/pages/activity/views/widgets/widgets.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
-import 'package:go_router/go_router.dart';
 
 class SetTimerPage extends StatelessWidget {
   const SetTimerPage({Key? key}) : super(key: key);
@@ -50,7 +47,7 @@ class _TimerPageBody extends StatelessWidget {
                   onTextChanged: (String value) =>
                       context.read<TimerCubit>().setActivityName(value),
                 ),
-                const SelectTimeWidget(),
+                const TimerShowTimeWidget(),
                 const VSpace(40),
                 BlueButton(
                   title: 'Select time',
@@ -77,9 +74,16 @@ class _TimerPageBody extends StatelessWidget {
                 } else if (!context.read<TimerCubit>().isTimerSet()) {
                   showBasicSnackBar(context, 'Please select duration');
                 } else {
-                  context.pushNamed(
-                    RouterName.startTimerClockRoute,
-                    extra: context.read<TimerCubit>(),
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) {
+                        return BlocProvider.value(
+                          value: context.read<TimerCubit>(),
+                          child: const ActivityClockPage(),
+                        );
+                      },
+                    ),
                   );
                 }
               },

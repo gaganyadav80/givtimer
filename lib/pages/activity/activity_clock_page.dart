@@ -1,47 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
-import 'package:givtimer/pages/timer/views/widgets/start_clock_wave.dart';
+import 'package:givtimer/pages/activity/views/widgets/clock_wave.dart';
 import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 
-class StartClockPage extends StatelessWidget {
-  const StartClockPage({Key? key, required this.timerCubit}) : super(key: key);
-
-  final TimerCubit timerCubit;
+class ActivityClockPage extends StatefulWidget {
+  const ActivityClockPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: timerCubit,
-      child: _StartClockBody(
-        seconds: timerCubit.getDurationInSeconds(),
-        textFormat: timerCubit.getTimerTextFormat(),
-      ),
-    );
-  }
+  State<ActivityClockPage> createState() => _ActivityClockPageState();
 }
 
-class _StartClockBody extends StatefulWidget {
-  const _StartClockBody({
-    Key? key,
-    required this.seconds,
-    required this.textFormat,
-  }) : super(key: key);
-
-  final int seconds;
-  final TextFormat textFormat;
-
-  @override
-  State<_StartClockBody> createState() => _StartClockBodyState();
-}
-
-class _StartClockBodyState extends State<_StartClockBody>
+class _ActivityClockPageState extends State<ActivityClockPage>
     with TickerProviderStateMixin {
   final CountDownController _countDownController = CountDownController();
   late AnimationController _controller;
@@ -65,14 +40,14 @@ class _StartClockBodyState extends State<_StartClockBody>
         leading: IconButton(
           onPressed: () {
             _countDownController.pause();
-            context.pop();
+            Navigator.pop(context);
           },
           icon: const Icon(LineIcons.times, size: 32),
         ),
       ),
       body: Stack(
         children: [
-          const StartClockWaveWidget(),
+          const ClockWaveWidget(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -111,12 +86,12 @@ class _StartClockBodyState extends State<_StartClockBody>
                 neonGradient: const LinearGradient(
                   colors: [kPurpleColor, kPurpleColor],
                 ),
-                textFormat: widget.textFormat,
+                textFormat: context.read<TimerCubit>().getTextFormat(),
                 textStyle: GoogleFonts.dmSerifDisplay(
                   textStyle: Theme.of(context).textTheme.headline2,
                 ),
                 controller: _countDownController,
-                duration: widget.seconds,
+                duration: context.read<TimerCubit>().getDurationInSeconds(),
               ),
               const VSpace(80),
               Padding(
