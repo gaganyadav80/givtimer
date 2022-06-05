@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:givtimer/theme.dart';
 
 typedef TextChangeCallback = void Function(String value);
 

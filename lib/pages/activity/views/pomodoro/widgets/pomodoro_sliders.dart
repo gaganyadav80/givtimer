@@ -8,15 +8,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 typedef SliderChangeCallback = void Function(double value);
 
-class PomodoroConfigureWidget extends StatefulWidget {
-  const PomodoroConfigureWidget({Key? key}) : super(key: key);
+class PomodoroSlidersWidget extends StatefulWidget {
+  const PomodoroSlidersWidget({Key? key}) : super(key: key);
 
   @override
-  State<PomodoroConfigureWidget> createState() =>
-      _PomodoroConfigureWidgetState();
+  State<PomodoroSlidersWidget> createState() => _PomodoroSlidersWidgetState();
 }
 
-class _PomodoroConfigureWidgetState extends State<PomodoroConfigureWidget> {
+class _PomodoroSlidersWidgetState extends State<PomodoroSlidersWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,10 +30,10 @@ class _PomodoroConfigureWidgetState extends State<PomodoroConfigureWidget> {
               onChanged: (value) => context
                   .read<PomodoroCubit>()
                   .pomodoroDuration(value.floorToDouble()),
-              title: 'Pomodoro duration',
+              title: 'Focus duration',
               value: state.pomodoroDuration,
               maxValue: 60,
-              minValue: 5,
+              minValue: 1,
             );
           },
         ),
@@ -48,7 +47,7 @@ class _PomodoroConfigureWidgetState extends State<PomodoroConfigureWidget> {
               title: 'Break duration',
               value: state.breakDuration,
               maxValue: 30,
-              minValue: 5,
+              minValue: 2,
             );
           },
         ),
@@ -59,10 +58,10 @@ class _PomodoroConfigureWidgetState extends State<PomodoroConfigureWidget> {
             return _PomodoroValueSlider(
               onChanged: (value) =>
                   context.read<PomodoroCubit>().longBreakDuration(value),
-              title: 'Long break duration',
+              title: 'Long break',
               value: state.longBreakDuration,
               maxValue: 30,
-              minValue: 5,
+              minValue: 3,
             );
           },
         ),
@@ -71,13 +70,13 @@ class _PomodoroConfigureWidgetState extends State<PomodoroConfigureWidget> {
               previous.pomodoroCount != current.pomodoroCount,
           builder: (context, state) {
             return _PomodoroValueSlider(
-              onChanged: (value) => context
-                  .read<PomodoroCubit>()
-                  .pomodoroCount(value.ceilToDouble()),
-              title: 'Pomodoro sets',
+              onChanged: (double value) =>
+                  context.read<PomodoroCubit>().pomodoroCount(value),
+              title: 'Repeatitions',
               value: state.pomodoroCount,
               maxValue: 10,
               minValue: 1,
+              valueUnit: 'sets',
             );
           },
         ),
@@ -94,6 +93,7 @@ class _PomodoroValueSlider extends StatelessWidget {
     required this.title,
     required this.minValue,
     required this.maxValue,
+    this.valueUnit = 'min',
   }) : super(key: key);
 
   final double value;
@@ -101,6 +101,7 @@ class _PomodoroValueSlider extends StatelessWidget {
   final SliderChangeCallback onChanged;
   final double maxValue;
   final double minValue;
+  final String valueUnit;
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +128,7 @@ class _PomodoroValueSlider extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '${value.ceil()} min',
+                  '${value.round()} $valueUnit',
                 ),
               ],
             ),

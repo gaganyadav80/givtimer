@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
+import 'package:givtimer/pages/activity/views/pomodoro/pomodoro_clock_page.dart';
 import 'package:givtimer/pages/activity/views/pomodoro/widgets/pomodoro_sliders.dart';
 import 'package:givtimer/pages/activity/views/widgets/widgets.dart';
 import 'package:givtimer/utils/utils.dart';
@@ -31,12 +32,39 @@ class _PomodoroPageBody extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                TopHeadAndActivityNameWidget(title: 'Pomodoro'),
-                PomodoroConfigureWidget(),
+              children: [
+                TopHeadAndActivityNameWidget(
+                  title: 'Pomodoro',
+                  onTextChanged: (value) =>
+                      context.read<PomodoroCubit>().activityName(value),
+                ),
+                const PomodoroSlidersWidget(),
               ],
             ),
-            BottomStartButton(heroTag: 'set-pomodoro-button', onPressed: () {}),
+            BottomStartButton(
+              heroTag: 'set-pomodoro-button',
+              onPressed: () {
+                if (context.read<PomodoroCubit>().state.activityName.isEmpty) {
+                  showBasicSnackBar(context, 'Activity name is empty');
+                } else {
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => BlocProvider.value(
+                        value: context.read<PomodoroCubit>(),
+                        child: PomodoroClockPage(
+                          initialFocusTime: context
+                              .read<PomodoroCubit>()
+                              .focusDurationInSeconds(),
+                          initialSetsCount:
+                              context.read<PomodoroCubit>().state.pomodoroCount,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),

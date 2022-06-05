@@ -14,8 +14,11 @@ class TimerState extends Equatable {
   @override
   List<Object> get props => [duration, seconds, activityName];
 
-  TimerState copyWith(
-      {Duration? duration, int? seconds, String? activityName}) {
+  TimerState copyWith({
+    Duration? duration,
+    int? seconds,
+    String? activityName,
+  }) {
     return TimerState(
       duration: duration ?? this.duration,
       seconds: seconds ?? this.seconds,

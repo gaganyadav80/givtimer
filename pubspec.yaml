@@ -12,7 +12,6 @@ dependencies:
   authentication_repository:
     path: packages/authentication_repository
   bloc: ^8.0.3
-  circular_indicator: ^1.0.6
   cloud_firestore: ^3.1.17
   cupertino_icons: ^1.0.2
   equatable: ^2.0.3
@@ -36,7 +35,6 @@ dependencies:
   neon_circular_timer: ^0.0.7
   path_provider: ^2.0.10
   settings_ui: ^2.0.2
-  stop_watch_timer: ^1.4.0
   uuid: ^3.0.6
   velocity_x: ^3.5.1
   very_good_analysis: ^3.0.0

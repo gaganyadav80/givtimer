@@ -6,28 +6,37 @@ class PomodoroState extends Equatable {
     this.longBreakDuration = 15,
     this.pomodoroCount = 4,
     this.pomodoroDuration = 25,
+    this.activityName = '',
   });
 
   final double pomodoroDuration;
   final double breakDuration;
   final double longBreakDuration;
   final double pomodoroCount;
+  final String activityName;
 
   @override
-  List<Object> get props =>
-      [pomodoroDuration, breakDuration, longBreakDuration, pomodoroCount];
+  List<Object> get props => [
+        pomodoroDuration,
+        breakDuration,
+        longBreakDuration,
+        pomodoroCount,
+        activityName
+      ];
 
   PomodoroState copyWith({
     double? pomodoroDuration,
     double? breakDuration,
     double? longBreakDuration,
     double? pomodoroCount,
+    String? activityName,
   }) {
     return PomodoroState(
       pomodoroDuration: pomodoroDuration ?? this.pomodoroDuration,
       breakDuration: breakDuration ?? this.breakDuration,
       longBreakDuration: longBreakDuration ?? this.longBreakDuration,
       pomodoroCount: pomodoroCount ?? this.pomodoroCount,
+      activityName: activityName ?? this.activityName,
     );
   }
 }
