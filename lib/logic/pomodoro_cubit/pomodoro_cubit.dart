@@ -18,7 +18,12 @@ class PomodoroCubit extends Cubit<PomodoroState> {
   void pomodoroCount(double value) =>
       emit(state.copyWith(pomodoroCount: value.roundToDouble()));
 
-  void activityName(String value) => emit(state.copyWith(activityName: value));
+  void activityName(String value) => emit(
+        state.copyWith(
+          activityName: value,
+          activityKey: value.trim().toLowerCase(),
+        ),
+      );
 
   int focusDurationInSeconds() => (state.pomodoroDuration * 60).round();
 

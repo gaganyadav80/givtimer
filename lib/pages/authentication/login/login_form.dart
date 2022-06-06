@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:givtimer/data/db_helper.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/routes.dart';
 import 'package:givtimer/utils/utils.dart';
@@ -16,12 +17,14 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
-        // if (state.status.isSubmissionSuccess) {
-        //   final isVerified = context
-        //       .select((AppBloc element) => element.state.user.isVerified!);
-
-        //   if (isVerified) {}
-        // }
+        if (state.status.isSubmissionSuccess) {
+          // update the user id in the database class
+          DBHelper().userId = context.read<AppBloc>().state.user.id;
+          // if user data does not exists in db then initialize an empty map
+          if (!DBHelper().userDataExists) {
+            DBHelper().initEmptyUserData();
+          }
+        }
         if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()

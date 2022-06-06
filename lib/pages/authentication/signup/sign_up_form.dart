@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:givtimer/data/db_helper.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
@@ -16,6 +17,11 @@ class SignUpForm extends StatelessWidget {
     return BlocListener<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
+          // update the user id in the database class
+          DBHelper().userId = context.read<AppBloc>().state.user.id;
+          // new user data does not exists in db. So, initialize an empty map
+          DBHelper().initEmptyUserData();
+
           showBasicSnackBar(context, 'Verification mail is sent');
           context.pop();
         } else if (state.status.isSubmissionFailure) {
