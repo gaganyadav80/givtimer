@@ -24,16 +24,16 @@ class _PomodoroSlidersWidgetState extends State<PomodoroSlidersWidget> {
       children: [
         BlocBuilder<PomodoroCubit, PomodoroState>(
           buildWhen: (previous, current) =>
-              previous.pomodoroDuration != current.pomodoroDuration,
+              previous.focusDuration != current.focusDuration,
           builder: (context, state) {
             return _PomodoroValueSlider(
               onChanged: (value) => context
                   .read<PomodoroCubit>()
                   .pomodoroDuration(value.floorToDouble()),
               title: 'Focus duration',
-              value: state.pomodoroDuration,
+              value: state.focusDuration,
               maxValue: 60,
-              minValue: 1,
+              minValue: 1, // TODO(gagan): set to 5
             );
           },
         ),
@@ -47,7 +47,7 @@ class _PomodoroSlidersWidgetState extends State<PomodoroSlidersWidget> {
               title: 'Break duration',
               value: state.breakDuration,
               maxValue: 30,
-              minValue: 2,
+              minValue: 2, // TODO(gagan): set to 5
             );
           },
         ),
@@ -61,19 +61,19 @@ class _PomodoroSlidersWidgetState extends State<PomodoroSlidersWidget> {
               title: 'Long break',
               value: state.longBreakDuration,
               maxValue: 30,
-              minValue: 3,
+              minValue: 3, // TODO(gagan): set to 5
             );
           },
         ),
         BlocBuilder<PomodoroCubit, PomodoroState>(
           buildWhen: (previous, current) =>
-              previous.pomodoroCount != current.pomodoroCount,
+              previous.setsCount != current.setsCount,
           builder: (context, state) {
             return _PomodoroValueSlider(
               onChanged: (double value) =>
                   context.read<PomodoroCubit>().pomodoroCount(value),
               title: 'Repeatitions',
-              value: state.pomodoroCount,
+              value: state.setsCount,
               maxValue: 10,
               minValue: 1,
               valueUnit: 'sets',

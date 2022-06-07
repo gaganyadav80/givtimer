@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:givtimer/data/data.dart';
-import 'package:givtimer/data/db_helper.dart';
 import 'package:givtimer/routes.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
@@ -13,8 +11,6 @@ class ActivityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("MD ==> ${TimerModel().timerActivity}");
-    print("DB ==> ${DBHelper().timerActivity}");
     return Center(
       child: Padding(
         padding: kDefaultHorizontalPadding,

@@ -56,7 +56,8 @@ class DBHelper {
     final pomodoroData = pomodoroActivity;
     pomodoroData[name] = (pomodoroData[name] ?? 0) + seconds;
 
-    await db.put(userId, <String, Map<String, int>>{KEY_ALARM: pomodoroData});
+    await db
+        .put(userId, <String, Map<String, int>>{KEY_POMODORO: pomodoroData});
   }
 
   Future<void> addTimerSet(String name, int seconds) async {

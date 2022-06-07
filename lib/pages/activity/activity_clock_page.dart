@@ -35,6 +35,12 @@ class _ActivityClockPageState extends State<ActivityClockPage>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -97,7 +103,7 @@ class _ActivityClockPageState extends State<ActivityClockPage>
                 neon: 0,
                 onComplete: () {
                   TimerModel().addActivity(
-                    context.read<TimerCubit>().state.activityName,
+                    context.read<TimerCubit>().state.activityKey,
                     context.read<TimerCubit>().getDurationInSeconds(),
                   );
                   _controller.reverse();

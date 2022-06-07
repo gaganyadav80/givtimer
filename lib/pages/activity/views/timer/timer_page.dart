@@ -56,7 +56,7 @@ class _TimerPageBody extends StatelessWidget {
                       mode: CupertinoTimerPickerMode.hm,
                       initialTimerDuration:
                           context.read<TimerCubit>().state.duration,
-                      minuteInterval: 1,
+                      minuteInterval: 1, // TODO(gagan): set to 5
                       onTimerDurationChanged: (Duration newDuration) {
                         context.read<TimerCubit>().setDuration(newDuration);
                       },

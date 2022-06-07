@@ -50,6 +50,12 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -65,6 +71,7 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
         children: [
           const ClockWaveWidget(),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: kDefaultHorizontalPadding,
@@ -109,9 +116,6 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
                 neumorphicEffect: false,
                 neon: 0,
                 onComplete: () async {
-                  // if all sets are completed then return.
-                  if (_totalSetCount == 0) return;
-
                   // if initially both count are equal which means either
                   // start or a set is completed. So start with focus timer.
                   if (_focusCount == _breakCount) {
@@ -119,7 +123,7 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
                     // is in focus mode
                     _focusCount++;
                     PomodoroModel().addActivity(
-                      context.read<PomodoroCubit>().state.activityName,
+                      context.read<PomodoroCubit>().state.activityKey,
                       _seconds.value,
                     );
 
@@ -147,6 +151,11 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
                   // increment and then check if they are equal.
                   if (_focusCount == _breakCount) {
                     _totalSetCount--;
+                    // if all sets are completed then return.
+                    if (_totalSetCount == 0) {
+                      Navigator.pop(context);
+                      return;
+                    }
                   }
 
                   _countDownController
@@ -159,28 +168,30 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
                 },
               ),
               const VSpace(80),
-              Padding(
-                padding: kDefaultHorizontalPadding,
-                child: SizedBox(
-                  height: kRoundedElevatedButtonHeight,
-                  width: kRoundedElevatedButtonWidth,
-                  child: RoundedElevatedButton(
-                    onPressed: () {
-                      if (isPaused) {
-                        _countDownController.resume();
-                        _controller.forward();
-                      } else {
-                        _countDownController.pause();
-                        _controller.reverse();
-                      }
-                      isPaused = !isPaused;
-                    },
-                    prefix: AnimatedIcon(
-                      icon: AnimatedIcons.play_pause,
-                      progress: _controller,
+              Center(
+                child: Padding(
+                  padding: kDefaultHorizontalPadding,
+                  child: SizedBox(
+                    height: kRoundedElevatedButtonHeight,
+                    width: kRoundedElevatedButtonWidth,
+                    child: RoundedElevatedButton(
+                      onPressed: () {
+                        if (isPaused) {
+                          _countDownController.resume();
+                          _controller.forward();
+                        } else {
+                          _countDownController.pause();
+                          _controller.reverse();
+                        }
+                        isPaused = !isPaused;
+                      },
+                      prefix: AnimatedIcon(
+                        icon: AnimatedIcons.play_pause,
+                        progress: _controller,
+                      ),
+                      icon: Icons.class_,
+                      label: 'Pause',
                     ),
-                    icon: Icons.class_,
-                    label: 'Pause',
                   ),
                 ),
               ),

@@ -7,7 +7,7 @@ class PomodoroCubit extends Cubit<PomodoroState> {
   PomodoroCubit() : super(const PomodoroState());
 
   void pomodoroDuration(double value) =>
-      emit(state.copyWith(pomodoroDuration: value));
+      emit(state.copyWith(focusDuration: value));
 
   void breakDuration(double value) =>
       emit(state.copyWith(breakDuration: value));
@@ -16,7 +16,7 @@ class PomodoroCubit extends Cubit<PomodoroState> {
       emit(state.copyWith(longBreakDuration: value));
 
   void pomodoroCount(double value) =>
-      emit(state.copyWith(pomodoroCount: value.roundToDouble()));
+      emit(state.copyWith(setsCount: value.roundToDouble()));
 
   void activityName(String value) => emit(
         state.copyWith(
@@ -25,17 +25,17 @@ class PomodoroCubit extends Cubit<PomodoroState> {
         ),
       );
 
-  int focusDurationInSeconds() => (state.pomodoroDuration * 60).round();
+  int focusDurationInSeconds() => (state.focusDuration * 60).round();
 
   int breakDurationInSeconds() => (state.breakDuration * 60).round();
 
   int longBreakDurationInSeconds() => (state.longBreakDuration * 60).round();
 
   void decrementPomodoroCount() =>
-      emit(state.copyWith(pomodoroCount: state.pomodoroCount - 1));
+      emit(state.copyWith(setsCount: state.setsCount - 1));
 
   void incrementPomodoroCount() =>
-      emit(state.copyWith(pomodoroCount: state.pomodoroCount + 1));
+      emit(state.copyWith(setsCount: state.setsCount + 1));
 
-  void resetPomodoroCount() => emit(state.copyWith(pomodoroCount: 4));
+  void resetPomodoroCount() => emit(state.copyWith(setsCount: 4));
 }

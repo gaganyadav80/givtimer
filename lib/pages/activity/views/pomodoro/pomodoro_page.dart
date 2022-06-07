@@ -57,7 +57,7 @@ class _PomodoroPageBody extends StatelessWidget {
                               .read<PomodoroCubit>()
                               .focusDurationInSeconds(),
                           initialSetsCount:
-                              context.read<PomodoroCubit>().state.pomodoroCount,
+                              context.read<PomodoroCubit>().state.setsCount,
                         ),
                       ),
                     ),

@@ -4,17 +4,17 @@ class PomodoroState extends Equatable {
   const PomodoroState({
     this.breakDuration = 5,
     this.longBreakDuration = 15,
-    this.pomodoroCount = 4,
-    this.pomodoroDuration = 25,
+    this.setsCount = 4,
+    this.focusDuration = 25,
     this.activityName = '',
     this.totalTimeDone = 0,
     this.activityKey = '',
   });
 
-  final double pomodoroDuration;
+  final double focusDuration;
   final double breakDuration;
   final double longBreakDuration;
-  final double pomodoroCount;
+  final double setsCount;
 
   // Values to keep
   final String activityName;
@@ -23,29 +23,29 @@ class PomodoroState extends Equatable {
 
   @override
   List<Object> get props => [
-        pomodoroDuration,
+        focusDuration,
         breakDuration,
         longBreakDuration,
-        pomodoroCount,
+        setsCount,
         activityName,
         totalTimeDone,
         activityKey,
       ];
 
   PomodoroState copyWith({
-    double? pomodoroDuration,
+    double? focusDuration,
     double? breakDuration,
     double? longBreakDuration,
-    double? pomodoroCount,
+    double? setsCount,
     String? activityName,
     double? totalTimeDone,
     String? activityKey,
   }) {
     return PomodoroState(
-      pomodoroDuration: pomodoroDuration ?? this.pomodoroDuration,
+      focusDuration: focusDuration ?? this.focusDuration,
       breakDuration: breakDuration ?? this.breakDuration,
       longBreakDuration: longBreakDuration ?? this.longBreakDuration,
-      pomodoroCount: pomodoroCount ?? this.pomodoroCount,
+      setsCount: setsCount ?? this.setsCount,
       activityName: activityName ?? this.activityName,
       totalTimeDone: totalTimeDone ?? this.totalTimeDone,
       activityKey: activityKey ?? this.activityKey,

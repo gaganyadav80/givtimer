@@ -42,7 +42,7 @@ class BlueButton extends StatelessWidget {
           onPressed: onPressed ?? () {},
           style: TextButton.styleFrom(
             elevation: 0,
-            // backgroundColor: backgroundColor ?? Theme.of(context).primaryColor,
+            // backgroundColor: backgroundColor??Theme.of(context).primaryColor,
             shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
             padding: const EdgeInsets.symmetric(vertical: 15),
             // primary: Colors.lightBlue[900],
