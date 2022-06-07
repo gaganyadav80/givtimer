@@ -22,7 +22,7 @@ void main() {
         options: DefaultFirebaseOptions.currentPlatform,
       );
       await Hive.initFlutter();
-      DBHelper().db = await Hive.openBox<Map<String, Map<String, int>>>(
+      DBHelper().db = await Hive.openBox<Map<dynamic, dynamic>>(
         DBHelper.DB_ACTIVITY_DATA,
       );
 

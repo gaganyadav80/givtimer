@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:givtimer/data/db_helper.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/pages.dart';
 import 'package:line_icons/line_icons.dart';
@@ -26,7 +27,10 @@ class _HomePageBody extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
+          builder: (_, state) {
+            final userId = context.read<AppBloc>().state.user.id;
+            DBHelper().initUserData(userId);
+
             return [
               const ActivityPage(),
               const Center(child: Text('Chart [Paid]')),

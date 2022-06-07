@@ -18,12 +18,7 @@ class LoginForm extends StatelessWidget {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
-          // update the user id in the database class
-          DBHelper().userId = context.read<AppBloc>().state.user.id;
-          // if user data does not exists in db then initialize an empty map
-          if (!DBHelper().userDataExists) {
-            DBHelper().initEmptyUserData();
-          }
+          DBHelper().initUserData(context.read<AppBloc>().state.user.id);
         }
         if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)

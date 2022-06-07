@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/activity/views/widgets/clock_wave.dart';
 import 'package:givtimer/theme.dart';
@@ -27,7 +28,7 @@ class _ActivityClockPageState extends State<ActivityClockPage>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 250),
       vsync: this,
     );
     _controller.forward();
@@ -74,7 +75,7 @@ class _ActivityClockPageState extends State<ActivityClockPage>
                 width: 300,
                 isReverse: true,
                 isReverseAnimation: true,
-                strokeWidth: 4,
+                // strokeWidth: 4,
                 backgroudColor: Colors.transparent,
                 neonColor: const Color(0xffA1CCA5),
                 innerFillGradient: LinearGradient(
@@ -92,6 +93,20 @@ class _ActivityClockPageState extends State<ActivityClockPage>
                 ),
                 controller: _countDownController,
                 duration: context.read<TimerCubit>().getDurationInSeconds(),
+                neumorphicEffect: false,
+                neon: 0,
+                onComplete: () {
+                  TimerModel().addActivity(
+                    context.read<TimerCubit>().state.activityName,
+                    context.read<TimerCubit>().getDurationInSeconds(),
+                  );
+                  _controller.reverse();
+                  isPaused = true;
+                  Future.delayed(
+                    const Duration(milliseconds: 300),
+                    () => Navigator.pop(context),
+                  );
+                },
               ),
               const VSpace(80),
               Padding(

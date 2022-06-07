@@ -7,6 +7,11 @@ class PomodoroModel {
 
   final Map<String, int> _pomodoroActivity = <String, int>{};
 
+  Map<String, int> get pomodoroActivity => _pomodoroActivity;
+  set pomodoroActivity(Map<String, int> value) => _pomodoroActivity
+    ..clear()
+    ..addAll(value);
+
   void addActivity(String name, int seconds) {
     _pomodoroActivity[name] = (_pomodoroActivity[name] ?? 0) + seconds;
     DBHelper().addPomodoroSet(name, seconds);
