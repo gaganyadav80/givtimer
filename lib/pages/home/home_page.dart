@@ -13,14 +13,29 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(),
-      child: const _HomePageBody(),
+      create: (_) => HomeCubit(),
+      child: _HomePageBody(
+        userId: context.read<AppBloc>().state.user.id,
+      ),
     );
   }
 }
 
-class _HomePageBody extends StatelessWidget {
-  const _HomePageBody({Key? key}) : super(key: key);
+class _HomePageBody extends StatefulWidget {
+  const _HomePageBody({Key? key, required this.userId}) : super(key: key);
+
+  final String userId;
+
+  @override
+  State<_HomePageBody> createState() => _HomePageBodyState();
+}
+
+class _HomePageBodyState extends State<_HomePageBody> {
+  @override
+  void initState() {
+    if (DBHelper().userId == null) DBHelper().initUserData(widget.userId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +43,6 @@ class _HomePageBody extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (_, state) {
-            final userId = context.read<AppBloc>().state.user.id;
-            DBHelper().initUserData(userId);
-
             return [
               const ActivityPage(),
               const Center(child: Text('Chart [Paid]')),

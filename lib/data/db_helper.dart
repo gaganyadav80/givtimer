@@ -9,7 +9,7 @@ class DBHelper {
   static final DBHelper _shared = DBHelper._sharedInstance();
 
   late Box<Map<dynamic, dynamic>> db;
-  late String userId;
+  String? userId;
 
   static const String DB_ACTIVITY_DATA = 'DB_ACTIVITY_DATA';
   static const String KEY_POMODORO = 'KEY_POMODORO';

@@ -31,6 +31,7 @@ dependencies:
   hive_flutter: ^1.1.0
   hydrated_bloc: ^9.0.0-dev.2
   intl: ^0.17.0
+  kplayer: ^0.2.4
   line_icons: ^2.0.1
   neon_circular_timer: ^0.0.7
   path_provider: ^2.0.10
@@ -50,3 +51,5 @@ flutter:
 
   assets:
     - assets/svg/
+    - assets/ringtones/
+    - assets/notification/

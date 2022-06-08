@@ -35,7 +35,6 @@ void main() {
     blocObserver: AppBlocObserver(),
     createStorage: () async {
       WidgetsFlutterBinding.ensureInitialized();
-      log('Hello');
       return HydratedStorage.build(
         storageDirectory: kIsWeb
             ? HydratedStorage.webStorageDirectory
