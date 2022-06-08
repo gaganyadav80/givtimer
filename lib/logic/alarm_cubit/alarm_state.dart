@@ -16,6 +16,8 @@ class AlarmState extends Equatable {
   final String activityKey;
   final int selectedRingtoneIdx;
 
+  /// Each map in this list will have three parameters:
+  /// [activityName], [time], and \[date\]
   final List<Map<String, String>> alarmHistory;
 
   @override

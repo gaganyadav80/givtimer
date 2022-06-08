@@ -1,9 +1,10 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:givtimer/data/data.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'pomodoro_state.dart';
 
-class PomodoroCubit extends Cubit<PomodoroState> {
+class PomodoroCubit extends HydratedCubit<PomodoroState> {
   PomodoroCubit() : super(const PomodoroState());
 
   void pomodoroDuration(double value) =>
@@ -31,11 +32,21 @@ class PomodoroCubit extends Cubit<PomodoroState> {
 
   int longBreakDurationInSeconds() => (state.longBreakDuration * 60).round();
 
-  void decrementPomodoroCount() =>
-      emit(state.copyWith(setsCount: state.setsCount - 1));
+  void addTotalTimeDone(int value) =>
+      emit(state.copyWith(totalSecondsDone: state.totalSecondsDone + value));
 
-  void incrementPomodoroCount() =>
-      emit(state.copyWith(setsCount: state.setsCount + 1));
+  void logActivity(int seconds) {
+    PomodoroModel().addActivity(state.activityKey, seconds);
+    addTotalTimeDone(seconds);
+  }
 
-  void resetPomodoroCount() => emit(state.copyWith(setsCount: 4));
+  @override
+  PomodoroState? fromJson(Map<String, dynamic> json) {
+    return PomodoroState.fromMap(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(PomodoroState state) {
+    return state.toMap();
+  }
 }

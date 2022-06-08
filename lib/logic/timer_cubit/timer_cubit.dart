@@ -2,6 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 
 part 'timer_state.dart';
@@ -20,6 +21,14 @@ class TimerCubit extends Cubit<TimerState> {
           activityKey: value.trim().toLowerCase(),
         ),
       );
+
+  // void addTotalTimeDone(int value) =>
+  //     emit(state.copyWith(totalSecondsDone: state.totalSecondsDone + value));
+
+  void logActivity() {
+    TimerModel().addActivity(state.activityKey, state.seconds);
+    // addTotalTimeDone(seconds);
+  }
 
   bool isTimerSet() => state.seconds > 0;
 

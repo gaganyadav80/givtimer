@@ -7,7 +7,7 @@ class PomodoroState extends Equatable {
     this.setsCount = 4,
     this.focusDuration = 25,
     this.activityName = '',
-    this.totalTimeDone = 0,
+    this.totalSecondsDone = 0,
     this.activityKey = '',
   });
 
@@ -16,10 +16,9 @@ class PomodoroState extends Equatable {
   final double longBreakDuration;
   final double setsCount;
 
-  // Values to keep
   final String activityName;
   final String activityKey;
-  final double totalTimeDone;
+  final int totalSecondsDone;
 
   @override
   List<Object> get props => [
@@ -28,7 +27,7 @@ class PomodoroState extends Equatable {
         longBreakDuration,
         setsCount,
         activityName,
-        totalTimeDone,
+        totalSecondsDone,
         activityKey,
       ];
 
@@ -38,7 +37,7 @@ class PomodoroState extends Equatable {
     double? longBreakDuration,
     double? setsCount,
     String? activityName,
-    double? totalTimeDone,
+    int? totalSecondsDone,
     String? activityKey,
   }) {
     return PomodoroState(
@@ -47,8 +46,33 @@ class PomodoroState extends Equatable {
       longBreakDuration: longBreakDuration ?? this.longBreakDuration,
       setsCount: setsCount ?? this.setsCount,
       activityName: activityName ?? this.activityName,
-      totalTimeDone: totalTimeDone ?? this.totalTimeDone,
+      totalSecondsDone: totalSecondsDone ?? this.totalSecondsDone,
       activityKey: activityKey ?? this.activityKey,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'focusDuration': focusDuration,
+      'breakDuration': breakDuration,
+      'longBreakDuration': longBreakDuration,
+      'setsCount': setsCount,
+      // 'activityName': activityName,
+      // 'activityKey': activityKey,
+      'totalSecondsDone': totalSecondsDone,
+    };
+  }
+
+  // ignore: sort_constructors_first
+  factory PomodoroState.fromMap(Map<String, dynamic> map) {
+    return PomodoroState(
+      focusDuration: map['focusDuration'] as double,
+      breakDuration: map['breakDuration'] as double,
+      longBreakDuration: map['longBreakDuration'] as double,
+      setsCount: map['setsCount'] as double,
+      // activityName: map['activityName'] as String,
+      // activityKey: map['activityKey'] as String,
+      totalSecondsDone: map['totalSecondsDone'] as int,
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'alarm_state.dart';
@@ -63,6 +64,20 @@ class AlarmCubit extends HydratedCubit<AlarmState> {
   void setSelectedRingtoneIdx(int idx) => emit(
         state.copyWith(selectedRingtoneIdx: idx),
       );
+
+  void logActivity(int seconds) {
+    AlarmModel().addActivity(state.activityKey, timeOfDayInSeconds());
+    state.alarmHistory.add({
+      'activityName': state.activityName,
+      'time': timeOfDayInSeconds().toString(),
+      'date': DateTime.now().toString(),
+    });
+  }
+
+  int timeOfDayInSeconds() {
+    if (state.time == null) return 0;
+    return state.time!.hour * 3600 + state.time!.minute * 60;
+  }
 
   @override
   AlarmState? fromJson(Map<String, dynamic> json) {

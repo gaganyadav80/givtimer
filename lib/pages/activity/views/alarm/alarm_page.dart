@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+// TODO(gagan): use app alarm for web and desktop and alarm manager for mobile.
 class SetAlarmPage extends StatelessWidget {
   const SetAlarmPage({Key? key}) : super(key: key);
 
@@ -22,23 +23,14 @@ class SetAlarmPage extends StatelessWidget {
   }
 }
 
-class _AlarmPageBody extends StatefulWidget {
+class _AlarmPageBody extends StatelessWidget {
   const _AlarmPageBody({Key? key}) : super(key: key);
-
-  @override
-  State<_AlarmPageBody> createState() => _AlarmPageBodyState();
-}
-
-class _AlarmPageBodyState extends State<_AlarmPageBody> {
-  // final ValueNotifier<TimeOfDay?> _time = ValueNotifier(TimeOfDay.now());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          // TODO(gagan): show history of alarms
-          // add each alarm details to history after alarm is set
           IconButton(
             icon: const Icon(LineIcons.history),
             iconSize: 30,

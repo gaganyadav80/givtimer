@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:givtimer/data/data.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/activity/views/widgets/clock_wave.dart';
 import 'package:givtimer/theme.dart';
@@ -12,6 +11,9 @@ import 'package:neon_circular_timer/neon_circular_timer.dart';
 
 class ActivityClockPage extends StatefulWidget {
   const ActivityClockPage({Key? key}) : super(key: key);
+
+  // final TimerCubit timerCubit;
+  // final AlarmCubit alarmCubit;
 
   @override
   State<ActivityClockPage> createState() => _ActivityClockPageState();
@@ -27,6 +29,13 @@ class _ActivityClockPageState extends State<ActivityClockPage>
   @override
   void initState() {
     super.initState();
+
+    // try {
+    //   final cubit = context.read<TimerCubit>();
+    // } on Exception {
+    //   final cubit = context.read<AlarmCubit>();
+    // }
+
     _controller = AnimationController(
       duration: const Duration(milliseconds: 250),
       vsync: this,
@@ -102,10 +111,8 @@ class _ActivityClockPageState extends State<ActivityClockPage>
                 neumorphicEffect: false,
                 neon: 0,
                 onComplete: () {
-                  TimerModel().addActivity(
-                    context.read<TimerCubit>().state.activityKey,
-                    context.read<TimerCubit>().getDurationInSeconds(),
-                  );
+                  context.read<TimerCubit>().logActivity();
+                  //
                   _controller.reverse();
                   isPaused = true;
                   Future.delayed(

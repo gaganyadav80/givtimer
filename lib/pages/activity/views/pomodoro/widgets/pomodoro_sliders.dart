@@ -33,7 +33,7 @@ class _PomodoroSlidersWidgetState extends State<PomodoroSlidersWidget> {
               title: 'Focus duration',
               value: state.focusDuration,
               maxValue: 60,
-              minValue: 1, // TODO(gagan): set to 5
+              minValue: 5,
             );
           },
         ),
@@ -47,7 +47,7 @@ class _PomodoroSlidersWidgetState extends State<PomodoroSlidersWidget> {
               title: 'Break duration',
               value: state.breakDuration,
               maxValue: 30,
-              minValue: 2, // TODO(gagan): set to 5
+              minValue: 5,
             );
           },
         ),
@@ -61,7 +61,7 @@ class _PomodoroSlidersWidgetState extends State<PomodoroSlidersWidget> {
               title: 'Long break',
               value: state.longBreakDuration,
               maxValue: 30,
-              minValue: 3, // TODO(gagan): set to 5
+              minValue: 5,
             );
           },
         ),

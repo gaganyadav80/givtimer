@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:givtimer/data/data.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/activity/views/widgets/widgets.dart';
 import 'package:givtimer/theme.dart';
@@ -122,10 +121,7 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
                     // increment the focus count because at first the timer
                     // is in focus mode
                     _focusCount++;
-                    PomodoroModel().addActivity(
-                      context.read<PomodoroCubit>().state.activityKey,
-                      _seconds.value,
-                    );
+                    context.read<PomodoroCubit>().logActivity(_seconds.value);
 
                     // check if needs long break or short break
                     // if focus count is even then it needs long break
