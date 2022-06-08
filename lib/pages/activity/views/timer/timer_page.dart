@@ -56,7 +56,7 @@ class _TimerPageBody extends StatelessWidget {
                       mode: CupertinoTimerPickerMode.hm,
                       initialTimerDuration:
                           context.read<TimerCubit>().state.duration,
-                      minuteInterval: 1, // TODO(gagan): set to 5
+                      minuteInterval: 5,
                       onTimerDurationChanged: (Duration newDuration) {
                         context.read<TimerCubit>().setDuration(newDuration);
                       },
@@ -103,7 +103,7 @@ class _BuildDailog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: kDefaultModalPadding,
       child: Container(
         height: 280,
         // The Bottom margin is provided to align the popup above
@@ -112,7 +112,7 @@ class _BuildDailog extends StatelessWidget {
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: kModalBorderRadius,
           // Provide a background color for the popup.
           color: CupertinoColors.systemBackground.resolveFrom(context),
         ),

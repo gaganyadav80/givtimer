@@ -20,7 +20,7 @@ class PomodoroCubit extends Cubit<PomodoroState> {
 
   void activityName(String value) => emit(
         state.copyWith(
-          activityName: value,
+          activityName: value.trim(),
           activityKey: value.trim().toLowerCase(),
         ),
       );

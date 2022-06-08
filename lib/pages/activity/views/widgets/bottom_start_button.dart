@@ -8,10 +8,14 @@ class BottomStartButton extends StatelessWidget {
     Key? key,
     required this.heroTag,
     required this.onPressed,
+    this.title = 'Start',
+    this.icon = LineIcons.play,
   }) : super(key: key);
 
   final String heroTag;
   final VoidCallback onPressed;
+  final String title;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +30,8 @@ class BottomStartButton extends StatelessWidget {
             width: kRoundedElevatedButtonWidth,
             child: RoundedElevatedButton(
               onPressed: onPressed,
-              icon: LineIcons.play,
-              label: 'Start',
+              icon: icon,
+              label: title,
             ),
           ),
         ),

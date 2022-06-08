@@ -16,7 +16,7 @@ class TimerCubit extends Cubit<TimerState> {
 
   void setActivityName(String value) => emit(
         state.copyWith(
-          activityName: value,
+          activityName: value.trim(),
           activityKey: value.trim().toLowerCase(),
         ),
       );
