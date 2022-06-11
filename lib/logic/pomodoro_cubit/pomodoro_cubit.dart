@@ -32,12 +32,17 @@ class PomodoroCubit extends HydratedCubit<PomodoroState> {
 
   int longBreakDurationInSeconds() => (state.longBreakDuration * 60).round();
 
-  void addTotalTimeDone(int value) =>
+  void addTotalSecondsDone(int value) =>
       emit(state.copyWith(totalSecondsDone: state.totalSecondsDone + value));
 
   void logActivity(int seconds) {
-    PomodoroModel().addActivity(state.activityKey, seconds);
-    addTotalTimeDone(seconds);
+    // PomodoroModel().addActivity(state.activityKey, seconds);
+    IsarHelper().createActivity(
+      ActivityType.pomodoro,
+      state.activityKey,
+      seconds,
+    );
+    addTotalSecondsDone(seconds);
   }
 
   @override

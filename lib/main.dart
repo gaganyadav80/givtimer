@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:givtimer/data/db_helper.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:givtimer/firebase_options.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/routes.dart' as rt;
@@ -11,6 +11,7 @@ import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
@@ -20,8 +21,13 @@ void main() {
         options: DefaultFirebaseOptions.currentPlatform,
       );
       await Hive.initFlutter();
-      DBHelper().db = await Hive.openBox<Map<dynamic, dynamic>>(
+      DBHelper().activityDb = await Hive.openBox<Map<dynamic, dynamic>>(
         DBHelper.DB_ACTIVITY_DATA,
+      );
+      IsarHelper().isar = await Isar.open(
+        schemas: [UserActivitySchema],
+        directory: (await getApplicationDocumentsDirectory()).path,
+        inspector: true,
       );
 
       final authenticationRepository = AuthenticationRepository();
@@ -36,7 +42,7 @@ void main() {
       return HydratedStorage.build(
         storageDirectory: kIsWeb
             ? HydratedStorage.webStorageDirectory
-            : await getTemporaryDirectory(),
+            : await getApplicationDocumentsDirectory(),
       );
     },
   );

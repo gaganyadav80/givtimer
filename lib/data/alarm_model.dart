@@ -1,21 +1,14 @@
-import 'package:givtimer/data/db_helper.dart';
+import 'package:givtimer/data/data.dart';
 
 class AlarmModel {
   factory AlarmModel() => _shared;
   AlarmModel._sharedInstance();
   static final AlarmModel _shared = AlarmModel._sharedInstance();
 
-  final Map<String, int> _alarmActivity = <String, int>{};
+  final List<UserActivity> _alarmActivity = <UserActivity>[];
 
-  Map<String, int> get alarmActivity => _alarmActivity;
-  set alarmActivity(Map<String, int> value) => _alarmActivity
+  List<UserActivity> get alarmActivity => _alarmActivity;
+  set alarmActivity(List<UserActivity> value) => _alarmActivity
     ..clear()
     ..addAll(value);
-
-  void addActivity(String name, int seconds) {
-    _alarmActivity[name] = (_alarmActivity[name] ?? 0) + seconds;
-    DBHelper().addAlarmSet(name, seconds);
-  }
-
-  int getActivityTime(String name) => _alarmActivity[name] ?? 0;
 }

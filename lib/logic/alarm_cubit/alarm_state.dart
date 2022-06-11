@@ -7,7 +7,6 @@ class AlarmState extends Equatable {
     this.activityName = '',
     this.helperText = '',
     this.selectedRingtoneIdx = 0,
-    this.alarmHistory = const <Map<String, String>>[],
   });
 
   final TimeOfDay? time;
@@ -15,10 +14,6 @@ class AlarmState extends Equatable {
   final String activityName;
   final String activityKey;
   final int selectedRingtoneIdx;
-
-  /// Each map in this list will have three parameters:
-  /// [activityName], [time], and \[date\]
-  final List<Map<String, String>> alarmHistory;
 
   @override
   List<Object?> get props =>
@@ -30,7 +25,6 @@ class AlarmState extends Equatable {
     String? activityName,
     String? activityKey,
     int? selectedRingtoneIdx,
-    List<Map<String, String>>? alarmHistory,
   }) {
     return AlarmState(
       time: time ?? this.time,
@@ -38,7 +32,6 @@ class AlarmState extends Equatable {
       activityName: activityName ?? this.activityName,
       activityKey: activityKey ?? this.activityKey,
       selectedRingtoneIdx: selectedRingtoneIdx ?? this.selectedRingtoneIdx,
-      alarmHistory: alarmHistory ?? this.alarmHistory,
     );
   }
 }

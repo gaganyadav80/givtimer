@@ -17,10 +17,7 @@ class SignUpForm extends StatelessWidget {
     return BlocListener<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
-          // update the user id in the database class
-          DBHelper().userId = context.read<AppBloc>().state.user.id;
-          // new user data does not exists in db. So, initialize an empty map
-          DBHelper().initEmptyUserData();
+          DBHelper().initUserData(context.read<AppBloc>().state.user.id);
 
           showBasicSnackBar(context, 'Verification mail is sent');
           context.pop();

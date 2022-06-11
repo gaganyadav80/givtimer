@@ -1,5 +1,12 @@
 include: package:very_good_analysis/analysis_options.2.4.0.yaml
+# include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - lib/data/collections/activity.g.dart
+
 linter:
   rules:
     public_member_api_docs: false
     library_private_types_in_public_api: false
+    implicit_dynamic_method: false

@@ -39,6 +39,7 @@ class _HomePageBodyState extends State<_HomePageBody> {
 
   @override
   Widget build(BuildContext context) {
+    print(DBHelper().userData);
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<HomeCubit, HomeState>(

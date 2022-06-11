@@ -66,12 +66,7 @@ class AlarmCubit extends HydratedCubit<AlarmState> {
       );
 
   void logActivity(int seconds) {
-    AlarmModel().addActivity(state.activityKey, timeOfDayInSeconds());
-    state.alarmHistory.add({
-      'activityName': state.activityName,
-      'time': timeOfDayInSeconds().toString(),
-      'date': DateTime.now().toString(),
-    });
+    // AlarmModel().addActivity(state.activityKey, timeOfDayInSeconds());
   }
 
   int timeOfDayInSeconds() {
@@ -83,10 +78,10 @@ class AlarmCubit extends HydratedCubit<AlarmState> {
   AlarmState? fromJson(Map<String, dynamic> json) {
     return AlarmState(
       selectedRingtoneIdx: json['selectedRingtoneIdx'] as int,
-      alarmHistory: List<Map<String, String>>.from(
-        (json['alarmHistory'] as List<Map<dynamic, dynamic>>)
-            .map<Map<String, String>>(Map<String, String>.from),
-      ),
+      // alarmHistory: List<Map<String, String>>.from(
+      //   (json['alarmHistory'] as List<Map<dynamic, dynamic>>)
+      //       .map<Map<String, String>>(Map<String, String>.from),
+      // ),
     );
   }
 
@@ -94,7 +89,7 @@ class AlarmCubit extends HydratedCubit<AlarmState> {
   Map<String, dynamic>? toJson(AlarmState state) {
     return <String, dynamic>{
       'selectedRingtoneIdx': state.selectedRingtoneIdx,
-      'alarmHistory': state.alarmHistory,
+      // 'alarmHistory': state.alarmHistory,
     };
   }
 }

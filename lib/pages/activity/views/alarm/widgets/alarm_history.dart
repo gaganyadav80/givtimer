@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:givtimer/logic/logic.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,7 +35,7 @@ class AlarmHistory extends StatelessWidget {
               ),
             ),
             const VSpace(10),
-            if (context.read<AlarmCubit>().state.alarmHistory.isEmpty)
+            if (AlarmModel().alarmActivity.isEmpty)
               const Expanded(
                 child: Center(
                   child: ListTile(
@@ -49,24 +48,17 @@ class AlarmHistory extends StatelessWidget {
                   ),
                 ),
               ),
-            if (context.read<AlarmCubit>().state.alarmHistory.isNotEmpty)
+            if (AlarmModel().alarmActivity.isNotEmpty)
               ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 separatorBuilder: (_, __) => const Divider(),
                 itemCount: 5,
                 shrinkWrap: true,
                 itemBuilder: (_, index) {
+                  final item = AlarmModel().alarmActivity[index];
                   return ListTile(
-                    title: Text(
-                      context.read<AlarmCubit>().state.alarmHistory[index]
-                              ['activityName'] ??
-                          '',
-                    ),
-                    trailing: Text(
-                      context.read<AlarmCubit>().state.alarmHistory[index]
-                              ['time'] ??
-                          '',
-                    ),
+                    title: Text(item.name),
+                    trailing: Text(item.seconds.toString()),
                   );
                 },
               ),
