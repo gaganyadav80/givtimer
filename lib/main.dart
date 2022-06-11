@@ -27,7 +27,6 @@ void main() {
       IsarHelper().isar = await Isar.open(
         schemas: [UserActivitySchema],
         directory: (await getApplicationDocumentsDirectory()).path,
-        inspector: true,
       );
 
       final authenticationRepository = AuthenticationRepository();

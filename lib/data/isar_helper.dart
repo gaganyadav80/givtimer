@@ -1,7 +1,6 @@
 import 'package:givtimer/data/collections/activity.dart';
 import 'package:givtimer/data/collections/activity_type.dart';
 import 'package:givtimer/data/db_helper.dart';
-import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 
 class IsarHelper {
@@ -23,6 +22,12 @@ class IsarHelper {
     String name,
     int seconds,
   ) async {
+    try {
+      await DBHelper().addActivitySet(name, seconds);
+    } on Exception catch (e) {
+      throw Exception('Failed to add activity to DB: $e');
+    }
+
     try {
       await isar.writeTxn<void>((Isar _isar) async {
         final dataList = await _isar.userActivitys
@@ -48,12 +53,6 @@ class IsarHelper {
       });
     } on Exception catch (e) {
       throw Exception('Failed to create activity: $e');
-    }
-
-    try {
-      await DBHelper().addActivitySet(name, seconds);
-    } on Exception catch (e) {
-      throw Exception('Failed to add activity to DB: $e');
     }
   }
 

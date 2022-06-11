@@ -37,8 +37,8 @@ class DBHelper {
       await DBHelper().initEmptyUserData();
     }
 
-    AlarmModel().alarmActivity =
-        await IsarHelper().getActivityByType(ActivityType.alarm);
+    // AlarmModel().alarmActive =
+    //     await IsarHelper().getActivityByType(ActivityType.alarm);
   }
 
   Future<void> addActivitySet(String name, int seconds) async {

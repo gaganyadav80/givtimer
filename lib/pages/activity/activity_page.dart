@@ -55,21 +55,21 @@ class ActivityPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const HSpace(10),
-                Expanded(
-                  child: Hero(
-                    tag: 'set-alarm-button',
-                    child: SizedBox(
-                      height: kRoundedElevatedButtonHeight,
-                      child: RoundedElevatedButton(
-                        onPressed: () =>
-                            context.pushNamed(RouterName.setAlarmRoute),
-                        icon: LineIcons.bell,
-                        label: 'Set alarm',
-                      ),
-                    ),
-                  ),
-                ),
+                // const HSpace(10),
+                // Expanded(
+                //   child: Hero(
+                //     tag: 'set-alarm-button',
+                //     child: SizedBox(
+                //       height: kRoundedElevatedButtonHeight,
+                //       child: RoundedElevatedButton(
+                //         onPressed: () =>
+                //             context.pushNamed(RouterName.setAlarmRoute),
+                //         icon: LineIcons.bell,
+                //         label: 'Set alarm',
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ],

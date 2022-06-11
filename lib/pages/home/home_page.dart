@@ -5,6 +5,12 @@ import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/pages.dart';
 import 'package:line_icons/line_icons.dart';
 
+class HomeCubit extends Cubit<int> {
+  HomeCubit() : super(0);
+
+  void updateIdx(int idx) => emit(idx);
+}
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -39,23 +45,22 @@ class _HomePageBodyState extends State<_HomePageBody> {
 
   @override
   Widget build(BuildContext context) {
-    print(DBHelper().userData);
     return Scaffold(
       body: SafeArea(
-        child: BlocBuilder<HomeCubit, HomeState>(
+        child: BlocBuilder<HomeCubit, int>(
           builder: (_, state) {
             return [
               const ActivityPage(),
               const Center(child: Text('Chart [Paid]')),
               const SettingsPage(),
-            ][state.homeIdx];
+            ][state];
           },
         ),
       ),
-      bottomNavigationBar: BlocBuilder<HomeCubit, HomeState>(
+      bottomNavigationBar: BlocBuilder<HomeCubit, int>(
         builder: (context, state) {
           return BottomNavigationBar(
-            currentIndex: state.homeIdx,
+            currentIndex: state,
             onTap: (value) => context.read<HomeCubit>().updateIdx(value),
             selectedFontSize: 12,
             items: const [

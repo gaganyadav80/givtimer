@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
-import 'package:givtimer/pages/activity/activity_clock_page.dart';
+import 'package:givtimer/pages/activity/views/timer/timer_clock_page.dart';
 import 'package:givtimer/pages/activity/views/timer/widgets/timer_select_time.dart';
 import 'package:givtimer/pages/activity/views/widgets/widgets.dart';
 import 'package:givtimer/utils/utils.dart';
