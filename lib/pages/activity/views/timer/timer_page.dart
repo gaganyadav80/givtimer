@@ -56,7 +56,7 @@ class _TimerPageBody extends StatelessWidget {
                       mode: CupertinoTimerPickerMode.hm,
                       initialTimerDuration:
                           context.read<TimerCubit>().state.duration,
-                      minuteInterval: 1,
+                      minuteInterval: 5,
                       onTimerDurationChanged: (Duration newDuration) {
                         context.read<TimerCubit>().setDuration(newDuration);
                       },
@@ -69,6 +69,10 @@ class _TimerPageBody extends StatelessWidget {
             BottomStartButton(
               heroTag: 'set-timer-button',
               onPressed: () {
+                context
+                    .read<TimerCubit>()
+                    .setDuration(const Duration(seconds: 5));
+
                 if (context.read<TimerCubit>().state.activityName.isEmpty) {
                   showBasicSnackBar(context, 'Please enter activity name');
                 } else if (!context.read<TimerCubit>().isTimerSet()) {

@@ -24,6 +24,16 @@ class SettingsPage extends StatelessWidget {
             ),
           ],
         ),
+        SettingsSection(
+          title: const Text('Activity'),
+          tiles: [
+            SettingsTile(
+              title: const Text('Logs'),
+              leading: const Icon(LineIcons.history),
+              onPressed: (_) => context.pushNamed(RouterName.activityLogsRoute),
+            ),
+          ],
+        ),
       ],
     );
   }

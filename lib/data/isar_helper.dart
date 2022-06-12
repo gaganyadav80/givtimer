@@ -1,6 +1,4 @@
-import 'package:givtimer/data/collections/activity.dart';
-import 'package:givtimer/data/collections/activity_type.dart';
-import 'package:givtimer/data/db_helper.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:isar/isar.dart';
 
 class IsarHelper {
@@ -20,8 +18,9 @@ class IsarHelper {
   Future<void> createActivity(
     ActivityType type,
     String name,
-    int seconds,
-  ) async {
+    int seconds, [
+    DateTime? date,
+  ]) async {
     try {
       await DBHelper().addActivitySet(name, seconds);
     } on Exception catch (e) {
@@ -32,54 +31,95 @@ class IsarHelper {
       await isar.writeTxn<void>((Isar _isar) async {
         final dataList = await _isar.userActivitys
             .where()
-            .nameDateEqualTo(name, getDateNow)
-            .findAll();
+            .userIdEqualTo(userId!)
+            .findFirst();
 
-        final data = dataList.isNotEmpty ? dataList.first : null;
+        await dataList!.data.load();
+        await dataList.logs.load();
+
+        final data = await dataList.data
+            .filter()
+            .dateEqualTo(getDateBy(date!)) // TODO(gagan): getDateNow
+            .and()
+            .nameEqualTo(name)
+            .findFirst();
 
         if (data != null) {
+          dataList.data.remove(data);
           data.seconds += seconds;
-          await _isar.userActivitys.put(data);
+          dataList.data.add(data);
+          // id = await _isar.userActivitys.put(data);
         } else {
-          await _isar.userActivitys.put(
-            UserActivity()
-              ..userId = userId!
-              ..date = getDateNow
+          dataList.data.add(
+            ActivityData()
+              ..date = getDateBy(date) // TODO(gagan): getDateNow
               ..name = name
-              ..type = type
-              ..seconds = seconds,
+              ..seconds = seconds
+              ..type = type,
           );
         }
+        await dataList.data.save();
+
+        dataList.logs.add(
+          ActivityLogs()
+            ..date = date
+            ..name = name
+            ..seconds = seconds
+            ..type = type,
+        );
+        await dataList.logs.save();
       });
     } on Exception catch (e) {
       throw Exception('Failed to create activity: $e');
     }
   }
 
-  Future<List<UserActivity>> getActivityByType(ActivityType type) async {
+  Future<List<ActivityData>> getActivityByName(String name) async {
     try {
-      final history = isar.txn<List<UserActivity>>((isar) {
-        return isar.userActivitys
-            .where()
-            .userIdTypeEqualTo(userId!, type)
-            .sortByDateDesc()
-            .findAll();
-      });
+      final history = isar.txn<List<ActivityData>>(
+        (isar) async {
+          final data = await isar.userActivitys
+              .where()
+              .userIdEqualTo(userId!)
+              .findFirst();
+
+          if (data != null) {
+            await data.data.load();
+
+            return data.data
+                .filter()
+                .nameEqualTo(name)
+                .sortByDateDesc()
+                .findAll();
+          } else {
+            return [];
+          }
+        },
+      );
 
       return history;
     } on Exception catch (e) {
-      throw Exception('Failed to get activity history by type: $e');
+      throw Exception('Failed to get activity history by name: $e');
     }
   }
 
-  Future<List<UserActivity>> getAllActivity() async {
+  Future<List<ActivityLogs>> getAllLogs() async {
     try {
-      final history = isar.txn<List<UserActivity>>(
-        (isar) async => isar.userActivitys
-            .where()
-            .userIdEqualTo(userId!)
-            .sortByDateDesc()
-            .findAll(),
+      final history = isar.txn<List<ActivityLogs>>(
+        (isar) async {
+          final data = await isar.userActivitys
+              .where()
+              .userIdEqualTo(userId!)
+              .findFirst();
+
+          if (data != null) {
+            await data.logs.load();
+
+            return data.logs.filter().sortByDateDesc().findAll();
+          } else {
+            return [];
+          }
+        },
       );
 
       return history;
@@ -88,16 +128,24 @@ class IsarHelper {
     }
   }
 
-  Future<List<UserActivity>> getActivityByName(String name) async {
-    try {
-      final history = isar.txn<List<UserActivity>>(
-        (isar) async =>
-            isar.userActivitys.where().nameEqualTo(name).sortByDate().findAll(),
-      );
+  // Future<List<ActivityData>> getActivityByType(ActivityType type) async {
+  //   try {
+  //     final history = isar.txn<List<ActivityData>>((isar) async {
+  //       final data =
+  //           await isar.userActivitys.where().userIdEqualTo(userId!).findFirst();
 
-      return history;
-    } on Exception catch (e) {
-      throw Exception('Failed to get activity history by name: $e');
-    }
-  }
+  //       if (data != null) {
+  //         await data.data.load();
+
+  //         return data.data.filter().typeEqualTo(type).findAll();
+  //       } else {
+  //         return [];
+  //       }
+  //     });
+
+  //     return history;
+  //   } on Exception catch (e) {
+  //     throw Exception('Failed to get activity history by type: $e');
+  //   }
+  // }
 }

@@ -59,7 +59,7 @@ class _LogoutButton extends StatelessWidget {
     return BlueButton(
       title: 'Logout',
       onPressed: () {
-        context.read<SettingsCubit>().logout();
+        context.read<AppBloc>().add(AppLogoutRequested());
         GoRouter.of(context).pop();
       },
     );

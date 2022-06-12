@@ -267,6 +267,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.51.0"
   flow_builder:
     dependency: "direct main"
     description:
@@ -688,6 +695,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+  random_date:
+    dependency: "direct main"
+    description:
+      name: random_date
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.7"
   settings_ui:
     dependency: "direct main"
     description:

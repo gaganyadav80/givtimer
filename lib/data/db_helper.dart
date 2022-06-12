@@ -27,6 +27,9 @@ class DBHelper {
 
   Future<void> initEmptyUserData() async {
     await activityDb.put(userId, <String, int>{KEY_TOTAL_TIME: 0});
+    await IsarHelper().isar.writeTxn(
+          (isar) => isar.userActivitys.put(UserActivity()..userId = userId!),
+        );
   }
 
   Future<void> initUserData(String id) async {
@@ -48,4 +51,6 @@ class DBHelper {
 
     await activityDb.put(userId, data);
   }
+
+  int getActivityTotalSeconds(String name) => userData[name] ?? 0;
 }

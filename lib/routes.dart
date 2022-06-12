@@ -15,6 +15,7 @@ abstract class RouterName {
   static const String setPomodoroRoute = '/pomodoro';
   static const String setTimerRoute = '/setTimer';
   // static const String setAlarmRoute = '/setAlarm';
+  static const String activityLogsRoute = '/activityLogs';
 }
 
 abstract class Router {
@@ -68,6 +69,11 @@ abstract class Router {
       //   path: RouterName.setAlarmRoute,
       //   builder: (context, state) => const SetAlarmPage(),
       // ),
+      GoRoute(
+        name: RouterName.activityLogsRoute,
+        path: RouterName.activityLogsRoute,
+        builder: (context, state) => const ActivityLogsPage(),
+      ),
     ],
   );
 }

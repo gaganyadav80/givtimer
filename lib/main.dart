@@ -25,9 +25,13 @@ void main() {
         DBHelper.DB_ACTIVITY_DATA,
       );
       IsarHelper().isar = await Isar.open(
-        schemas: [UserActivitySchema],
+        schemas: [UserActivitySchema, ActivityDataSchema, ActivityLogsSchema],
         directory: (await getApplicationDocumentsDirectory()).path,
+        inspector: true,
       );
+
+      // await DBHelper().activityDb.clear();
+      // await IsarHelper().isar.writeTxn((isar) => isar.clear());
 
       final authenticationRepository = AuthenticationRepository();
       await authenticationRepository.user.first;

@@ -15,6 +15,7 @@ final theme = ThemeData(
     elevation: 0,
     backgroundColor: Color(0xFFFAFAFA),
     iconTheme: IconThemeData(color: Colors.black),
+    toolbarTextStyle: TextStyle(color: Colors.black),
   ),
   inputDecorationTheme: InputDecorationTheme(
     border: OutlineInputBorder(

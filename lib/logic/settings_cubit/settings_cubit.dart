@@ -13,13 +13,13 @@ class SettingsCubit extends HydratedCubit<SettingsState> {
     await _authenticationRepository.updateProfilePhoto(url);
   }
 
-  Future<void> logout() async {
-    try {
-      await _authenticationRepository.logOut();
-    } catch (e) {
-      print(e);
-    }
-  }
+  // Future<void> logout() async {
+  //   try {
+  //     await _authenticationRepository.logOut();
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   @override
   SettingsState? fromJson(Map<String, dynamic> json) {

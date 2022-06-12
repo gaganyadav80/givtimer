@@ -1,10 +1,10 @@
-import 'package:givtimer/data/collections/activity_type.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:isar/isar.dart';
 
-part 'activity.g.dart';
+part 'logs.g.dart';
 
 @Collection()
-class ActivityData {
+class ActivityLogs {
   @Id()
   int id = Isar.autoIncrement;
 

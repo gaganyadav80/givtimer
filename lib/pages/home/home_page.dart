@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/data/db_helper.dart';
 import 'package:givtimer/logic/logic.dart';
+import 'package:givtimer/pages/chart/charts_page.dart';
 import 'package:givtimer/pages/pages.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -51,7 +52,7 @@ class _HomePageBodyState extends State<_HomePageBody> {
           builder: (_, state) {
             return [
               const ActivityPage(),
-              const Center(child: Text('Chart [Paid]')),
+              const ChartsPage(),
               const SettingsPage(),
             ][state];
           },
