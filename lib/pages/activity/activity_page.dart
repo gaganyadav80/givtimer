@@ -1,38 +1,34 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:givtimer/data/data.dart';
 import 'package:givtimer/routes.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:random_date/random_date.dart';
 
 class ActivityPage extends StatelessWidget {
   const ActivityPage({Key? key}) : super(key: key);
 
-  final List<String> activityName = const [
-    'read',
-    'dsa',
-    'givtimer',
-    'givnotes',
-    'netflix',
-    'walking',
-    'running',
-    'cycling',
-    'swimming',
-    'hiking',
-    'biking',
-    'skiing',
-    'snowboarding',
-    'study',
-    'homework',
-    'intern',
-    'parttime',
-    'gym'
-  ];
+  // final List<String> activityName = const [
+  //   'read',
+  //   'dsa',
+  //   'givtimer',
+  //   'givnotes',
+  //   'netflix',
+  //   'walking',
+  //   'running',
+  //   'cycling',
+  //   'swimming',
+  //   'hiking',
+  //   'biking',
+  //   'skiing',
+  //   'snowboarding',
+  //   'study',
+  //   'homework',
+  //   'intern',
+  //   'parttime',
+  //   'gym'
+  // ];
 
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:givtimer/data/data.dart';
+import 'package:givtimer/theme.dart';
 import 'package:givtimer/widgets/widgets.dart';
 
 class LineChartWidget extends StatelessWidget {
@@ -70,9 +71,38 @@ class LineChartWidget extends StatelessWidget {
                 ),
                 borderData: FlBorderData(show: false),
                 gridData: FlGridData(show: false),
+                lineTouchData: LineTouchData(
+                  getTouchedSpotIndicator: (_, List<int> indicators) {
+                    return indicators.map(
+                      (_) {
+                        return TouchedSpotIndicatorData(
+                          FlLine(
+                            color: kPurpleColor,
+                            strokeWidth: 1,
+                            // dashArray: const [4, 2],
+                          ),
+                          FlDotData(
+                            show: true,
+                            getDotPainter: (_, __, ___, ____) {
+                              return FlDotCirclePainter(
+                                strokeWidth: 1,
+                                color: kPurpleColor,
+                                strokeColor: kPurpleColor,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ).toList();
+                  },
+                  touchTooltipData: LineTouchTooltipData(
+                    tooltipBgColor: Colors.white,
+                  ),
+                ),
                 lineBarsData: [
                   LineChartBarData(
                     // isCurved: true,
+                    color: kPurpleColor,
                     dotData: FlDotData(show: false),
                     spots: List.generate(
                       15,

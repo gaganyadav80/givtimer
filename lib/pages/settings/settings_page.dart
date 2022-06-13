@@ -13,6 +13,7 @@ class SettingsPage extends StatelessWidget {
       // lightTheme: SettingsThemeData(
       //   settingsListBackground: Theme.of(context).scaffoldBackgroundColor,
       // ),
+      physics: const NeverScrollableScrollPhysics(),
       sections: [
         SettingsSection(
           title: const Text('General'),

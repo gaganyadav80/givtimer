@@ -12,10 +12,6 @@ class DBHelper {
   String? userId;
 
   static const String DB_ACTIVITY_DATA = 'DB_ACTIVITY_DATA';
-
-  // static const String KEY_POMODORO = 'KEY_POMODORO';
-  // static const String KEY_TIMER = 'KEY_TIMER';
-  // static const String KEY_ALARM = 'KEY_ALARM';
   static const String KEY_TOTAL_TIME = 'KEY_TOTAL_TIME';
 
   bool get userDataExists => activityDb.get(userId) != null;
@@ -25,11 +21,20 @@ class DBHelper {
 
   int get userTotalSeconds => userData[KEY_TOTAL_TIME] ?? 0;
 
+  Map<String, int> get userActivityTotal {
+    final data = userData..removeWhere((key, value) => key == KEY_TOTAL_TIME);
+
+    return data;
+  }
+
   Future<void> initEmptyUserData() async {
     await activityDb.put(userId, <String, int>{KEY_TOTAL_TIME: 0});
+
     await IsarHelper().isar.writeTxn(
-          (isar) => isar.userActivitys.put(UserActivity()..userId = userId!),
-        );
+      (isar) {
+        return isar.userActivitys.put(UserActivity()..userId = userId!);
+      },
+    );
   }
 
   Future<void> initUserData(String id) async {

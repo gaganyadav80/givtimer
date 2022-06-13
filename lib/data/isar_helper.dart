@@ -18,9 +18,8 @@ class IsarHelper {
   Future<void> createActivity(
     ActivityType type,
     String name,
-    int seconds, [
-    DateTime? date,
-  ]) async {
+    int seconds,
+  ) async {
     try {
       await DBHelper().addActivitySet(name, seconds);
     } on Exception catch (e) {
@@ -39,7 +38,7 @@ class IsarHelper {
 
         final data = await dataList.data
             .filter()
-            .dateEqualTo(getDateBy(date!)) // TODO(gagan): getDateNow
+            .dateEqualTo(getDateNow)
             .and()
             .nameEqualTo(name)
             .findFirst();
@@ -52,7 +51,7 @@ class IsarHelper {
         } else {
           dataList.data.add(
             ActivityData()
-              ..date = getDateBy(date) // TODO(gagan): getDateNow
+              ..date = getDateNow
               ..name = name
               ..seconds = seconds
               ..type = type,
@@ -62,7 +61,7 @@ class IsarHelper {
 
         dataList.logs.add(
           ActivityLogs()
-            ..date = date
+            ..date = DateTime.now()
             ..name = name
             ..seconds = seconds
             ..type = type,
@@ -132,7 +131,7 @@ class IsarHelper {
   //   try {
   //     final history = isar.txn<List<ActivityData>>((isar) async {
   //       final data =
-  //           await isar.userActivitys.where().userIdEqualTo(userId!).findFirst();
+  //       await isar.userActivitys.where().userIdEqualTo(userId!).findFirst();
 
   //       if (data != null) {
   //         await data.data.load();
