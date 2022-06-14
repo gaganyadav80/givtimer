@@ -21,21 +21,19 @@ class IsarHelper {
     int seconds,
   ) async {
     try {
-      await DBHelper().addActivitySet(name, seconds);
-    } on Exception catch (e) {
-      throw Exception('Failed to add activity to DB: $e');
-    }
-
-    try {
       await isar.writeTxn<void>((Isar _isar) async {
+        // Get all data for the current user
         final dataList = await _isar.userActivitys
             .where()
             .userIdEqualTo(userId!)
             .findFirst();
 
+        // Load all the collections linked to user data
         await dataList!.data.load();
         await dataList.logs.load();
+        await dataList.daily.load();
 
+        // Step 1: Check if the current activity exists for today
         final data = await dataList.data
             .filter()
             .dateEqualTo(getDateNow)
@@ -43,6 +41,8 @@ class IsarHelper {
             .nameEqualTo(name)
             .findFirst();
 
+        // If yes then add these seconds to the same activity for today
+        // else add a new entry.
         if (data != null) {
           dataList.data.remove(data);
           data.seconds += seconds;
@@ -57,8 +57,8 @@ class IsarHelper {
               ..type = type,
           );
         }
-        await dataList.data.save();
 
+        // Add this activity to logs collection
         dataList.logs.add(
           ActivityLogs()
             ..date = DateTime.now()
@@ -66,8 +66,30 @@ class IsarHelper {
             ..seconds = seconds
             ..type = type,
         );
+
+        // Now check if today's entry already exist in dailyTotal collection
+        // If exists then add the seconds to existing activity
+        // else create a new activity.
+        final dailyTotal = dataList.daily.lookup(getDateNow);
+        if (dailyTotal != null) {
+          dataList.daily.remove(dailyTotal);
+          dailyTotal.seconds += seconds;
+          dataList.daily.add(dailyTotal);
+        } else {
+          dataList.daily.add(
+            DailyTotal()
+              ..date = getDateNow
+              ..seconds = seconds,
+          );
+        }
+
+        // Save all the linked collections data modifications.
+        await dataList.data.save();
         await dataList.logs.save();
+        await dataList.daily.save();
       });
+
+      await DBHelper().addActivitySet(name, seconds);
     } on Exception catch (e) {
       throw Exception('Failed to create activity: $e');
     }
@@ -122,6 +144,31 @@ class IsarHelper {
       );
 
       return history;
+    } on Exception catch (e) {
+      throw Exception('Failed to get activity history: $e');
+    }
+  }
+
+  Future<List<DailyTotal>> getAllDailyTotal() async {
+    try {
+      final dailyTotalList = isar.txn<List<DailyTotal>>(
+        (isar) async {
+          final data = await isar.userActivitys
+              .where()
+              .userIdEqualTo(userId!)
+              .findFirst();
+
+          if (data != null) {
+            await data.daily.load();
+
+            return data.daily.filter().sortByDate().findAll();
+          } else {
+            return [];
+          }
+        },
+      );
+
+      return dailyTotalList;
     } on Exception catch (e) {
       throw Exception('Failed to get activity history: $e');
     }

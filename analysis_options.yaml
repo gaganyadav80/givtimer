@@ -6,6 +6,7 @@ analyzer:
     - lib/data/collections/activity.g.dart
     - lib/data/collections/logs.g.dart
     - lib/data/collections/user.g.dart
+    - lib/data/collections/daily_total.g.dart
 
 linter:
   rules:

@@ -25,7 +25,12 @@ void main() {
         DBHelper.DB_ACTIVITY_DATA,
       );
       IsarHelper().isar = await Isar.open(
-        schemas: [UserActivitySchema, ActivityDataSchema, ActivityLogsSchema],
+        schemas: [
+          UserActivitySchema,
+          ActivityDataSchema,
+          ActivityLogsSchema,
+          DailyTotalSchema,
+        ],
         directory: (await getApplicationDocumentsDirectory()).path,
         inspector: true,
       );

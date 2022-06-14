@@ -15,7 +15,7 @@ extension GetUserActivityCollection on Isar {
 const UserActivitySchema = CollectionSchema(
   name: 'UserActivity',
   schema:
-      '{"name":"UserActivity","idName":"id","properties":[{"name":"userId","type":"String"}],"indexes":[{"name":"userId","unique":true,"properties":[{"name":"userId","type":"Hash","caseSensitive":true}]}],"links":[{"name":"data","target":"ActivityData"},{"name":"logs","target":"ActivityLogs"}]}',
+      '{"name":"UserActivity","idName":"id","properties":[{"name":"userId","type":"String"}],"indexes":[{"name":"userId","unique":true,"properties":[{"name":"userId","type":"Hash","caseSensitive":true}]}],"links":[{"name":"daily","target":"DailyTotal"},{"name":"data","target":"ActivityData"},{"name":"logs","target":"ActivityLogs"}]}',
   idName: 'id',
   propertyIds: {'userId': 0},
   listProperties: {},
@@ -25,7 +25,7 @@ const UserActivitySchema = CollectionSchema(
       IndexValueType.stringHash,
     ]
   },
-  linkIds: {'data': 0, 'logs': 1},
+  linkIds: {'daily': 0, 'data': 1, 'logs': 2},
   backlinkLinkNames: {},
   getId: _userActivityGetId,
   setId: _userActivitySetId,
@@ -53,7 +53,7 @@ void _userActivitySetId(UserActivity object, int id) {
 }
 
 List<IsarLinkBase> _userActivityGetLinks(UserActivity object) {
-  return [object.data, object.logs];
+  return [object.daily, object.data, object.logs];
 }
 
 void _userActivitySerializeNative(
@@ -131,6 +131,7 @@ P _userActivityDeserializePropWeb<P>(Object jsObj, String propertyName) {
 }
 
 void _userActivityAttachLinks(IsarCollection col, int id, UserActivity object) {
+  object.daily.attach(col, col.isar.dailyTotals, 'daily', id);
   object.data.attach(col, col.isar.activityDatas, 'data', id);
   object.logs.attach(col, col.isar.activityLogss, 'logs', id);
 }
@@ -436,6 +437,15 @@ extension UserActivityQueryFilter
 
 extension UserActivityQueryLinks
     on QueryBuilder<UserActivity, UserActivity, QFilterCondition> {
+  QueryBuilder<UserActivity, UserActivity, QAfterFilterCondition> daily(
+      FilterQuery<DailyTotal> q) {
+    return linkInternal(
+      isar.dailyTotals,
+      q,
+      'daily',
+    );
+  }
+
   QueryBuilder<UserActivity, UserActivity, QAfterFilterCondition> data(
       FilterQuery<ActivityData> q) {
     return linkInternal(
