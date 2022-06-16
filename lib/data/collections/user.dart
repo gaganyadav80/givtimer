@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 
 part 'user.g.dart';
 
-/// `this` collection contains the userId of each user and links other
+/// This collection contains the userId of each user and links other
 /// collections to each user. The collections linked are the following
 /// `ActivityData`, `ActivityLogs`, `DailyTotal`. Read more about them in their
 /// docs.

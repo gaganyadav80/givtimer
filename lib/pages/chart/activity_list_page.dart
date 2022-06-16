@@ -23,7 +23,7 @@ class ActivityListPage extends StatelessWidget {
             children: [
               Expanded(
                 child: TimeInfoCard(
-                  time: DBHelper().userTotalSeconds ~/ 60,
+                  time: DBHelper().userTotalSeconds,
                   title: 'Total Time',
                   onTap: () => Navigator.push<void>(
                     context,
@@ -49,16 +49,16 @@ class ActivityListPage extends StatelessWidget {
               itemCount: DBHelper().userActivityTotal.length,
               separatorBuilder: (_, __) => const Divider(thickness: 1),
               itemBuilder: (_, int index) {
-                final keyList = DBHelper().userActivityTotal.keys.toList()
+                final activityMap = DBHelper().userActivityTotal;
+                final keyList = activityMap.keys.toList()
                   ..sort((a, b) => a.compareTo(b));
 
                 final name = keyList[index];
-                final minutes =
-                    DBHelper().userActivityTotal.values.toList()[index] ~/ 60;
+                final minutes = activityMap[name]!;
 
                 return ListTile(
                   title: Text(name.toUpperCase()),
-                  trailing: Text('''$minutes min'''),
+                  trailing: Text('''$minutes sec'''),
                   shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
                   // TODO(gagan): maybe use for daily total overall chart also
                   onTap: () => Navigator.push<void>(

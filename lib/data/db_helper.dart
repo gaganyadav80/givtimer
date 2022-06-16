@@ -32,7 +32,10 @@ class DBHelper {
 
     await IsarHelper().isar.writeTxn(
       (isar) {
-        return isar.userActivitys.put(UserActivity()..userId = userId!);
+        return isar.userActivitys.put(
+          UserActivity()..userId = userId!,
+          replaceOnConflict: true,
+        );
       },
     );
   }

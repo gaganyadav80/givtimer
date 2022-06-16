@@ -77,9 +77,9 @@ class LineChartWidget extends StatelessWidget {
                       (_) {
                         return TouchedSpotIndicatorData(
                           FlLine(
-                            color: kPurpleColor,
+                            color: Colors.grey,
                             strokeWidth: 1,
-                            // dashArray: const [4, 2],
+                            dashArray: const [4, 2],
                           ),
                           FlDotData(
                             show: true,

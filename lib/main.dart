@@ -1,6 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/data/data.dart';
@@ -17,6 +17,7 @@ import 'package:path_provider/path_provider.dart';
 void main() {
   HydratedBlocOverrides.runZoned(
     () async {
+      WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
@@ -31,7 +32,8 @@ void main() {
           ActivityLogsSchema,
           DailyTotalSchema,
         ],
-        directory: (await getApplicationDocumentsDirectory()).path,
+        directory:
+            kIsWeb ? null : (await getApplicationDocumentsDirectory()).path,
         inspector: true,
       );
 
