@@ -116,8 +116,11 @@ class LineChartWidget extends StatelessWidget {
               ),
             ),
           );
+        } else if (snapshot.data!.isEmpty) {
+          return const EmptyListIndicatorTile();
         } else {
-          return const Center(child: CircularLoading());
+          // Show now data is list is empty
+          return const Expanded(child: Center(child: CircularLoading()));
         }
       },
     );

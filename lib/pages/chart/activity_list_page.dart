@@ -25,12 +25,20 @@ class ActivityListPage extends StatelessWidget {
                 child: TimeInfoCard(
                   time: HiveHelper().userTotalSeconds,
                   title: 'Total Time',
-                  onTap: () => Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const DailyTotalChartPage(),
-                    ),
-                  ),
+                  onTap: () {
+                    if (HiveHelper().userActivityTotal.isNotEmpty) {
+                      // TODO(gagan): try using same page as activity chart
+                      Navigator.push<void>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const DailyTotalChartPage(),
+                        ),
+                      );
+                    }
+                    // else {
+                    //   showBasicSnackBar(context, 'Please add some activity');
+                    // }
+                  },
                 ),
               ),
             ],
@@ -44,34 +52,42 @@ class ActivityListPage extends StatelessWidget {
             ],
           ),
           const VSpace(10),
-          Expanded(
-            child: ListView.separated(
-              itemCount: HiveHelper().userActivityTotal.length,
-              separatorBuilder: (_, __) => const Divider(thickness: 1),
-              itemBuilder: (_, int index) {
-                final activityMap = HiveHelper().userActivityTotal;
-                final keyList = activityMap.keys.toList()
-                  ..sort((a, b) => a.compareTo(b));
-
-                final name = keyList[index];
-                final minutes = activityMap[name]!;
-
-                return ListTile(
-                  title: Text(name.toUpperCase()),
-                  trailing: Text('''$minutes sec'''),
-                  shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
-                  // TODO(gagan): maybe use for daily total overall chart also
-                  onTap: () => Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ActivityChartPage(activityName: name),
-                    ),
-                  ),
-                );
-              },
+          if (HiveHelper().userActivityTotal.isEmpty)
+            const Expanded(
+              child: EmptyListIndicatorRow(),
             ),
-          ),
+          if (HiveHelper().userActivityTotal.isNotEmpty)
+            Expanded(
+              child: Container(
+                color: Colors.amber,
+                child: ListView.separated(
+                  itemCount: HiveHelper().userActivityTotal.length,
+                  separatorBuilder: (_, __) => const Divider(thickness: 1),
+                  itemBuilder: (_, int index) {
+                    final activityMap = HiveHelper().userActivityTotal;
+                    final keyList = activityMap.keys.toList()
+                      ..sort((a, b) => a.compareTo(b));
+
+                    final name = keyList[index];
+                    final minutes = activityMap[name]!;
+
+                    return ListTile(
+                      title: Text(name.toUpperCase()),
+                      trailing: Text('''$minutes sec'''),
+                      shape:
+                          RoundedRectangleBorder(borderRadius: kBorderRadius),
+                      onTap: () => Navigator.push<void>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ActivityChartPage(activityName: name),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
         ],
       ),
     );

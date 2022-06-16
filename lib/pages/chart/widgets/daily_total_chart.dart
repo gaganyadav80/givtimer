@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/data/data.dart';
+import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/chart/widgets/line_chart_widget.dart';
 import 'package:givtimer/pages/chart/widgets/time_info_card.dart';
 import 'package:givtimer/utils/utils.dart';
@@ -10,6 +12,10 @@ class DailyTotalChartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final totalDays = DateTime.now()
+        .difference(context.read<AppBloc>().state.user.createdAt!)
+        .inDays;
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -35,7 +41,7 @@ class DailyTotalChartPage extends StatelessWidget {
                 const HSpace(10),
                 Expanded(
                   child: TimeInfoCard(
-                    time: HiveHelper().userTotalSeconds ~/ (15 * 365),
+                    time: HiveHelper().userTotalSeconds ~/ (60 * totalDays),
                     title: 'Daily Average',
                   ),
                 ),
@@ -44,8 +50,9 @@ class DailyTotalChartPage extends StatelessWidget {
             // TODO(gagan): Show relative chart
             const LineChartWidget(name: 'givnotes'),
             const VSpace(10),
-            const Center(child: Text('December')),
-            const VSpace(10),
+            if (HiveHelper().userTotalSeconds >= 60)
+              const Center(child: Text('December')),
+            const VSpace(40),
           ],
         ),
       ),

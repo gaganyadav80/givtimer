@@ -21,6 +21,7 @@ class SettingsPage extends StatelessWidget {
             SettingsTile(
               title: const Text('Profile'),
               leading: const Icon(LineIcons.user),
+              trailing: const Icon(LineIcons.angleRight, color: Colors.grey),
               onPressed: (_) => context.pushNamed(RouterName.profileRoute),
             ),
           ],
@@ -31,6 +32,7 @@ class SettingsPage extends StatelessWidget {
             SettingsTile(
               title: const Text('Logs'),
               leading: const Icon(LineIcons.history),
+              trailing: const Icon(LineIcons.angleRight, color: Colors.grey),
               onPressed: (_) => context.pushNamed(RouterName.activityLogsRoute),
             ),
           ],

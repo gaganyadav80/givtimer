@@ -22,7 +22,7 @@ class HiveHelper {
   int get userTotalSeconds => userData[KEY_TOTAL_TIME] ?? 0;
 
   Map<String, int> get userActivityTotal {
-    final data = userData..removeWhere((key, value) => key == KEY_TOTAL_TIME);
+    final data = userData..removeWhere((key, _) => key == KEY_TOTAL_TIME);
 
     return data;
   }
