@@ -28,14 +28,14 @@ class DailyTotalChartPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: TimeInfoCard(
-                    time: DBHelper().userTotalSeconds ~/ 60,
+                    time: HiveHelper().userTotalSeconds ~/ 60,
                     title: 'Total Time',
                   ),
                 ),
                 const HSpace(10),
                 Expanded(
                   child: TimeInfoCard(
-                    time: DBHelper().userTotalSeconds ~/ (15 * 365),
+                    time: HiveHelper().userTotalSeconds ~/ (15 * 365),
                     title: 'Daily Average',
                   ),
                 ),

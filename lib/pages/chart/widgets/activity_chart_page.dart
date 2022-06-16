@@ -33,15 +33,15 @@ class ActivityChartPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: TimeInfoCard(
-                    time:
-                        DBHelper().getActivityTotalSeconds(activityName) ~/ 60,
+                    time: HiveHelper().getActivityTotalSeconds(activityName) ~/
+                        60,
                     title: 'Total Time',
                   ),
                 ),
                 const HSpace(10),
                 Expanded(
                   child: TimeInfoCard(
-                    time: DBHelper().getActivityTotalSeconds(activityName) ~/
+                    time: HiveHelper().getActivityTotalSeconds(activityName) ~/
                         (15 * 60),
                     title: 'Daily Average',
                   ),

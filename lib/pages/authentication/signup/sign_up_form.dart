@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:givtimer/data/db_helper.dart';
+import 'package:givtimer/data/hive_helper.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
@@ -17,7 +17,7 @@ class SignUpForm extends StatelessWidget {
     return BlocListener<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
-          DBHelper().initUserData(context.read<AppBloc>().state.user.id);
+          HiveHelper().initUserData(context.read<AppBloc>().state.user.id);
 
           showBasicSnackBar(context, 'Verification mail is sent');
           context.pop();

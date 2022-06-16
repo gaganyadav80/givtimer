@@ -3,10 +3,10 @@
 import 'package:givtimer/data/data.dart';
 import 'package:hive/hive.dart';
 
-class DBHelper {
-  factory DBHelper() => _shared;
-  DBHelper._sharedInstance();
-  static final DBHelper _shared = DBHelper._sharedInstance();
+class HiveHelper {
+  factory HiveHelper() => _shared;
+  HiveHelper._sharedInstance();
+  static final HiveHelper _shared = HiveHelper._sharedInstance();
 
   late Box<Map<dynamic, dynamic>> activityDb;
   String? userId;
@@ -44,8 +44,8 @@ class DBHelper {
     userId = id;
     IsarHelper().userId = id;
 
-    if (!DBHelper().userDataExists) {
-      await DBHelper().initEmptyUserData();
+    if (!HiveHelper().userDataExists) {
+      await HiveHelper().initEmptyUserData();
     }
 
     // AlarmModel().alarmActive =

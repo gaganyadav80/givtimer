@@ -22,8 +22,8 @@ void main() {
         options: DefaultFirebaseOptions.currentPlatform,
       );
       await Hive.initFlutter();
-      DBHelper().activityDb = await Hive.openBox<Map<dynamic, dynamic>>(
-        DBHelper.DB_ACTIVITY_DATA,
+      HiveHelper().activityDb = await Hive.openBox<Map<dynamic, dynamic>>(
+        HiveHelper.DB_ACTIVITY_DATA,
       );
       IsarHelper().isar = await Isar.open(
         schemas: [

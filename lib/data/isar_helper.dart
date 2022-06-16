@@ -94,7 +94,7 @@ class IsarHelper {
       });
 
       // Step 6: Add to total time of this activity in hive db.
-      await DBHelper().addActivitySet(name, seconds);
+      await HiveHelper().addActivitySet(name, seconds);
       //
     } on Exception catch (e) {
       throw Exception('Failed to create activity: $e');

@@ -4,7 +4,7 @@ export 'collections/activity_type.dart';
 export 'collections/daily_total.dart';
 export 'collections/logs.dart';
 export 'collections/user.dart';
-export 'db_helper.dart';
+export 'hive_helper.dart';
 export 'isar_helper.dart';
 // export 'pomodoro_model.dart';
 // export 'timer_model.dart';

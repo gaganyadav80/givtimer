@@ -23,7 +23,7 @@ class ActivityListPage extends StatelessWidget {
             children: [
               Expanded(
                 child: TimeInfoCard(
-                  time: DBHelper().userTotalSeconds,
+                  time: HiveHelper().userTotalSeconds,
                   title: 'Total Time',
                   onTap: () => Navigator.push<void>(
                     context,
@@ -46,10 +46,10 @@ class ActivityListPage extends StatelessWidget {
           const VSpace(10),
           Expanded(
             child: ListView.separated(
-              itemCount: DBHelper().userActivityTotal.length,
+              itemCount: HiveHelper().userActivityTotal.length,
               separatorBuilder: (_, __) => const Divider(thickness: 1),
               itemBuilder: (_, int index) {
-                final activityMap = DBHelper().userActivityTotal;
+                final activityMap = HiveHelper().userActivityTotal;
                 final keyList = activityMap.keys.toList()
                   ..sort((a, b) => a.compareTo(b));
 
