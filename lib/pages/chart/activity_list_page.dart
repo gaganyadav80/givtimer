@@ -27,7 +27,6 @@ class ActivityListPage extends StatelessWidget {
                   title: 'Total Time',
                   onTap: () {
                     if (HiveHelper().userActivityTotalTimeData.isNotEmpty) {
-                      // TODO(gagan): try using same page as activity chart
                       Navigator.push<void>(
                         context,
                         MaterialPageRoute(
@@ -49,6 +48,7 @@ class ActivityListPage extends StatelessWidget {
             ],
           ),
           const VSpace(10),
+          // TODO(gagan): fix this conditional formatting
           if (HiveHelper().userActivityTotalTimeData.isEmpty)
             const Expanded(
               child: EmptyListIndicatorRow(),

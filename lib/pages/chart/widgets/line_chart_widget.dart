@@ -1,130 +1,82 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:givtimer/data/data.dart';
 import 'package:givtimer/theme.dart';
-import 'package:givtimer/widgets/widgets.dart';
 
-class LineChartWidget extends StatelessWidget {
-  const LineChartWidget({Key? key, required this.name}) : super(key: key);
+class LineChartWidget<T extends Object> extends StatelessWidget {
+  const LineChartWidget({Key? key, required this.data, this.showDot = false})
+      : super(key: key);
 
-  final String name;
+  final bool showDot;
+  final List<FlSpot> data;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<DailyActivityData>>(
-      future: IsarHelper().getActivityByName(name),
-      initialData: const [],
-      builder: (_, AsyncSnapshot<List<DailyActivityData>> snapshot) {
-        if (snapshot.hasData &&
-            snapshot.data != null &&
-            snapshot.data!.isNotEmpty) {
-          final data = snapshot.data;
-          final showDot = data!.length < 2;
-          // data = data!
-          //     .where(
-          //       (element) =>
-          //           element.date.year == 2021 && element.date.month == 12,
-          //     )
-          //     .toList();
-
-          // for (var i = 1; i < 31; i++) {
-          //   if (i == 19 || i == 11) continue;
-
-          //   data.add(
-          //     DailyActivityData()
-          //       ..date = DateTime(2021, 12, i)
-          //       ..name = 'read'
-          //       ..seconds = Random().nextInt(9001) + 1800
-          //       ..type = ActivityType.timer,
-          //   );
-          // }
-
-          // data.sort((a, b) => a.date.day.compareTo(b.date.day));
-          // data = data.sublist(0, 16);
-
-          return SizedBox(
-            height: 300,
-            child: LineChart(
-              LineChartData(
-                minX: 16,
-                maxX: 30,
-                minY: 0,
-                maxY: 200,
-                titlesData: FlTitlesData(
-                  topTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  rightTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      interval: 1,
-                      showTitles: true,
-                      reservedSize: 30,
-                    ),
-                  ),
-                ),
-                borderData: FlBorderData(show: false),
-                gridData: FlGridData(show: false),
-                lineTouchData: LineTouchData(
-                  getTouchedSpotIndicator: (_, List<int> indicators) {
-                    return indicators.map(
-                      (_) {
-                        return TouchedSpotIndicatorData(
-                          FlLine(
-                            color: Colors.grey,
-                            strokeWidth: 1,
-                            dashArray: const [4, 2],
-                          ),
-                          FlDotData(
-                            show: true,
-                            getDotPainter: (_, __, ___, ____) {
-                              return FlDotCirclePainter(
-                                strokeWidth: 1,
-                                color: kPurpleColor,
-                                strokeColor: kPurpleColor,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ).toList();
-                  },
-                  touchTooltipData: LineTouchTooltipData(
-                    tooltipBgColor: Colors.white,
-                  ),
-                ),
-                lineBarsData: [
-                  LineChartBarData(
-                    // isCurved: true,
-                    color: kPurpleColor,
-                    dotData: FlDotData(show: showDot),
-                    spots: List.generate(
-                      data.length,
-                      (index) => FlSpot(
-                        data[index].date.day.toDouble(),
-                        // TODO(gagan): divide seconds by 60 to show minutes
-                        (data[index].seconds).roundToDouble(),
-                      ),
-                    ),
-                  )
-                ],
+    return SizedBox(
+      height: 300,
+      child: LineChart(
+        LineChartData(
+          minX: 16,
+          maxX: 30,
+          minY: 0,
+          maxY: 200,
+          titlesData: FlTitlesData(
+            topTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            rightTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                interval: 1,
+                showTitles: true,
+                reservedSize: 30,
               ),
             ),
-          );
-        } else if (snapshot.data!.isEmpty) {
-          return const EmptyListIndicatorTile();
-        } else {
-          // Show now data is list is empty
-          return const Expanded(child: Center(child: CircularLoading()));
-        }
-      },
+          ),
+          borderData: FlBorderData(show: false),
+          gridData: FlGridData(show: false),
+          lineTouchData: LineTouchData(
+            getTouchedSpotIndicator: (_, List<int> indicators) {
+              return indicators.map(
+                (_) {
+                  return TouchedSpotIndicatorData(
+                    FlLine(
+                      color: Colors.grey,
+                      strokeWidth: 1,
+                      dashArray: const [4, 2],
+                    ),
+                    FlDotData(
+                      show: true,
+                      getDotPainter: (_, __, ___, ____) {
+                        return FlDotCirclePainter(
+                          strokeWidth: 1,
+                          color: kPurpleColor,
+                          strokeColor: kPurpleColor,
+                        );
+                      },
+                    ),
+                  );
+                },
+              ).toList();
+            },
+            touchTooltipData: LineTouchTooltipData(
+              tooltipBgColor: Colors.white,
+            ),
+          ),
+          lineBarsData: [
+            LineChartBarData(
+              // isCurved: true,
+              color: kPurpleColor,
+              dotData: FlDotData(show: showDot),
+              spots: data,
+            )
+          ],
+        ),
+      ),
     );
   }
 }
