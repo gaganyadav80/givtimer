@@ -20,35 +20,36 @@ class LineChartWidget extends StatelessWidget {
         if (snapshot.hasData &&
             snapshot.data != null &&
             snapshot.data!.isNotEmpty) {
-          var data = snapshot.data;
-          data = data!
-              .where(
-                (element) =>
-                    element.date.year == 2021 && element.date.month == 12,
-              )
-              .toList();
+          final data = snapshot.data;
+          final showDot = data!.length < 2;
+          // data = data!
+          //     .where(
+          //       (element) =>
+          //           element.date.year == 2021 && element.date.month == 12,
+          //     )
+          //     .toList();
 
-          for (var i = 1; i < 31; i++) {
-            if (i == 19 || i == 11) continue;
+          // for (var i = 1; i < 31; i++) {
+          //   if (i == 19 || i == 11) continue;
 
-            data.add(
-              DailyActivityData()
-                ..date = DateTime(2021, 12, i)
-                ..name = 'givnotes'
-                ..seconds = Random().nextInt(9001) + 1800
-                ..type = ActivityType.timer,
-            );
-          }
+          //   data.add(
+          //     DailyActivityData()
+          //       ..date = DateTime(2021, 12, i)
+          //       ..name = 'read'
+          //       ..seconds = Random().nextInt(9001) + 1800
+          //       ..type = ActivityType.timer,
+          //   );
+          // }
 
-          data.sort((a, b) => a.date.day.compareTo(b.date.day));
-          data = data.sublist(0, 16);
+          // data.sort((a, b) => a.date.day.compareTo(b.date.day));
+          // data = data.sublist(0, 16);
 
           return SizedBox(
             height: 300,
             child: LineChart(
               LineChartData(
-                minX: 1,
-                maxX: 15,
+                minX: 16,
+                maxX: 30,
                 minY: 0,
                 maxY: 200,
                 titlesData: FlTitlesData(
@@ -103,12 +104,13 @@ class LineChartWidget extends StatelessWidget {
                   LineChartBarData(
                     // isCurved: true,
                     color: kPurpleColor,
-                    dotData: FlDotData(show: false),
+                    dotData: FlDotData(show: showDot),
                     spots: List.generate(
-                      15,
+                      data.length,
                       (index) => FlSpot(
-                        index + 1,
-                        (data![index].seconds / 60).roundToDouble(),
+                        data[index].date.day.toDouble(),
+                        // TODO(gagan): divide seconds by 60 to show minutes
+                        (data[index].seconds).roundToDouble(),
                       ),
                     ),
                   )

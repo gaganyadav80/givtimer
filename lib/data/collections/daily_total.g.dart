@@ -16,15 +16,17 @@ extension GetDailyProductiveTimeCollection on Isar {
 const DailyProductiveTimeSchema = CollectionSchema(
   name: 'DailyProductiveTime',
   schema:
-      '{"name":"DailyProductiveTime","idName":"id","properties":[{"name":"date","type":"Long"},{"name":"seconds","type":"Long"},{"name":"userId","type":"String"}],"indexes":[{"name":"userId_date","unique":false,"properties":[{"name":"userId","type":"Hash","caseSensitive":true},{"name":"date","type":"Value","caseSensitive":false}]}],"links":[]}',
+      '{"name":"DailyProductiveTime","idName":"id","properties":[{"name":"date","type":"Long"},{"name":"seconds","type":"Long"},{"name":"userId","type":"String"}],"indexes":[{"name":"date","unique":false,"properties":[{"name":"date","type":"Value","caseSensitive":false}]},{"name":"userId","unique":false,"properties":[{"name":"userId","type":"Hash","caseSensitive":true}]}],"links":[]}',
   idName: 'id',
   propertyIds: {'date': 0, 'seconds': 1, 'userId': 2},
   listProperties: {},
-  indexIds: {'userId_date': 0},
+  indexIds: {'date': 0, 'userId': 1},
   indexValueTypes: {
-    'userId_date': [
-      IndexValueType.stringHash,
+    'date': [
       IndexValueType.long,
+    ],
+    'userId': [
+      IndexValueType.stringHash,
     ]
   },
   linkIds: {},
@@ -173,9 +175,15 @@ extension DailyProductiveTimeQueryWhereSort
   }
 
   QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhere>
-      anyUserIdDate() {
+      anyDate() {
     return addWhereClauseInternal(
-        const IndexWhereClause.any(indexName: 'userId_date'));
+        const IndexWhereClause.any(indexName: 'date'));
+  }
+
+  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhere>
+      anyUserId() {
+    return addWhereClauseInternal(
+        const IndexWhereClause.any(indexName: 'userId'));
   }
 }
 
@@ -238,9 +246,82 @@ extension DailyProductiveTimeQueryWhere
   }
 
   QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
+      dateEqualTo(DateTime date) {
+    return addWhereClauseInternal(IndexWhereClause.equalTo(
+      indexName: 'date',
+      value: [date],
+    ));
+  }
+
+  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
+      dateNotEqualTo(DateTime date) {
+    if (whereSortInternal == Sort.asc) {
+      return addWhereClauseInternal(IndexWhereClause.lessThan(
+        indexName: 'date',
+        upper: [date],
+        includeUpper: false,
+      )).addWhereClauseInternal(IndexWhereClause.greaterThan(
+        indexName: 'date',
+        lower: [date],
+        includeLower: false,
+      ));
+    } else {
+      return addWhereClauseInternal(IndexWhereClause.greaterThan(
+        indexName: 'date',
+        lower: [date],
+        includeLower: false,
+      )).addWhereClauseInternal(IndexWhereClause.lessThan(
+        indexName: 'date',
+        upper: [date],
+        includeUpper: false,
+      ));
+    }
+  }
+
+  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
+      dateGreaterThan(
+    DateTime date, {
+    bool include = false,
+  }) {
+    return addWhereClauseInternal(IndexWhereClause.greaterThan(
+      indexName: 'date',
+      lower: [date],
+      includeLower: include,
+    ));
+  }
+
+  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
+      dateLessThan(
+    DateTime date, {
+    bool include = false,
+  }) {
+    return addWhereClauseInternal(IndexWhereClause.lessThan(
+      indexName: 'date',
+      upper: [date],
+      includeUpper: include,
+    ));
+  }
+
+  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
+      dateBetween(
+    DateTime lowerDate,
+    DateTime upperDate, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addWhereClauseInternal(IndexWhereClause.between(
+      indexName: 'date',
+      lower: [lowerDate],
+      includeLower: includeLower,
+      upper: [upperDate],
+      includeUpper: includeUpper,
+    ));
+  }
+
+  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
       userIdEqualTo(String userId) {
     return addWhereClauseInternal(IndexWhereClause.equalTo(
-      indexName: 'userId_date',
+      indexName: 'userId',
       value: [userId],
     ));
   }
@@ -249,101 +330,25 @@ extension DailyProductiveTimeQueryWhere
       userIdNotEqualTo(String userId) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_date',
+        indexName: 'userId',
         upper: [userId],
         includeUpper: false,
       )).addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_date',
+        indexName: 'userId',
         lower: [userId],
         includeLower: false,
       ));
     } else {
       return addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_date',
+        indexName: 'userId',
         lower: [userId],
         includeLower: false,
       )).addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_date',
+        indexName: 'userId',
         upper: [userId],
         includeUpper: false,
       ));
     }
-  }
-
-  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
-      userIdDateEqualTo(String userId, DateTime date) {
-    return addWhereClauseInternal(IndexWhereClause.equalTo(
-      indexName: 'userId_date',
-      value: [userId, date],
-    ));
-  }
-
-  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
-      userIdDateNotEqualTo(String userId, DateTime date) {
-    if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_date',
-        upper: [userId, date],
-        includeUpper: false,
-      )).addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_date',
-        lower: [userId, date],
-        includeLower: false,
-      ));
-    } else {
-      return addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_date',
-        lower: [userId, date],
-        includeLower: false,
-      )).addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_date',
-        upper: [userId, date],
-        includeUpper: false,
-      ));
-    }
-  }
-
-  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
-      userIdEqualToDateGreaterThan(
-    String userId,
-    DateTime date, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(IndexWhereClause.greaterThan(
-      indexName: 'userId_date',
-      lower: [userId, date],
-      includeLower: include,
-    ));
-  }
-
-  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
-      userIdEqualToDateLessThan(
-    String userId,
-    DateTime date, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(IndexWhereClause.lessThan(
-      indexName: 'userId_date',
-      upper: [userId, date],
-      includeUpper: include,
-    ));
-  }
-
-  QueryBuilder<DailyProductiveTime, DailyProductiveTime, QAfterWhereClause>
-      userIdEqualToDateBetween(
-    String userId,
-    DateTime lowerDate,
-    DateTime upperDate, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return addWhereClauseInternal(IndexWhereClause.between(
-      indexName: 'userId_date',
-      lower: [userId, lowerDate],
-      includeLower: includeLower,
-      upper: [userId, upperDate],
-      includeUpper: includeUpper,
-    ));
   }
 }
 

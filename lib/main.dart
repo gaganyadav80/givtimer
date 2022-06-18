@@ -26,13 +26,17 @@ void main() {
         HiveHelper.DB_ACTIVITY_DATA,
       );
       IsarHelper().isar = await Isar.open(
-        schemas: [DailyActivityDataSchema, DailyProductiveTimeSchema],
+        schemas: [
+          DailyActivityDataSchema,
+          DailyProductiveTimeSchema,
+          ActivityLogSchema,
+        ],
         directory:
             kIsWeb ? null : (await getApplicationDocumentsDirectory()).path,
         inspector: true,
       );
 
-      // await DBHelper().activityDb.clear();
+      // await HiveHelper().activityDb.clear();
       // await IsarHelper().isar.writeTxn((isar) => isar.clear());
 
       final authenticationRepository = AuthenticationRepository();

@@ -48,7 +48,7 @@ class DailyTotalChartPage extends StatelessWidget {
               ],
             ),
             // TODO(gagan): Show relative chart
-            const LineChartWidget(name: 'givnotes'),
+            const LineChartWidget(name: 'read'),
             const VSpace(10),
             if (HiveHelper().userTotalSeconds >= 60)
               const Center(child: Text('December')),

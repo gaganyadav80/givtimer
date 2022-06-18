@@ -10,10 +10,10 @@ class DailyProductiveTime {
   @Id()
   int id = Isar.autoIncrement;
 
-  @Index(composite: [CompositeIndex('date')])
+  @Index()
   late String userId;
 
-  // @Index(unique: true)
+  @Index()
   late DateTime date;
 
   int seconds = 0;

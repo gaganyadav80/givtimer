@@ -14,9 +14,10 @@ class ActivityLog {
   @Id()
   int id = Isar.autoIncrement;
 
-  @Index(composite: [CompositeIndex('date')])
+  @Index()
   late String userId;
 
+  @Index()
   late DateTime date;
 
   late String name;

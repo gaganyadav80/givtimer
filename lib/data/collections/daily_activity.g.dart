@@ -15,15 +15,18 @@ extension GetDailyActivityDataCollection on Isar {
 const DailyActivityDataSchema = CollectionSchema(
   name: 'DailyActivityData',
   schema:
-      '{"name":"DailyActivityData","idName":"id","properties":[{"name":"date","type":"Long"},{"name":"name","type":"String"},{"name":"seconds","type":"Long"},{"name":"type","type":"Long"},{"name":"userId","type":"String"}],"indexes":[{"name":"userId_date","unique":false,"properties":[{"name":"userId","type":"Hash","caseSensitive":true},{"name":"date","type":"Value","caseSensitive":false}]}],"links":[]}',
+      '{"name":"DailyActivityData","idName":"id","properties":[{"name":"date","type":"Long"},{"name":"name","type":"String"},{"name":"seconds","type":"Long"},{"name":"type","type":"Long"},{"name":"userId","type":"String"}],"indexes":[{"name":"date","unique":false,"properties":[{"name":"date","type":"Value","caseSensitive":false}]},{"name":"userId_name","unique":false,"properties":[{"name":"userId","type":"Hash","caseSensitive":true},{"name":"name","type":"Hash","caseSensitive":true}]}],"links":[]}',
   idName: 'id',
   propertyIds: {'date': 0, 'name': 1, 'seconds': 2, 'type': 3, 'userId': 4},
   listProperties: {},
-  indexIds: {'userId_date': 0},
+  indexIds: {'date': 0, 'userId_name': 1},
   indexValueTypes: {
-    'userId_date': [
-      IndexValueType.stringHash,
+    'date': [
       IndexValueType.long,
+    ],
+    'userId_name': [
+      IndexValueType.stringHash,
+      IndexValueType.stringHash,
     ]
   },
   linkIds: {},
@@ -199,10 +202,15 @@ extension DailyActivityDataQueryWhereSort
     return addWhereClauseInternal(const IdWhereClause.any());
   }
 
-  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhere>
-      anyUserIdDate() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhere> anyDate() {
     return addWhereClauseInternal(
-        const IndexWhereClause.any(indexName: 'userId_date'));
+        const IndexWhereClause.any(indexName: 'date'));
+  }
+
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhere>
+      anyUserIdName() {
+    return addWhereClauseInternal(
+        const IndexWhereClause.any(indexName: 'userId_name'));
   }
 }
 
@@ -265,9 +273,82 @@ extension DailyActivityDataQueryWhere
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      dateEqualTo(DateTime date) {
+    return addWhereClauseInternal(IndexWhereClause.equalTo(
+      indexName: 'date',
+      value: [date],
+    ));
+  }
+
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      dateNotEqualTo(DateTime date) {
+    if (whereSortInternal == Sort.asc) {
+      return addWhereClauseInternal(IndexWhereClause.lessThan(
+        indexName: 'date',
+        upper: [date],
+        includeUpper: false,
+      )).addWhereClauseInternal(IndexWhereClause.greaterThan(
+        indexName: 'date',
+        lower: [date],
+        includeLower: false,
+      ));
+    } else {
+      return addWhereClauseInternal(IndexWhereClause.greaterThan(
+        indexName: 'date',
+        lower: [date],
+        includeLower: false,
+      )).addWhereClauseInternal(IndexWhereClause.lessThan(
+        indexName: 'date',
+        upper: [date],
+        includeUpper: false,
+      ));
+    }
+  }
+
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      dateGreaterThan(
+    DateTime date, {
+    bool include = false,
+  }) {
+    return addWhereClauseInternal(IndexWhereClause.greaterThan(
+      indexName: 'date',
+      lower: [date],
+      includeLower: include,
+    ));
+  }
+
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      dateLessThan(
+    DateTime date, {
+    bool include = false,
+  }) {
+    return addWhereClauseInternal(IndexWhereClause.lessThan(
+      indexName: 'date',
+      upper: [date],
+      includeUpper: include,
+    ));
+  }
+
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      dateBetween(
+    DateTime lowerDate,
+    DateTime upperDate, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addWhereClauseInternal(IndexWhereClause.between(
+      indexName: 'date',
+      lower: [lowerDate],
+      includeLower: includeLower,
+      upper: [upperDate],
+      includeUpper: includeUpper,
+    ));
+  }
+
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
       userIdEqualTo(String userId) {
     return addWhereClauseInternal(IndexWhereClause.equalTo(
-      indexName: 'userId_date',
+      indexName: 'userId_name',
       value: [userId],
     ));
   }
@@ -276,21 +357,21 @@ extension DailyActivityDataQueryWhere
       userIdNotEqualTo(String userId) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_date',
+        indexName: 'userId_name',
         upper: [userId],
         includeUpper: false,
       )).addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_date',
+        indexName: 'userId_name',
         lower: [userId],
         includeLower: false,
       ));
     } else {
       return addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_date',
+        indexName: 'userId_name',
         lower: [userId],
         includeLower: false,
       )).addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_date',
+        indexName: 'userId_name',
         upper: [userId],
         includeUpper: false,
       ));
@@ -298,79 +379,36 @@ extension DailyActivityDataQueryWhere
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
-      userIdDateEqualTo(String userId, DateTime date) {
+      userIdNameEqualTo(String userId, String name) {
     return addWhereClauseInternal(IndexWhereClause.equalTo(
-      indexName: 'userId_date',
-      value: [userId, date],
+      indexName: 'userId_name',
+      value: [userId, name],
     ));
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
-      userIdDateNotEqualTo(String userId, DateTime date) {
+      userIdNameNotEqualTo(String userId, String name) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_date',
-        upper: [userId, date],
+        indexName: 'userId_name',
+        upper: [userId, name],
         includeUpper: false,
       )).addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_date',
-        lower: [userId, date],
+        indexName: 'userId_name',
+        lower: [userId, name],
         includeLower: false,
       ));
     } else {
       return addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_date',
-        lower: [userId, date],
+        indexName: 'userId_name',
+        lower: [userId, name],
         includeLower: false,
       )).addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_date',
-        upper: [userId, date],
+        indexName: 'userId_name',
+        upper: [userId, name],
         includeUpper: false,
       ));
     }
-  }
-
-  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
-      userIdEqualToDateGreaterThan(
-    String userId,
-    DateTime date, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(IndexWhereClause.greaterThan(
-      indexName: 'userId_date',
-      lower: [userId, date],
-      includeLower: include,
-    ));
-  }
-
-  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
-      userIdEqualToDateLessThan(
-    String userId,
-    DateTime date, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(IndexWhereClause.lessThan(
-      indexName: 'userId_date',
-      upper: [userId, date],
-      includeUpper: include,
-    ));
-  }
-
-  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
-      userIdEqualToDateBetween(
-    String userId,
-    DateTime lowerDate,
-    DateTime upperDate, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return addWhereClauseInternal(IndexWhereClause.between(
-      indexName: 'userId_date',
-      lower: [userId, lowerDate],
-      includeLower: includeLower,
-      upper: [userId, upperDate],
-      includeUpper: includeUpper,
-    ));
   }
 }
 
