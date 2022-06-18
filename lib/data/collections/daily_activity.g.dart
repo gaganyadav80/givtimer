@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'logs.dart';
+part of 'daily_activity.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -8,14 +8,14 @@ part of 'logs.dart';
 
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, unused_local_variable
 
-extension GetActivityLogCollection on Isar {
-  IsarCollection<ActivityLog> get activityLogs => getCollection();
+extension GetDailyActivityDataCollection on Isar {
+  IsarCollection<DailyActivityData> get dailyActivityDatas => getCollection();
 }
 
-const ActivityLogSchema = CollectionSchema(
-  name: 'ActivityLog',
+const DailyActivityDataSchema = CollectionSchema(
+  name: 'DailyActivityData',
   schema:
-      '{"name":"ActivityLog","idName":"id","properties":[{"name":"date","type":"Long"},{"name":"name","type":"String"},{"name":"seconds","type":"Long"},{"name":"type","type":"Long"},{"name":"userId","type":"String"}],"indexes":[{"name":"userId_date","unique":false,"properties":[{"name":"userId","type":"Hash","caseSensitive":true},{"name":"date","type":"Value","caseSensitive":false}]}],"links":[]}',
+      '{"name":"DailyActivityData","idName":"id","properties":[{"name":"date","type":"Long"},{"name":"name","type":"String"},{"name":"seconds","type":"Long"},{"name":"type","type":"Long"},{"name":"userId","type":"String"}],"indexes":[{"name":"userId_date","unique":false,"properties":[{"name":"userId","type":"Hash","caseSensitive":true},{"name":"date","type":"Value","caseSensitive":false}]}],"links":[]}',
   idName: 'id',
   propertyIds: {'date': 0, 'name': 1, 'seconds': 2, 'type': 3, 'userId': 4},
   listProperties: {},
@@ -28,20 +28,20 @@ const ActivityLogSchema = CollectionSchema(
   },
   linkIds: {},
   backlinkLinkNames: {},
-  getId: _activityLogGetId,
-  setId: _activityLogSetId,
-  getLinks: _activityLogGetLinks,
-  attachLinks: _activityLogAttachLinks,
-  serializeNative: _activityLogSerializeNative,
-  deserializeNative: _activityLogDeserializeNative,
-  deserializePropNative: _activityLogDeserializePropNative,
-  serializeWeb: _activityLogSerializeWeb,
-  deserializeWeb: _activityLogDeserializeWeb,
-  deserializePropWeb: _activityLogDeserializePropWeb,
+  getId: _dailyActivityDataGetId,
+  setId: _dailyActivityDataSetId,
+  getLinks: _dailyActivityDataGetLinks,
+  attachLinks: _dailyActivityDataAttachLinks,
+  serializeNative: _dailyActivityDataSerializeNative,
+  deserializeNative: _dailyActivityDataDeserializeNative,
+  deserializePropNative: _dailyActivityDataDeserializePropNative,
+  serializeWeb: _dailyActivityDataSerializeWeb,
+  deserializeWeb: _dailyActivityDataDeserializeWeb,
+  deserializePropWeb: _dailyActivityDataDeserializePropWeb,
   version: 3,
 );
 
-int? _activityLogGetId(ActivityLog object) {
+int? _dailyActivityDataGetId(DailyActivityData object) {
   if (object.id == Isar.autoIncrement) {
     return null;
   } else {
@@ -49,20 +49,20 @@ int? _activityLogGetId(ActivityLog object) {
   }
 }
 
-void _activityLogSetId(ActivityLog object, int id) {
+void _dailyActivityDataSetId(DailyActivityData object, int id) {
   object.id = id;
 }
 
-List<IsarLinkBase> _activityLogGetLinks(ActivityLog object) {
+List<IsarLinkBase> _dailyActivityDataGetLinks(DailyActivityData object) {
   return [];
 }
 
-const _activityLogActivityTypeConverter = ActivityTypeConverter();
+const _dailyActivityDataActivityTypeConverter = ActivityTypeConverter();
 
-void _activityLogSerializeNative(
-    IsarCollection<ActivityLog> collection,
+void _dailyActivityDataSerializeNative(
+    IsarCollection<DailyActivityData> collection,
     IsarRawObject rawObj,
-    ActivityLog object,
+    DailyActivityData object,
     int staticSize,
     List<int> offsets,
     AdapterAlloc alloc) {
@@ -74,7 +74,7 @@ void _activityLogSerializeNative(
   dynamicSize += (_name.length) as int;
   final value2 = object.seconds;
   final _seconds = value2;
-  final value3 = _activityLogActivityTypeConverter.toIsar(object.type);
+  final value3 = _dailyActivityDataActivityTypeConverter.toIsar(object.type);
   final _type = value3;
   final value4 = object.userId;
   final _userId = IsarBinaryWriter.utf8Encoder.convert(value4);
@@ -92,23 +92,23 @@ void _activityLogSerializeNative(
   writer.writeBytes(offsets[4], _userId);
 }
 
-ActivityLog _activityLogDeserializeNative(
-    IsarCollection<ActivityLog> collection,
+DailyActivityData _dailyActivityDataDeserializeNative(
+    IsarCollection<DailyActivityData> collection,
     int id,
     IsarBinaryReader reader,
     List<int> offsets) {
-  final object = ActivityLog();
+  final object = DailyActivityData();
   object.date = reader.readDateTime(offsets[0]);
   object.id = id;
   object.name = reader.readString(offsets[1]);
   object.seconds = reader.readLong(offsets[2]);
-  object.type =
-      _activityLogActivityTypeConverter.fromIsar(reader.readLong(offsets[3]));
+  object.type = _dailyActivityDataActivityTypeConverter
+      .fromIsar(reader.readLong(offsets[3]));
   object.userId = reader.readString(offsets[4]);
   return object;
 }
 
-P _activityLogDeserializePropNative<P>(
+P _dailyActivityDataDeserializePropNative<P>(
     int id, IsarBinaryReader reader, int propertyIndex, int offset) {
   switch (propertyIndex) {
     case -1:
@@ -120,7 +120,7 @@ P _activityLogDeserializePropNative<P>(
     case 2:
       return (reader.readLong(offset)) as P;
     case 3:
-      return (_activityLogActivityTypeConverter
+      return (_dailyActivityDataActivityTypeConverter
           .fromIsar(reader.readLong(offset))) as P;
     case 4:
       return (reader.readString(offset)) as P;
@@ -129,23 +129,23 @@ P _activityLogDeserializePropNative<P>(
   }
 }
 
-dynamic _activityLogSerializeWeb(
-    IsarCollection<ActivityLog> collection, ActivityLog object) {
+dynamic _dailyActivityDataSerializeWeb(
+    IsarCollection<DailyActivityData> collection, DailyActivityData object) {
   final jsObj = IsarNative.newJsObject();
   IsarNative.jsObjectSet(
       jsObj, 'date', object.date.toUtc().millisecondsSinceEpoch);
   IsarNative.jsObjectSet(jsObj, 'id', object.id);
   IsarNative.jsObjectSet(jsObj, 'name', object.name);
   IsarNative.jsObjectSet(jsObj, 'seconds', object.seconds);
-  IsarNative.jsObjectSet(
-      jsObj, 'type', _activityLogActivityTypeConverter.toIsar(object.type));
+  IsarNative.jsObjectSet(jsObj, 'type',
+      _dailyActivityDataActivityTypeConverter.toIsar(object.type));
   IsarNative.jsObjectSet(jsObj, 'userId', object.userId);
   return jsObj;
 }
 
-ActivityLog _activityLogDeserializeWeb(
-    IsarCollection<ActivityLog> collection, dynamic jsObj) {
-  final object = ActivityLog();
+DailyActivityData _dailyActivityDataDeserializeWeb(
+    IsarCollection<DailyActivityData> collection, dynamic jsObj) {
+  final object = DailyActivityData();
   object.date = IsarNative.jsObjectGet(jsObj, 'date') != null
       ? DateTime.fromMillisecondsSinceEpoch(
               IsarNative.jsObjectGet(jsObj, 'date'),
@@ -156,13 +156,13 @@ ActivityLog _activityLogDeserializeWeb(
   object.name = IsarNative.jsObjectGet(jsObj, 'name') ?? '';
   object.seconds =
       IsarNative.jsObjectGet(jsObj, 'seconds') ?? double.negativeInfinity;
-  object.type = _activityLogActivityTypeConverter.fromIsar(
+  object.type = _dailyActivityDataActivityTypeConverter.fromIsar(
       IsarNative.jsObjectGet(jsObj, 'type') ?? double.negativeInfinity);
   object.userId = IsarNative.jsObjectGet(jsObj, 'userId') ?? '';
   return object;
 }
 
-P _activityLogDeserializePropWeb<P>(Object jsObj, String propertyName) {
+P _dailyActivityDataDeserializePropWeb<P>(Object jsObj, String propertyName) {
   switch (propertyName) {
     case 'date':
       return (IsarNative.jsObjectGet(jsObj, 'date') != null
@@ -180,7 +180,7 @@ P _activityLogDeserializePropWeb<P>(Object jsObj, String propertyName) {
       return (IsarNative.jsObjectGet(jsObj, 'seconds') ??
           double.negativeInfinity) as P;
     case 'type':
-      return (_activityLogActivityTypeConverter.fromIsar(
+      return (_dailyActivityDataActivityTypeConverter.fromIsar(
               IsarNative.jsObjectGet(jsObj, 'type') ?? double.negativeInfinity))
           as P;
     case 'userId':
@@ -190,23 +190,26 @@ P _activityLogDeserializePropWeb<P>(Object jsObj, String propertyName) {
   }
 }
 
-void _activityLogAttachLinks(IsarCollection col, int id, ActivityLog object) {}
+void _dailyActivityDataAttachLinks(
+    IsarCollection col, int id, DailyActivityData object) {}
 
-extension ActivityLogQueryWhereSort
-    on QueryBuilder<ActivityLog, ActivityLog, QWhere> {
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhere> anyId() {
+extension DailyActivityDataQueryWhereSort
+    on QueryBuilder<DailyActivityData, DailyActivityData, QWhere> {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhere> anyId() {
     return addWhereClauseInternal(const IdWhereClause.any());
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhere> anyUserIdDate() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhere>
+      anyUserIdDate() {
     return addWhereClauseInternal(
         const IndexWhereClause.any(indexName: 'userId_date'));
   }
 }
 
-extension ActivityLogQueryWhere
-    on QueryBuilder<ActivityLog, ActivityLog, QWhereClause> {
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause> idEqualTo(int id) {
+extension DailyActivityDataQueryWhere
+    on QueryBuilder<DailyActivityData, DailyActivityData, QWhereClause> {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      idEqualTo(int id) {
     return addWhereClauseInternal(IdWhereClause.between(
       lower: id,
       includeLower: true,
@@ -215,8 +218,8 @@ extension ActivityLogQueryWhere
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause> idNotEqualTo(
-      int id) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      idNotEqualTo(int id) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(
         IdWhereClause.lessThan(upper: id, includeUpper: false),
@@ -232,22 +235,22 @@ extension ActivityLogQueryWhere
     }
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause> idGreaterThan(
-      int id,
-      {bool include = false}) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      idGreaterThan(int id, {bool include = false}) {
     return addWhereClauseInternal(
       IdWhereClause.greaterThan(lower: id, includeLower: include),
     );
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause> idLessThan(int id,
-      {bool include = false}) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      idLessThan(int id, {bool include = false}) {
     return addWhereClauseInternal(
       IdWhereClause.lessThan(upper: id, includeUpper: include),
     );
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause> idBetween(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      idBetween(
     int lowerId,
     int upperId, {
     bool includeLower = true,
@@ -261,16 +264,16 @@ extension ActivityLogQueryWhere
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause> userIdEqualTo(
-      String userId) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      userIdEqualTo(String userId) {
     return addWhereClauseInternal(IndexWhereClause.equalTo(
       indexName: 'userId_date',
       value: [userId],
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause> userIdNotEqualTo(
-      String userId) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      userIdNotEqualTo(String userId) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(IndexWhereClause.lessThan(
         indexName: 'userId_date',
@@ -294,15 +297,15 @@ extension ActivityLogQueryWhere
     }
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause> userIdDateEqualTo(
-      String userId, DateTime date) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
+      userIdDateEqualTo(String userId, DateTime date) {
     return addWhereClauseInternal(IndexWhereClause.equalTo(
       indexName: 'userId_date',
       value: [userId, date],
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause>
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
       userIdDateNotEqualTo(String userId, DateTime date) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(IndexWhereClause.lessThan(
@@ -327,7 +330,7 @@ extension ActivityLogQueryWhere
     }
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause>
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
       userIdEqualToDateGreaterThan(
     String userId,
     DateTime date, {
@@ -340,7 +343,7 @@ extension ActivityLogQueryWhere
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause>
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
       userIdEqualToDateLessThan(
     String userId,
     DateTime date, {
@@ -353,7 +356,7 @@ extension ActivityLogQueryWhere
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterWhereClause>
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
       userIdEqualToDateBetween(
     String userId,
     DateTime lowerDate,
@@ -371,10 +374,10 @@ extension ActivityLogQueryWhere
   }
 }
 
-extension ActivityLogQueryFilter
-    on QueryBuilder<ActivityLog, ActivityLog, QFilterCondition> {
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> dateEqualTo(
-      DateTime value) {
+extension DailyActivityDataQueryFilter
+    on QueryBuilder<DailyActivityData, DailyActivityData, QFilterCondition> {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      dateEqualTo(DateTime value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'date',
@@ -382,7 +385,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> dateGreaterThan(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      dateGreaterThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -394,7 +398,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> dateLessThan(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      dateLessThan(
     DateTime value, {
     bool include = false,
   }) {
@@ -406,7 +411,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> dateBetween(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      dateBetween(
     DateTime lower,
     DateTime upper, {
     bool includeLower = true,
@@ -421,8 +427,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> idEqualTo(
-      int value) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      idEqualTo(int value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'id',
@@ -430,7 +436,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      idGreaterThan(
     int value, {
     bool include = false,
   }) {
@@ -442,7 +449,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> idLessThan(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      idLessThan(
     int value, {
     bool include = false,
   }) {
@@ -454,7 +462,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> idBetween(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      idBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -469,7 +478,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameEqualTo(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      nameEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -481,7 +491,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameGreaterThan(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      nameGreaterThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -495,7 +506,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameLessThan(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      nameLessThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -509,7 +521,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameBetween(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      nameBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -526,7 +539,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameStartsWith(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      nameStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -538,7 +552,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameEndsWith(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      nameEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -550,9 +565,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      nameContains(String value, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.contains,
       property: 'name',
@@ -561,9 +575,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      nameMatches(String pattern, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
       property: 'name',
@@ -572,8 +585,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> secondsEqualTo(
-      int value) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      secondsEqualTo(int value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'seconds',
@@ -581,7 +594,7 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition>
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
       secondsGreaterThan(
     int value, {
     bool include = false,
@@ -594,7 +607,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> secondsLessThan(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      secondsLessThan(
     int value, {
     bool include = false,
   }) {
@@ -606,7 +620,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> secondsBetween(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      secondsBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -621,16 +636,17 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> typeEqualTo(
-      ActivityType value) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      typeEqualTo(ActivityType value) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: 'type',
-      value: _activityLogActivityTypeConverter.toIsar(value),
+      value: _dailyActivityDataActivityTypeConverter.toIsar(value),
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> typeGreaterThan(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      typeGreaterThan(
     ActivityType value, {
     bool include = false,
   }) {
@@ -638,11 +654,12 @@ extension ActivityLogQueryFilter
       type: ConditionType.gt,
       include: include,
       property: 'type',
-      value: _activityLogActivityTypeConverter.toIsar(value),
+      value: _dailyActivityDataActivityTypeConverter.toIsar(value),
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> typeLessThan(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      typeLessThan(
     ActivityType value, {
     bool include = false,
   }) {
@@ -650,11 +667,12 @@ extension ActivityLogQueryFilter
       type: ConditionType.lt,
       include: include,
       property: 'type',
-      value: _activityLogActivityTypeConverter.toIsar(value),
+      value: _dailyActivityDataActivityTypeConverter.toIsar(value),
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> typeBetween(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      typeBetween(
     ActivityType lower,
     ActivityType upper, {
     bool includeLower = true,
@@ -662,14 +680,15 @@ extension ActivityLogQueryFilter
   }) {
     return addFilterConditionInternal(FilterCondition.between(
       property: 'type',
-      lower: _activityLogActivityTypeConverter.toIsar(lower),
+      lower: _dailyActivityDataActivityTypeConverter.toIsar(lower),
       includeLower: includeLower,
-      upper: _activityLogActivityTypeConverter.toIsar(upper),
+      upper: _dailyActivityDataActivityTypeConverter.toIsar(upper),
       includeUpper: includeUpper,
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> userIdEqualTo(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      userIdEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -681,7 +700,7 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition>
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
       userIdGreaterThan(
     String value, {
     bool caseSensitive = true,
@@ -696,7 +715,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> userIdLessThan(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      userIdLessThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -710,7 +730,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> userIdBetween(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      userIdBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -727,7 +748,7 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition>
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
       userIdStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -740,7 +761,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> userIdEndsWith(
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      userIdEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -752,9 +774,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> userIdContains(
-      String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      userIdContains(String value, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.contains,
       property: 'userId',
@@ -763,9 +784,8 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> userIdMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
+      userIdMatches(String pattern, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
       property: 'userId',
@@ -775,163 +795,189 @@ extension ActivityLogQueryFilter
   }
 }
 
-extension ActivityLogQueryLinks
-    on QueryBuilder<ActivityLog, ActivityLog, QFilterCondition> {}
+extension DailyActivityDataQueryLinks
+    on QueryBuilder<DailyActivityData, DailyActivityData, QFilterCondition> {}
 
-extension ActivityLogQueryWhereSortBy
-    on QueryBuilder<ActivityLog, ActivityLog, QSortBy> {
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByDate() {
+extension DailyActivityDataQueryWhereSortBy
+    on QueryBuilder<DailyActivityData, DailyActivityData, QSortBy> {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortByDate() {
     return addSortByInternal('date', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByDateDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortByDateDesc() {
     return addSortByInternal('date', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortById() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy> sortById() {
     return addSortByInternal('id', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByIdDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortByIdDesc() {
     return addSortByInternal('id', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByName() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortByName() {
     return addSortByInternal('name', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByNameDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortByNameDesc() {
     return addSortByInternal('name', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortBySeconds() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortBySeconds() {
     return addSortByInternal('seconds', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortBySecondsDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortBySecondsDesc() {
     return addSortByInternal('seconds', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByType() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortByType() {
     return addSortByInternal('type', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByTypeDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortByTypeDesc() {
     return addSortByInternal('type', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByUserId() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortByUserId() {
     return addSortByInternal('userId', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByUserIdDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      sortByUserIdDesc() {
     return addSortByInternal('userId', Sort.desc);
   }
 }
 
-extension ActivityLogQueryWhereSortThenBy
-    on QueryBuilder<ActivityLog, ActivityLog, QSortThenBy> {
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByDate() {
+extension DailyActivityDataQueryWhereSortThenBy
+    on QueryBuilder<DailyActivityData, DailyActivityData, QSortThenBy> {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenByDate() {
     return addSortByInternal('date', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByDateDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenByDateDesc() {
     return addSortByInternal('date', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenById() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy> thenById() {
     return addSortByInternal('id', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenByIdDesc() {
     return addSortByInternal('id', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByName() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenByName() {
     return addSortByInternal('name', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByNameDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenByNameDesc() {
     return addSortByInternal('name', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenBySeconds() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenBySeconds() {
     return addSortByInternal('seconds', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenBySecondsDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenBySecondsDesc() {
     return addSortByInternal('seconds', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByType() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenByType() {
     return addSortByInternal('type', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByTypeDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenByTypeDesc() {
     return addSortByInternal('type', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByUserId() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenByUserId() {
     return addSortByInternal('userId', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByUserIdDesc() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
+      thenByUserIdDesc() {
     return addSortByInternal('userId', Sort.desc);
   }
 }
 
-extension ActivityLogQueryWhereDistinct
-    on QueryBuilder<ActivityLog, ActivityLog, QDistinct> {
-  QueryBuilder<ActivityLog, ActivityLog, QDistinct> distinctByDate() {
+extension DailyActivityDataQueryWhereDistinct
+    on QueryBuilder<DailyActivityData, DailyActivityData, QDistinct> {
+  QueryBuilder<DailyActivityData, DailyActivityData, QDistinct>
+      distinctByDate() {
     return addDistinctByInternal('date');
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QDistinct> distinctById() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QDistinct> distinctById() {
     return addDistinctByInternal('id');
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QDistinct> distinctByName(
+  QueryBuilder<DailyActivityData, DailyActivityData, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return addDistinctByInternal('name', caseSensitive: caseSensitive);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QDistinct> distinctBySeconds() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QDistinct>
+      distinctBySeconds() {
     return addDistinctByInternal('seconds');
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QDistinct> distinctByType() {
+  QueryBuilder<DailyActivityData, DailyActivityData, QDistinct>
+      distinctByType() {
     return addDistinctByInternal('type');
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QDistinct> distinctByUserId(
-      {bool caseSensitive = true}) {
+  QueryBuilder<DailyActivityData, DailyActivityData, QDistinct>
+      distinctByUserId({bool caseSensitive = true}) {
     return addDistinctByInternal('userId', caseSensitive: caseSensitive);
   }
 }
 
-extension ActivityLogQueryProperty
-    on QueryBuilder<ActivityLog, ActivityLog, QQueryProperty> {
-  QueryBuilder<ActivityLog, DateTime, QQueryOperations> dateProperty() {
+extension DailyActivityDataQueryProperty
+    on QueryBuilder<DailyActivityData, DailyActivityData, QQueryProperty> {
+  QueryBuilder<DailyActivityData, DateTime, QQueryOperations> dateProperty() {
     return addPropertyNameInternal('date');
   }
 
-  QueryBuilder<ActivityLog, int, QQueryOperations> idProperty() {
+  QueryBuilder<DailyActivityData, int, QQueryOperations> idProperty() {
     return addPropertyNameInternal('id');
   }
 
-  QueryBuilder<ActivityLog, String, QQueryOperations> nameProperty() {
+  QueryBuilder<DailyActivityData, String, QQueryOperations> nameProperty() {
     return addPropertyNameInternal('name');
   }
 
-  QueryBuilder<ActivityLog, int, QQueryOperations> secondsProperty() {
+  QueryBuilder<DailyActivityData, int, QQueryOperations> secondsProperty() {
     return addPropertyNameInternal('seconds');
   }
 
-  QueryBuilder<ActivityLog, ActivityType, QQueryOperations> typeProperty() {
+  QueryBuilder<DailyActivityData, ActivityType, QQueryOperations>
+      typeProperty() {
     return addPropertyNameInternal('type');
   }
 
-  QueryBuilder<ActivityLog, String, QQueryOperations> userIdProperty() {
+  QueryBuilder<DailyActivityData, String, QQueryOperations> userIdProperty() {
     return addPropertyNameInternal('userId');
   }
 }

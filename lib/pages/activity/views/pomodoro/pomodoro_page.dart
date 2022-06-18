@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/activity/views/pomodoro/pomodoro_clock_page.dart';
 import 'package:givtimer/pages/activity/views/pomodoro/widgets/pomodoro_sliders.dart';
@@ -37,6 +38,7 @@ class _PomodoroPageBody extends StatelessWidget {
                   title: 'Pomodoro',
                   onTextChanged: (value) =>
                       context.read<PomodoroCubit>().activityName(value),
+                  activityNames: HiveHelper().userActivityNames,
                 ),
                 const PomodoroSlidersWidget(),
               ],

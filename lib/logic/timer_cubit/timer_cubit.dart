@@ -18,12 +18,9 @@ class TimerCubit extends Cubit<TimerState> {
   void setActivityName(String value) => emit(
         state.copyWith(
           activityName: value.trim(),
-          activityKey: value.trim().toLowerCase(),
+          activityKey: value.trim().toLowerCase().replaceAll(' ', '-'),
         ),
       );
-
-  // void addTotalTimeDone(int value) =>
-  //     emit(state.copyWith(totalSecondsDone: state.totalSecondsDone + value));
 
   void logActivity() {
     IsarHelper().createActivity(
@@ -31,8 +28,6 @@ class TimerCubit extends Cubit<TimerState> {
       state.activityKey,
       state.seconds,
     );
-    // TimerModel().addActivity(state.activityKey, state.seconds);
-    // addTotalTimeDone(seconds);
   }
 
   bool isTimerSet() => state.seconds > 0;

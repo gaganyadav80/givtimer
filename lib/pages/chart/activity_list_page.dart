@@ -26,7 +26,7 @@ class ActivityListPage extends StatelessWidget {
                   time: HiveHelper().userTotalSeconds,
                   title: 'Total Time',
                   onTap: () {
-                    if (HiveHelper().userActivityTotal.isNotEmpty) {
+                    if (HiveHelper().userActivityTotalTimeData.isNotEmpty) {
                       // TODO(gagan): try using same page as activity chart
                       Navigator.push<void>(
                         context,
@@ -35,9 +35,6 @@ class ActivityListPage extends StatelessWidget {
                         ),
                       );
                     }
-                    // else {
-                    //   showBasicSnackBar(context, 'Please add some activity');
-                    // }
                   },
                 ),
               ),
@@ -52,40 +49,36 @@ class ActivityListPage extends StatelessWidget {
             ],
           ),
           const VSpace(10),
-          if (HiveHelper().userActivityTotal.isEmpty)
+          if (HiveHelper().userActivityTotalTimeData.isEmpty)
             const Expanded(
               child: EmptyListIndicatorRow(),
             ),
-          if (HiveHelper().userActivityTotal.isNotEmpty)
+          if (HiveHelper().userActivityTotalTimeData.isNotEmpty)
             Expanded(
-              child: Container(
-                color: Colors.amber,
-                child: ListView.separated(
-                  itemCount: HiveHelper().userActivityTotal.length,
-                  separatorBuilder: (_, __) => const Divider(thickness: 1),
-                  itemBuilder: (_, int index) {
-                    final activityMap = HiveHelper().userActivityTotal;
-                    final keyList = activityMap.keys.toList()
-                      ..sort((a, b) => a.compareTo(b));
+              child: ListView.separated(
+                itemCount: HiveHelper().userActivityTotalTimeData.length,
+                separatorBuilder: (_, __) => const Divider(thickness: 1),
+                itemBuilder: (_, int index) {
+                  final activityMap = HiveHelper().userActivityTotalTimeData;
+                  final keyList = activityMap.keys.toList()
+                    ..sort((a, b) => a.compareTo(b));
 
-                    final name = keyList[index];
-                    final minutes = activityMap[name]!;
+                  final name = keyList[index];
+                  final minutes = activityMap[name]!;
 
-                    return ListTile(
-                      title: Text(name.toUpperCase()),
-                      trailing: Text('''$minutes sec'''),
-                      shape:
-                          RoundedRectangleBorder(borderRadius: kBorderRadius),
-                      onTap: () => Navigator.push<void>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ActivityChartPage(activityName: name),
-                        ),
+                  return ListTile(
+                    title: Text(name.toUpperCase()),
+                    trailing: Text('''$minutes sec'''),
+                    shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
+                    onTap: () => Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ActivityChartPage(activityName: name),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
             ),
         ],

@@ -10,11 +10,13 @@ part 'logs.g.dart';
 ///
 /// Not usefull for anything but keeping it for now. Just for fun.
 @Collection()
-class ActivityLogs {
+class ActivityLog {
   @Id()
   int id = Isar.autoIncrement;
 
-  @Index()
+  @Index(composite: [CompositeIndex('date')])
+  late String userId;
+
   late DateTime date;
 
   late String name;

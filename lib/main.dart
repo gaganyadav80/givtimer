@@ -26,12 +26,7 @@ void main() {
         HiveHelper.DB_ACTIVITY_DATA,
       );
       IsarHelper().isar = await Isar.open(
-        schemas: [
-          UserActivitySchema,
-          ActivityDataSchema,
-          ActivityLogsSchema,
-          DailyTotalSchema,
-        ],
+        schemas: [DailyActivityDataSchema, DailyProductiveTimeSchema],
         directory:
             kIsWeb ? null : (await getApplicationDocumentsDirectory()).path,
         inspector: true,

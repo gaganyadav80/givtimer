@@ -28,7 +28,7 @@ class ActivityLogsPage extends StatelessWidget {
             ),
             const VSpace(20),
             Expanded(
-              child: FutureBuilder<List<ActivityLogs>>(
+              child: FutureBuilder<List<ActivityLog>>(
                 future: IsarHelper().getAllLogs(),
                 builder: (_, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {

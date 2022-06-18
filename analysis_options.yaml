@@ -3,10 +3,10 @@ include: package:very_good_analysis/analysis_options.2.4.0.yaml
 
 analyzer:
   exclude:
-    - lib/data/collections/activity.g.dart
-    - lib/data/collections/logs.g.dart
-    - lib/data/collections/user.g.dart
+    - lib/data/collections/daily_activity.g.dart
     - lib/data/collections/daily_total.g.dart
+    - lib/data/collections/logs.g.dart
+    # - lib/data/collections/user.g.dart
 
 linter:
   rules:

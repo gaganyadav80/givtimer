@@ -37,6 +37,7 @@ dependencies:
   path_provider: ^2.0.10
   random_date: ^0.0.7
   settings_ui: ^2.0.2
+  substring_highlight: ^1.0.33
   uuid: ^3.0.6
   velocity_x: ^3.5.1
   very_good_analysis: ^3.0.0

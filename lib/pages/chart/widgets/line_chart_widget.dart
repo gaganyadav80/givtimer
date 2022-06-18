@@ -13,10 +13,10 @@ class LineChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<ActivityData>>(
+    return FutureBuilder<List<DailyActivityData>>(
       future: IsarHelper().getActivityByName(name),
       initialData: const [],
-      builder: (_, AsyncSnapshot<List<ActivityData>> snapshot) {
+      builder: (_, AsyncSnapshot<List<DailyActivityData>> snapshot) {
         if (snapshot.hasData &&
             snapshot.data != null &&
             snapshot.data!.isNotEmpty) {
@@ -32,7 +32,7 @@ class LineChartWidget extends StatelessWidget {
             if (i == 19 || i == 11) continue;
 
             data.add(
-              ActivityData()
+              DailyActivityData()
                 ..date = DateTime(2021, 12, i)
                 ..name = 'givnotes'
                 ..seconds = Random().nextInt(9001) + 1800

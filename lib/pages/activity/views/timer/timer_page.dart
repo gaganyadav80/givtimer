@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:givtimer/data/hive_helper.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/activity/views/timer/timer_clock_page.dart';
 import 'package:givtimer/pages/activity/views/timer/widgets/timer_select_time.dart';
@@ -46,6 +47,7 @@ class _TimerPageBody extends StatelessWidget {
                   title: 'Timer',
                   onTextChanged: (String value) =>
                       context.read<TimerCubit>().setActivityName(value),
+                  activityNames: HiveHelper().userActivityNames,
                 ),
                 const TimerShowTimeWidget(),
                 const VSpace(40),
@@ -71,7 +73,7 @@ class _TimerPageBody extends StatelessWidget {
               onPressed: () {
                 context
                     .read<TimerCubit>()
-                    .setDuration(const Duration(seconds: 5));
+                    .setDuration(const Duration(seconds: 10));
 
                 if (context.read<TimerCubit>().state.activityName.isEmpty) {
                   showBasicSnackBar(context, 'Please enter activity name');

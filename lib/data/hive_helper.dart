@@ -21,23 +21,20 @@ class HiveHelper {
 
   int get userTotalSeconds => userData[KEY_TOTAL_TIME] ?? 0;
 
-  Map<String, int> get userActivityTotal {
+  Map<String, int> get userActivityTotalTimeData {
     final data = userData..removeWhere((key, _) => key == KEY_TOTAL_TIME);
 
     return data;
   }
 
+  List<String> get userActivityNames {
+    final data = userData..removeWhere((key, _) => key == KEY_TOTAL_TIME);
+
+    return data.keys.toList();
+  }
+
   Future<void> initEmptyUserData() async {
     await activityDb.put(userId, <String, int>{KEY_TOTAL_TIME: 0});
-
-    await IsarHelper().isar.writeTxn(
-      (isar) {
-        return isar.userActivitys.put(
-          UserActivity()..userId = userId!,
-          replaceOnConflict: true,
-        );
-      },
-    );
   }
 
   Future<void> initUserData(String id) async {
