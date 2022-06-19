@@ -27,7 +27,7 @@ class HiveHelper {
     return data;
   }
 
-  List<String> get userActivityNames {
+  List<String> get userActivityKeys {
     final data = userData..removeWhere((key, _) => key == KEY_TOTAL_TIME);
 
     return data.keys.toList();
@@ -49,13 +49,13 @@ class HiveHelper {
     //     await IsarHelper().getActivityByType(ActivityType.alarm);
   }
 
-  Future<void> addActivitySet(String name, int seconds) async {
+  Future<void> addActivitySet(String key, int seconds) async {
     final data = userData;
-    data[name] = (data[name] ?? 0) + seconds;
+    data[key] = (data[key] ?? 0) + seconds;
     data[KEY_TOTAL_TIME] = (data[KEY_TOTAL_TIME] ?? 0) + seconds;
 
     await activityDb.put(userId, data);
   }
 
-  int getActivityTotalSeconds(String name) => userData[name] ?? 0;
+  int getActivityTotalSeconds(String key) => userData[key] ?? 0;
 }

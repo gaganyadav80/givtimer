@@ -15,16 +15,16 @@ extension GetDailyActivityDataCollection on Isar {
 const DailyActivityDataSchema = CollectionSchema(
   name: 'DailyActivityData',
   schema:
-      '{"name":"DailyActivityData","idName":"id","properties":[{"name":"date","type":"Long"},{"name":"name","type":"String"},{"name":"seconds","type":"Long"},{"name":"type","type":"Long"},{"name":"userId","type":"String"}],"indexes":[{"name":"date","unique":false,"properties":[{"name":"date","type":"Value","caseSensitive":false}]},{"name":"userId_name","unique":false,"properties":[{"name":"userId","type":"Hash","caseSensitive":true},{"name":"name","type":"Hash","caseSensitive":true}]}],"links":[]}',
+      '{"name":"DailyActivityData","idName":"id","properties":[{"name":"date","type":"Long"},{"name":"key","type":"String"},{"name":"seconds","type":"Long"},{"name":"type","type":"Long"},{"name":"userId","type":"String"}],"indexes":[{"name":"date","unique":false,"properties":[{"name":"date","type":"Value","caseSensitive":false}]},{"name":"userId_key","unique":false,"properties":[{"name":"userId","type":"Hash","caseSensitive":true},{"name":"key","type":"Hash","caseSensitive":true}]}],"links":[]}',
   idName: 'id',
-  propertyIds: {'date': 0, 'name': 1, 'seconds': 2, 'type': 3, 'userId': 4},
+  propertyIds: {'date': 0, 'key': 1, 'seconds': 2, 'type': 3, 'userId': 4},
   listProperties: {},
-  indexIds: {'date': 0, 'userId_name': 1},
+  indexIds: {'date': 0, 'userId_key': 1},
   indexValueTypes: {
     'date': [
       IndexValueType.long,
     ],
-    'userId_name': [
+    'userId_key': [
       IndexValueType.stringHash,
       IndexValueType.stringHash,
     ]
@@ -72,9 +72,9 @@ void _dailyActivityDataSerializeNative(
   var dynamicSize = 0;
   final value0 = object.date;
   final _date = value0;
-  final value1 = object.name;
-  final _name = IsarBinaryWriter.utf8Encoder.convert(value1);
-  dynamicSize += (_name.length) as int;
+  final value1 = object.key;
+  final _key = IsarBinaryWriter.utf8Encoder.convert(value1);
+  dynamicSize += (_key.length) as int;
   final value2 = object.seconds;
   final _seconds = value2;
   final value3 = _dailyActivityDataActivityTypeConverter.toIsar(object.type);
@@ -89,7 +89,7 @@ void _dailyActivityDataSerializeNative(
   final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
   writer.writeDateTime(offsets[0], _date);
-  writer.writeBytes(offsets[1], _name);
+  writer.writeBytes(offsets[1], _key);
   writer.writeLong(offsets[2], _seconds);
   writer.writeLong(offsets[3], _type);
   writer.writeBytes(offsets[4], _userId);
@@ -103,7 +103,7 @@ DailyActivityData _dailyActivityDataDeserializeNative(
   final object = DailyActivityData();
   object.date = reader.readDateTime(offsets[0]);
   object.id = id;
-  object.name = reader.readString(offsets[1]);
+  object.key = reader.readString(offsets[1]);
   object.seconds = reader.readLong(offsets[2]);
   object.type = _dailyActivityDataActivityTypeConverter
       .fromIsar(reader.readLong(offsets[3]));
@@ -138,7 +138,7 @@ dynamic _dailyActivityDataSerializeWeb(
   IsarNative.jsObjectSet(
       jsObj, 'date', object.date.toUtc().millisecondsSinceEpoch);
   IsarNative.jsObjectSet(jsObj, 'id', object.id);
-  IsarNative.jsObjectSet(jsObj, 'name', object.name);
+  IsarNative.jsObjectSet(jsObj, 'key', object.key);
   IsarNative.jsObjectSet(jsObj, 'seconds', object.seconds);
   IsarNative.jsObjectSet(jsObj, 'type',
       _dailyActivityDataActivityTypeConverter.toIsar(object.type));
@@ -156,7 +156,7 @@ DailyActivityData _dailyActivityDataDeserializeWeb(
           .toLocal()
       : DateTime.fromMillisecondsSinceEpoch(0);
   object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
-  object.name = IsarNative.jsObjectGet(jsObj, 'name') ?? '';
+  object.key = IsarNative.jsObjectGet(jsObj, 'key') ?? '';
   object.seconds =
       IsarNative.jsObjectGet(jsObj, 'seconds') ?? double.negativeInfinity;
   object.type = _dailyActivityDataActivityTypeConverter.fromIsar(
@@ -177,8 +177,8 @@ P _dailyActivityDataDeserializePropWeb<P>(Object jsObj, String propertyName) {
     case 'id':
       return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
           as P;
-    case 'name':
-      return (IsarNative.jsObjectGet(jsObj, 'name') ?? '') as P;
+    case 'key':
+      return (IsarNative.jsObjectGet(jsObj, 'key') ?? '') as P;
     case 'seconds':
       return (IsarNative.jsObjectGet(jsObj, 'seconds') ??
           double.negativeInfinity) as P;
@@ -208,9 +208,9 @@ extension DailyActivityDataQueryWhereSort
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhere>
-      anyUserIdName() {
+      anyUserIdKey() {
     return addWhereClauseInternal(
-        const IndexWhereClause.any(indexName: 'userId_name'));
+        const IndexWhereClause.any(indexName: 'userId_key'));
   }
 }
 
@@ -348,7 +348,7 @@ extension DailyActivityDataQueryWhere
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
       userIdEqualTo(String userId) {
     return addWhereClauseInternal(IndexWhereClause.equalTo(
-      indexName: 'userId_name',
+      indexName: 'userId_key',
       value: [userId],
     ));
   }
@@ -357,21 +357,21 @@ extension DailyActivityDataQueryWhere
       userIdNotEqualTo(String userId) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_name',
+        indexName: 'userId_key',
         upper: [userId],
         includeUpper: false,
       )).addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_name',
+        indexName: 'userId_key',
         lower: [userId],
         includeLower: false,
       ));
     } else {
       return addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_name',
+        indexName: 'userId_key',
         lower: [userId],
         includeLower: false,
       )).addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_name',
+        indexName: 'userId_key',
         upper: [userId],
         includeUpper: false,
       ));
@@ -379,33 +379,33 @@ extension DailyActivityDataQueryWhere
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
-      userIdNameEqualTo(String userId, String name) {
+      userIdKeyEqualTo(String userId, String key) {
     return addWhereClauseInternal(IndexWhereClause.equalTo(
-      indexName: 'userId_name',
-      value: [userId, name],
+      indexName: 'userId_key',
+      value: [userId, key],
     ));
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterWhereClause>
-      userIdNameNotEqualTo(String userId, String name) {
+      userIdKeyNotEqualTo(String userId, String key) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_name',
-        upper: [userId, name],
+        indexName: 'userId_key',
+        upper: [userId, key],
         includeUpper: false,
       )).addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_name',
-        lower: [userId, name],
+        indexName: 'userId_key',
+        lower: [userId, key],
         includeLower: false,
       ));
     } else {
       return addWhereClauseInternal(IndexWhereClause.greaterThan(
-        indexName: 'userId_name',
-        lower: [userId, name],
+        indexName: 'userId_key',
+        lower: [userId, key],
         includeLower: false,
       )).addWhereClauseInternal(IndexWhereClause.lessThan(
-        indexName: 'userId_name',
-        upper: [userId, name],
+        indexName: 'userId_key',
+        upper: [userId, key],
         includeUpper: false,
       ));
     }
@@ -517,20 +517,20 @@ extension DailyActivityDataQueryFilter
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
-      nameEqualTo(
+      keyEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
-      nameGreaterThan(
+      keyGreaterThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -538,14 +538,14 @@ extension DailyActivityDataQueryFilter
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.gt,
       include: include,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
-      nameLessThan(
+      keyLessThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -553,14 +553,14 @@ extension DailyActivityDataQueryFilter
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.lt,
       include: include,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
-      nameBetween(
+      keyBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -568,7 +568,7 @@ extension DailyActivityDataQueryFilter
     bool includeUpper = true,
   }) {
     return addFilterConditionInternal(FilterCondition.between(
-      property: 'name',
+      property: 'key',
       lower: lower,
       includeLower: includeLower,
       upper: upper,
@@ -578,46 +578,46 @@ extension DailyActivityDataQueryFilter
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
-      nameStartsWith(
+      keyStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.startsWith,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
-      nameEndsWith(
+      keyEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.endsWith,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
-      nameContains(String value, {bool caseSensitive = true}) {
+      keyContains(String value, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.contains,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterFilterCondition>
-      nameMatches(String pattern, {bool caseSensitive = true}) {
+      keyMatches(String pattern, {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
-      property: 'name',
+      property: 'key',
       value: pattern,
       caseSensitive: caseSensitive,
     ));
@@ -857,14 +857,13 @@ extension DailyActivityDataQueryWhereSortBy
     return addSortByInternal('id', Sort.desc);
   }
 
-  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
-      sortByName() {
-    return addSortByInternal('name', Sort.asc);
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy> sortByKey() {
+    return addSortByInternal('key', Sort.asc);
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
-      sortByNameDesc() {
-    return addSortByInternal('name', Sort.desc);
+      sortByKeyDesc() {
+    return addSortByInternal('key', Sort.desc);
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
@@ -919,14 +918,13 @@ extension DailyActivityDataQueryWhereSortThenBy
     return addSortByInternal('id', Sort.desc);
   }
 
-  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
-      thenByName() {
-    return addSortByInternal('name', Sort.asc);
+  QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy> thenByKey() {
+    return addSortByInternal('key', Sort.asc);
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
-      thenByNameDesc() {
-    return addSortByInternal('name', Sort.desc);
+      thenByKeyDesc() {
+    return addSortByInternal('key', Sort.desc);
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QAfterSortBy>
@@ -971,9 +969,9 @@ extension DailyActivityDataQueryWhereDistinct
     return addDistinctByInternal('id');
   }
 
-  QueryBuilder<DailyActivityData, DailyActivityData, QDistinct> distinctByName(
+  QueryBuilder<DailyActivityData, DailyActivityData, QDistinct> distinctByKey(
       {bool caseSensitive = true}) {
-    return addDistinctByInternal('name', caseSensitive: caseSensitive);
+    return addDistinctByInternal('key', caseSensitive: caseSensitive);
   }
 
   QueryBuilder<DailyActivityData, DailyActivityData, QDistinct>
@@ -1002,8 +1000,8 @@ extension DailyActivityDataQueryProperty
     return addPropertyNameInternal('id');
   }
 
-  QueryBuilder<DailyActivityData, String, QQueryOperations> nameProperty() {
-    return addPropertyNameInternal('name');
+  QueryBuilder<DailyActivityData, String, QQueryOperations> keyProperty() {
+    return addPropertyNameInternal('key');
   }
 
   QueryBuilder<DailyActivityData, int, QQueryOperations> secondsProperty() {

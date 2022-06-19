@@ -1,4 +1,5 @@
 import 'package:givtimer/data/data.dart';
+import 'package:givtimer/utils/utils.dart';
 import 'package:isar/isar.dart';
 
 class IsarHelper {
@@ -9,23 +10,17 @@ class IsarHelper {
   late final Isar isar;
   String? userId;
 
-  DateTime get getDateNow =>
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-
-  DateTime getDateBy(DateTime dtime) =>
-      DateTime(dtime.year, dtime.month, dtime.day);
-
   Future<void> createActivity(
     ActivityType type,
-    String name,
+    String activityKey,
     int seconds,
   ) async {
     try {
       var data = await isar.dailyActivityDatas
           .where()
-          .userIdNameEqualTo(userId!, name)
+          .userIdKeyEqualTo(userId!, activityKey)
           .filter()
-          .dateEqualTo(getDateNow)
+          .dateEqualTo(DateTime.now().removeTime())
           .findFirst();
 
       if (data != null) {
@@ -33,8 +28,8 @@ class IsarHelper {
       } else {
         data = DailyActivityData()
           ..userId = userId!
-          ..date = getDateNow
-          ..name = name
+          ..date = DateTime.now().removeTime()
+          ..key = activityKey
           ..seconds = seconds
           ..type = type;
       }
@@ -43,7 +38,7 @@ class IsarHelper {
           .where()
           .userIdEqualTo(userId!)
           .filter()
-          .dateEqualTo(getDateNow)
+          .dateEqualTo(DateTime.now().removeTime())
           .findFirst();
 
       if (dailyTotal != null) {
@@ -51,7 +46,7 @@ class IsarHelper {
       } else {
         dailyTotal = DailyProductiveTime()
           ..userId = userId!
-          ..date = getDateNow
+          ..date = DateTime.now().removeTime()
           ..seconds = seconds;
       }
 
@@ -63,27 +58,27 @@ class IsarHelper {
           ActivityLog()
             ..userId = userId!
             ..date = DateTime.now()
-            ..name = name
+            ..key = activityKey
             ..seconds = seconds
             ..type = type,
           replaceOnConflict: true,
         );
       });
 
-      await HiveHelper().addActivitySet(name, seconds);
+      await HiveHelper().addActivitySet(activityKey, seconds);
       //
     } on Exception catch (e) {
       throw Exception('Failed to create activity: $e');
     }
   }
 
-  Future<List<DailyActivityData>> getActivityByName(String name) async {
+  Future<List<DailyActivityData>> getActivityByKey(String key) async {
     try {
       final history = isar.txn<List<DailyActivityData>>(
         (_isar) async {
           final data = await _isar.dailyActivityDatas
               .where()
-              .userIdNameEqualTo(userId!, name)
+              .userIdKeyEqualTo(userId!, key)
               .sortByDateDesc()
               .findAll();
 

@@ -10,10 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 class ActivityChartPage extends StatelessWidget {
   const ActivityChartPage({
     Key? key,
-    required this.activityName,
+    required this.activityKey,
   }) : super(key: key);
 
-  final String activityName;
+  final String activityKey;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ActivityChartPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              activityName,
+              activityKey,
               style: GoogleFonts.dmSerifDisplay(
                 textStyle: Theme.of(context).textTheme.headline2,
               ),
@@ -35,15 +35,15 @@ class ActivityChartPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: TimeInfoCard(
-                    time: HiveHelper().getActivityTotalSeconds(activityName) ~/
-                        60,
+                    time:
+                        HiveHelper().getActivityTotalSeconds(activityKey) ~/ 60,
                     title: 'Total Time',
                   ),
                 ),
                 const HSpace(10),
                 Expanded(
                   child: TimeInfoCard(
-                    time: HiveHelper().getActivityTotalSeconds(activityName) ~/
+                    time: HiveHelper().getActivityTotalSeconds(activityKey) ~/
                         (15 * 60),
                     title: 'Daily Average',
                   ),
@@ -51,7 +51,7 @@ class ActivityChartPage extends StatelessWidget {
               ],
             ),
             FutureBuilder<List<DailyActivityData>>(
-              future: IsarHelper().getActivityByName(activityName),
+              future: IsarHelper().getActivityByKey(activityKey),
               initialData: const [],
               builder: (_, AsyncSnapshot<List<DailyActivityData>> snapshot) {
                 if (snapshot.hasData && snapshot.data!.isNotEmpty) {

@@ -12,13 +12,13 @@ class DailyActivityData {
   @Id()
   int id = Isar.autoIncrement;
 
-  @Index(composite: [CompositeIndex('name')])
+  @Index(composite: [CompositeIndex('key')])
   late String userId;
 
   @Index()
   late DateTime date;
 
-  late String name;
+  late String key;
 
   @ActivityTypeConverter()
   late ActivityType type;

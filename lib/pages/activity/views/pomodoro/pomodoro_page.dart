@@ -38,7 +38,7 @@ class _PomodoroPageBody extends StatelessWidget {
                   title: 'Pomodoro',
                   onTextChanged: (value) =>
                       context.read<PomodoroCubit>().activityName(value),
-                  activityNames: HiveHelper().userActivityNames,
+                  activityKeys: HiveHelper().userActivityKeys,
                 ),
                 const PomodoroSlidersWidget(),
               ],

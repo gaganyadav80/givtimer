@@ -3,6 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:givtimer/data/data.dart';
+import 'package:givtimer/utils/utils.dart';
 import 'package:neon_circular_timer/neon_circular_timer.dart';
 
 part 'timer_state.dart';
@@ -15,17 +16,13 @@ class TimerCubit extends Cubit<TimerState> {
     emit(state.copyWith(duration: value, seconds: seconds));
   }
 
-  void setActivityName(String value) => emit(
-        state.copyWith(
-          activityName: value.trim(),
-          activityKey: value.trim().toLowerCase().replaceAll(' ', '-'),
-        ),
-      );
+  void setActivityName(String value) =>
+      emit(state.copyWith(activityName: value));
 
   void logActivity() {
     IsarHelper().createActivity(
       ActivityType.timer,
-      state.activityKey,
+      state.activityName.toActivitykey(),
       state.seconds,
     );
   }

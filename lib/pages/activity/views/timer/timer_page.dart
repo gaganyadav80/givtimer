@@ -47,7 +47,7 @@ class _TimerPageBody extends StatelessWidget {
                   title: 'Timer',
                   onTextChanged: (String value) =>
                       context.read<TimerCubit>().setActivityName(value),
-                  activityNames: HiveHelper().userActivityNames,
+                  activityKeys: HiveHelper().userActivityKeys,
                 ),
                 const TimerShowTimeWidget(),
                 const VSpace(40),
@@ -73,7 +73,7 @@ class _TimerPageBody extends StatelessWidget {
               onPressed: () {
                 context
                     .read<TimerCubit>()
-                    .setDuration(const Duration(seconds: 10));
+                    .setDuration(const Duration(seconds: 60));
 
                 if (context.read<TimerCubit>().state.activityName.isEmpty) {
                   showBasicSnackBar(context, 'Please enter activity name');

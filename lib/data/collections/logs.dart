@@ -20,7 +20,7 @@ class ActivityLog {
   @Index()
   late DateTime date;
 
-  late String name;
+  late String key;
 
   @ActivityTypeConverter()
   late ActivityType type;

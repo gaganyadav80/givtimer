@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
@@ -10,13 +11,13 @@ class TopHeadAndActivityNameWidget extends StatefulWidget {
   const TopHeadAndActivityNameWidget({
     Key? key,
     required this.title,
-    required this.activityNames,
+    required this.activityKeys,
     this.onTextChanged,
   }) : super(key: key);
 
   final String title;
   final TextChangeCallback? onTextChanged;
-  final List<String> activityNames;
+  final List<String> activityKeys;
 
   @override
   State<TopHeadAndActivityNameWidget> createState() =>
@@ -45,9 +46,9 @@ class _TopHeadAndActivityNameWidgetState
             if (textEditingValue.text.isEmpty) {
               return const Iterable<String>.empty();
             } else {
-              return widget.activityNames.where(
-                (word) => word
-                    .toUpperCase()
+              return widget.activityKeys.where(
+                (key) => key
+                    .toActivityname()
                     .contains(textEditingValue.text.toUpperCase()),
               );
             }
@@ -64,14 +65,14 @@ class _TopHeadAndActivityNameWidgetState
                     shrinkWrap: true,
                     itemCount: options.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final option = options.elementAt(index);
+                      final option = options.elementAt(index).toActivityname();
 
                       return ListTile(
                         // title: Text(option.toString()),
                         // minLeadingWidth: 0,
                         // leading: const Icon(LineIcons.history),
                         title: SubstringHighlight(
-                          text: option.toUpperCase(),
+                          text: option,
                           term: controller.text.toUpperCase(),
                           textStyleHighlight: const TextStyle(
                             fontWeight: FontWeight.w700,
@@ -98,6 +99,9 @@ class _TopHeadAndActivityNameWidgetState
               focusNode: focusNode,
               onChanged: widget.onTextChanged,
               textCapitalization: TextCapitalization.characters,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp('[0-9a-zA-Z]')),
+              ],
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderRadius: kBorderRadius,

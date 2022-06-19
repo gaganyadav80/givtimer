@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:givtimer/data/data.dart';
+import 'package:givtimer/utils/utils.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'pomodoro_state.dart';
@@ -19,12 +20,7 @@ class PomodoroCubit extends HydratedCubit<PomodoroState> {
   void pomodoroCount(double value) =>
       emit(state.copyWith(setsCount: value.roundToDouble()));
 
-  void activityName(String value) => emit(
-        state.copyWith(
-          activityName: value.trim(),
-          activityKey: value.trim().toLowerCase(),
-        ),
-      );
+  void activityName(String value) => emit(state.copyWith(activityName: value));
 
   int focusDurationInSeconds() => (state.focusDuration * 60).round();
 
@@ -32,17 +28,17 @@ class PomodoroCubit extends HydratedCubit<PomodoroState> {
 
   int longBreakDurationInSeconds() => (state.longBreakDuration * 60).round();
 
-  void addTotalSecondsDone(int value) =>
-      emit(state.copyWith(totalSecondsDone: state.totalSecondsDone + value));
+  // void addTotalSecondsDone(int value) =>
+  //     emit(state.copyWith(totalSecondsDone: state.totalSecondsDone + value));
 
   void logActivity(int seconds) {
     // PomodoroModel().addActivity(state.activityKey, seconds);
     IsarHelper().createActivity(
       ActivityType.pomodoro,
-      state.activityKey,
+      state.activityName.toActivitykey(),
       seconds,
     );
-    addTotalSecondsDone(seconds);
+    // addTotalSecondsDone(seconds);
   }
 
   @override

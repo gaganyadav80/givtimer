@@ -7,8 +7,8 @@ class PomodoroState extends Equatable {
     this.setsCount = 4,
     this.focusDuration = 25,
     this.activityName = '',
-    this.totalSecondsDone = 0,
-    this.activityKey = '',
+    // this.totalSecondsDone = 0,
+    // this.activityKey = '',
   });
 
   final double focusDuration;
@@ -17,8 +17,8 @@ class PomodoroState extends Equatable {
   final double setsCount;
 
   final String activityName;
-  final String activityKey;
-  final int totalSecondsDone;
+  // final String activityKey;
+  // final int totalSecondsDone;
 
   @override
   List<Object> get props => [
@@ -27,8 +27,8 @@ class PomodoroState extends Equatable {
         longBreakDuration,
         setsCount,
         activityName,
-        totalSecondsDone,
-        activityKey,
+        // totalSecondsDone,
+        // activityKey,
       ];
 
   PomodoroState copyWith({
@@ -37,8 +37,8 @@ class PomodoroState extends Equatable {
     double? longBreakDuration,
     double? setsCount,
     String? activityName,
-    int? totalSecondsDone,
-    String? activityKey,
+    // int? totalSecondsDone,
+    // String? activityKey,
   }) {
     return PomodoroState(
       focusDuration: focusDuration ?? this.focusDuration,
@@ -46,8 +46,8 @@ class PomodoroState extends Equatable {
       longBreakDuration: longBreakDuration ?? this.longBreakDuration,
       setsCount: setsCount ?? this.setsCount,
       activityName: activityName ?? this.activityName,
-      totalSecondsDone: totalSecondsDone ?? this.totalSecondsDone,
-      activityKey: activityKey ?? this.activityKey,
+      // totalSecondsDone: totalSecondsDone ?? this.totalSecondsDone,
+      // activityKey: activityKey ?? this.activityKey,
     );
   }
 
@@ -59,7 +59,7 @@ class PomodoroState extends Equatable {
       'setsCount': setsCount,
       // 'activityName': activityName,
       // 'activityKey': activityKey,
-      'totalSecondsDone': totalSecondsDone,
+      // 'totalSecondsDone': totalSecondsDone,
     };
   }
 
@@ -72,7 +72,7 @@ class PomodoroState extends Equatable {
       setsCount: map['setsCount'] as double,
       // activityName: map['activityName'] as String,
       // activityKey: map['activityKey'] as String,
-      totalSecondsDone: map['totalSecondsDone'] as int,
+      // totalSecondsDone: map['totalSecondsDone'] as int,
     );
   }
 }

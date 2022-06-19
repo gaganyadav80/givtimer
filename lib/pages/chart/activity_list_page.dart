@@ -63,18 +63,18 @@ class ActivityListPage extends StatelessWidget {
                   final keyList = activityMap.keys.toList()
                     ..sort((a, b) => a.compareTo(b));
 
-                  final name = keyList[index];
-                  final minutes = activityMap[name]!;
+                  final key = keyList[index];
+                  final minutes = activityMap[key]!;
 
                   return ListTile(
-                    title: Text(name.toUpperCase()),
-                    trailing: Text('''$minutes sec'''),
+                    title: Text(key.toActivityname()),
+                    trailing: Text('''$minutes min'''),
                     shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
                     onTap: () => Navigator.push<void>(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            ActivityChartPage(activityName: name),
+                            ActivityChartPage(activityKey: key),
                       ),
                     ),
                   );

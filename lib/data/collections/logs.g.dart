@@ -15,9 +15,9 @@ extension GetActivityLogCollection on Isar {
 const ActivityLogSchema = CollectionSchema(
   name: 'ActivityLog',
   schema:
-      '{"name":"ActivityLog","idName":"id","properties":[{"name":"date","type":"Long"},{"name":"name","type":"String"},{"name":"seconds","type":"Long"},{"name":"type","type":"Long"},{"name":"userId","type":"String"}],"indexes":[{"name":"date","unique":false,"properties":[{"name":"date","type":"Value","caseSensitive":false}]},{"name":"userId","unique":false,"properties":[{"name":"userId","type":"Hash","caseSensitive":true}]}],"links":[]}',
+      '{"name":"ActivityLog","idName":"id","properties":[{"name":"date","type":"Long"},{"name":"key","type":"String"},{"name":"seconds","type":"Long"},{"name":"type","type":"Long"},{"name":"userId","type":"String"}],"indexes":[{"name":"date","unique":false,"properties":[{"name":"date","type":"Value","caseSensitive":false}]},{"name":"userId","unique":false,"properties":[{"name":"userId","type":"Hash","caseSensitive":true}]}],"links":[]}',
   idName: 'id',
-  propertyIds: {'date': 0, 'name': 1, 'seconds': 2, 'type': 3, 'userId': 4},
+  propertyIds: {'date': 0, 'key': 1, 'seconds': 2, 'type': 3, 'userId': 4},
   listProperties: {},
   indexIds: {'date': 0, 'userId': 1},
   indexValueTypes: {
@@ -71,9 +71,9 @@ void _activityLogSerializeNative(
   var dynamicSize = 0;
   final value0 = object.date;
   final _date = value0;
-  final value1 = object.name;
-  final _name = IsarBinaryWriter.utf8Encoder.convert(value1);
-  dynamicSize += (_name.length) as int;
+  final value1 = object.key;
+  final _key = IsarBinaryWriter.utf8Encoder.convert(value1);
+  dynamicSize += (_key.length) as int;
   final value2 = object.seconds;
   final _seconds = value2;
   final value3 = _activityLogActivityTypeConverter.toIsar(object.type);
@@ -88,7 +88,7 @@ void _activityLogSerializeNative(
   final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
   final writer = IsarBinaryWriter(buffer, staticSize);
   writer.writeDateTime(offsets[0], _date);
-  writer.writeBytes(offsets[1], _name);
+  writer.writeBytes(offsets[1], _key);
   writer.writeLong(offsets[2], _seconds);
   writer.writeLong(offsets[3], _type);
   writer.writeBytes(offsets[4], _userId);
@@ -102,7 +102,7 @@ ActivityLog _activityLogDeserializeNative(
   final object = ActivityLog();
   object.date = reader.readDateTime(offsets[0]);
   object.id = id;
-  object.name = reader.readString(offsets[1]);
+  object.key = reader.readString(offsets[1]);
   object.seconds = reader.readLong(offsets[2]);
   object.type =
       _activityLogActivityTypeConverter.fromIsar(reader.readLong(offsets[3]));
@@ -137,7 +137,7 @@ dynamic _activityLogSerializeWeb(
   IsarNative.jsObjectSet(
       jsObj, 'date', object.date.toUtc().millisecondsSinceEpoch);
   IsarNative.jsObjectSet(jsObj, 'id', object.id);
-  IsarNative.jsObjectSet(jsObj, 'name', object.name);
+  IsarNative.jsObjectSet(jsObj, 'key', object.key);
   IsarNative.jsObjectSet(jsObj, 'seconds', object.seconds);
   IsarNative.jsObjectSet(
       jsObj, 'type', _activityLogActivityTypeConverter.toIsar(object.type));
@@ -155,7 +155,7 @@ ActivityLog _activityLogDeserializeWeb(
           .toLocal()
       : DateTime.fromMillisecondsSinceEpoch(0);
   object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity;
-  object.name = IsarNative.jsObjectGet(jsObj, 'name') ?? '';
+  object.key = IsarNative.jsObjectGet(jsObj, 'key') ?? '';
   object.seconds =
       IsarNative.jsObjectGet(jsObj, 'seconds') ?? double.negativeInfinity;
   object.type = _activityLogActivityTypeConverter.fromIsar(
@@ -176,8 +176,8 @@ P _activityLogDeserializePropWeb<P>(Object jsObj, String propertyName) {
     case 'id':
       return (IsarNative.jsObjectGet(jsObj, 'id') ?? double.negativeInfinity)
           as P;
-    case 'name':
-      return (IsarNative.jsObjectGet(jsObj, 'name') ?? '') as P;
+    case 'key':
+      return (IsarNative.jsObjectGet(jsObj, 'key') ?? '') as P;
     case 'seconds':
       return (IsarNative.jsObjectGet(jsObj, 'seconds') ??
           double.negativeInfinity) as P;
@@ -470,19 +470,19 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameEqualTo(
+  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> keyEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameGreaterThan(
+  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> keyGreaterThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -490,13 +490,13 @@ extension ActivityLogQueryFilter
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.gt,
       include: include,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameLessThan(
+  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> keyLessThan(
     String value, {
     bool caseSensitive = true,
     bool include = false,
@@ -504,13 +504,13 @@ extension ActivityLogQueryFilter
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.lt,
       include: include,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameBetween(
+  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> keyBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -518,7 +518,7 @@ extension ActivityLogQueryFilter
     bool includeUpper = true,
   }) {
     return addFilterConditionInternal(FilterCondition.between(
-      property: 'name',
+      property: 'key',
       lower: lower,
       includeLower: includeLower,
       upper: upper,
@@ -527,47 +527,47 @@ extension ActivityLogQueryFilter
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameStartsWith(
+  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> keyStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.startsWith,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameEndsWith(
+  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> keyEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.endsWith,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameContains(
+  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> keyContains(
       String value,
       {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.contains,
-      property: 'name',
+      property: 'key',
       value: value,
       caseSensitive: caseSensitive,
     ));
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> nameMatches(
+  QueryBuilder<ActivityLog, ActivityLog, QAfterFilterCondition> keyMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.matches,
-      property: 'name',
+      property: 'key',
       value: pattern,
       caseSensitive: caseSensitive,
     ));
@@ -797,12 +797,12 @@ extension ActivityLogQueryWhereSortBy
     return addSortByInternal('id', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByName() {
-    return addSortByInternal('name', Sort.asc);
+  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByKey() {
+    return addSortByInternal('key', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByNameDesc() {
-    return addSortByInternal('name', Sort.desc);
+  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortByKeyDesc() {
+    return addSortByInternal('key', Sort.desc);
   }
 
   QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> sortBySeconds() {
@@ -848,12 +848,12 @@ extension ActivityLogQueryWhereSortThenBy
     return addSortByInternal('id', Sort.desc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByName() {
-    return addSortByInternal('name', Sort.asc);
+  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByKey() {
+    return addSortByInternal('key', Sort.asc);
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByNameDesc() {
-    return addSortByInternal('name', Sort.desc);
+  QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenByKeyDesc() {
+    return addSortByInternal('key', Sort.desc);
   }
 
   QueryBuilder<ActivityLog, ActivityLog, QAfterSortBy> thenBySeconds() {
@@ -891,9 +891,9 @@ extension ActivityLogQueryWhereDistinct
     return addDistinctByInternal('id');
   }
 
-  QueryBuilder<ActivityLog, ActivityLog, QDistinct> distinctByName(
+  QueryBuilder<ActivityLog, ActivityLog, QDistinct> distinctByKey(
       {bool caseSensitive = true}) {
-    return addDistinctByInternal('name', caseSensitive: caseSensitive);
+    return addDistinctByInternal('key', caseSensitive: caseSensitive);
   }
 
   QueryBuilder<ActivityLog, ActivityLog, QDistinct> distinctBySeconds() {
@@ -920,8 +920,8 @@ extension ActivityLogQueryProperty
     return addPropertyNameInternal('id');
   }
 
-  QueryBuilder<ActivityLog, String, QQueryOperations> nameProperty() {
-    return addPropertyNameInternal('name');
+  QueryBuilder<ActivityLog, String, QQueryOperations> keyProperty() {
+    return addPropertyNameInternal('key');
   }
 
   QueryBuilder<ActivityLog, int, QQueryOperations> secondsProperty() {

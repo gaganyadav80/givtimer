@@ -29,7 +29,7 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
   late AnimationController _controller;
 
   bool isPaused = false;
-  late final ValueNotifier<int> _seconds;
+  late int _seconds;
 
   int _focusCount = 0;
   int _breakCount = 0;
@@ -39,7 +39,7 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
   void initState() {
     super.initState();
 
-    _seconds = ValueNotifier(widget.initialFocusTime);
+    _seconds = widget.initialFocusTime;
     _totalSetCount = widget.initialSetsCount.toInt();
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
@@ -93,7 +93,7 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
               const VSpace(60),
               NeonCircularTimer(
                 controller: _countDownController,
-                duration: _seconds.value,
+                duration: _seconds,
                 width: 300,
                 isReverse: true,
                 isReverseAnimation: true,
@@ -121,22 +121,25 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
                     // increment the focus count because at first the timer
                     // is in focus mode
                     _focusCount++;
-                    context.read<PomodoroCubit>().logActivity(_seconds.value);
+
+                    // TODO(gagan): save it at the end
+                    // get total seconds by multiplying with focusCounts.
+                    context.read<PomodoroCubit>().logActivity(_seconds);
 
                     // check if needs long break or short break
                     // if focus count is even then it needs long break
                     if (_focusCount.isEven) {
-                      _seconds.value = context
+                      _seconds = context
                           .read<PomodoroCubit>()
                           .longBreakDurationInSeconds();
                     } else {
-                      _seconds.value = context
+                      _seconds = context
                           .read<PomodoroCubit>()
                           .breakDurationInSeconds();
                     }
                   } else {
                     _breakCount++;
-                    _seconds.value =
+                    _seconds =
                         context.read<PomodoroCubit>().focusDurationInSeconds();
                   }
 
@@ -155,7 +158,7 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
                   }
 
                   _countDownController
-                    ..restart(duration: _seconds.value)
+                    ..restart(duration: _seconds)
                     ..pause();
                   await _controller.reverse();
                   await Future.delayed(const Duration(seconds: 3), () {});
