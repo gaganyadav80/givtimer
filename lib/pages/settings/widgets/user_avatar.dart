@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
+import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({Key? key}) : super(key: key);
@@ -11,22 +15,40 @@ class UserAvatar extends StatelessWidget {
     return BlocBuilder<AppBloc, AppState>(
       buildWhen: (previous, current) => previous.user != current.user,
       builder: (context, state) {
-        return InkWell(
-          onTap: () async {
-            await showDialog<String?>(
-              context: context,
-              builder: (context) => const _UserAvatarDialog(),
-            ).then((value) {
-              if (value != null) {
-                context.read<SettingsCubit>().updateProfilePhoto(value);
-              }
-            });
-          },
-          child: CircleAvatar(
-            radius: 60,
-            backgroundImage: state.user.photo != null
-                ? NetworkImage(state.user.photo!)
-                : null,
+        return CircleAvatar(
+          radius: 65,
+          backgroundColor: kPurpleColor,
+          child: Material(
+            shape: const CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () async {
+                await showDialog<String?>(
+                  context: context,
+                  builder: (context) => const _UserAvatarDialog(),
+                ).then((value) {
+                  if (value != null) {
+                    context.read<SettingsCubit>().updateProfilePhoto(value);
+                  }
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: state.user.photo == null
+                    ? const Center(
+                        child: Icon(
+                          LineIcons.userPlus,
+                          color: Colors.white,
+                          size: 42,
+                        ),
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: state.user.photo!,
+                        filterQuality: FilterQuality.high,
+                      ),
+              ),
+            ),
           ),
         );
       },
@@ -40,19 +62,28 @@ class _UserAvatarDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: const Text('User Avatar'),
+      title: Text(
+        'Choose Avatar',
+        style: GoogleFonts.dmSerifDisplay(fontSize: 26),
+      ),
       contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       children: [
         Wrap(
           children: List.generate(
-            profileUrls.length,
-            (index) => Padding(
-              padding: const EdgeInsets.all(8),
-              child: InkWell(
-                onTap: () => Navigator.pop(context, profileUrls[index]),
-                child: CircleAvatar(
-                  radius: 40,
-                  backgroundImage: NetworkImage(profileUrls[index]),
+            profileUrls.length - 1,
+            (index) => CircleAvatar(
+              radius: 45,
+              backgroundColor: Colors.white,
+              child: Material(
+                shape: const CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => Navigator.pop(context, profileUrls[index]),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CachedNetworkImage(imageUrl: profileUrls[index]),
+                  ),
                 ),
               ),
             ),

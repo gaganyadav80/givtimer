@@ -64,7 +64,7 @@ class ActivityListPage extends StatelessWidget {
                     ..sort((a, b) => a.compareTo(b));
 
                   final key = keyList[index];
-                  final minutes = activityMap[key]!;
+                  final minutes = activityMap[key]! ~/ 60;
 
                   return ListTile(
                     title: Text(key.toActivityname()),

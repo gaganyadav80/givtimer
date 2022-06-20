@@ -47,9 +47,8 @@ class ActivityLogsPage extends StatelessWidget {
                           trailing: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Column(
-                              children: [
-                                Text('${item.seconds ~/ 60} min'),
-                              ],
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [Text('${item.seconds ~/ 60} min')],
                             ),
                           ),
                           subtitle: Column(
@@ -61,7 +60,6 @@ class ActivityLogsPage extends StatelessWidget {
                             ],
                           ),
                           leading: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
                                 item.type == ActivityType.pomodoro

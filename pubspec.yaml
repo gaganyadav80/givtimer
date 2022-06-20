@@ -12,9 +12,11 @@ dependencies:
   authentication_repository:
     path: packages/authentication_repository
   bloc: ^8.0.3
+  cached_network_image: ^3.2.1
   cupertino_icons: ^1.0.2
   equatable: ^2.0.3
   firebase_core: ^1.17.1
+  firebase_storage: ^10.2.18
   fl_chart: ^0.51.0
   flow_builder: ^0.0.8
   flutter:
