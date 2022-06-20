@@ -23,7 +23,7 @@ class ActivityListPage extends StatelessWidget {
             children: [
               Expanded(
                 child: TimeInfoCard(
-                  time: HiveHelper().userTotalSeconds,
+                  time: HiveHelper().userTotalSeconds ~/ 60,
                   title: 'Total Time',
                   onTap: () {
                     if (HiveHelper().userActivityTotalTimeData.isNotEmpty) {

@@ -21,3 +21,16 @@ final OutlineInputBorder kInputBorderStyle = OutlineInputBorder(
     color: Colors.black54,
   ),
 );
+
+// TODO(gagan): add avatar urls from gdrive maybe
+const List<String> profileUrls = <String>[
+  'https://picsum.photos/200/',
+  'https://picsum.photos/200/',
+  'https://picsum.photos/200/',
+  'https://picsum.photos/200/',
+  'https://picsum.photos/200/',
+  'https://picsum.photos/200/',
+  'https://picsum.photos/200/',
+  'https://picsum.photos/200/',
+  'https://picsum.photos/200/',
+];

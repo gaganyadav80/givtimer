@@ -33,7 +33,7 @@ void main() {
         ],
         directory:
             kIsWeb ? null : (await getApplicationDocumentsDirectory()).path,
-        inspector: true,
+        // inspector: true,
       );
 
       // await HiveHelper().activityDb.clear();

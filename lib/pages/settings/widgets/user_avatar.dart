@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
+import 'package:givtimer/utils/utils.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({Key? key}) : super(key: key);
@@ -44,15 +45,14 @@ class _UserAvatarDialog extends StatelessWidget {
       children: [
         Wrap(
           children: List.generate(
-            9,
+            profileUrls.length,
             (index) => Padding(
               padding: const EdgeInsets.all(8),
               child: InkWell(
-                onTap: () =>
-                    Navigator.pop(context, 'https://picsum.photos/200/'),
-                child: const CircleAvatar(
+                onTap: () => Navigator.pop(context, profileUrls[index]),
+                child: CircleAvatar(
                   radius: 40,
-                  backgroundImage: NetworkImage('https://picsum.photos/200/'),
+                  backgroundImage: NetworkImage(profileUrls[index]),
                 ),
               ),
             ),

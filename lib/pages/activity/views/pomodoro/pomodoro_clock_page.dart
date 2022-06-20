@@ -56,147 +56,152 @@ class _PomodoroClockPageState extends State<PomodoroClockPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            _countDownController.pause();
-            Navigator.pop(context);
-          },
-          icon: const Icon(LineIcons.times, size: 32),
+    return WillPopScope(
+      onWillPop: () async {
+        context
+            .read<PomodoroCubit>()
+            .logActivity(widget.initialFocusTime * _focusCount);
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              _countDownController.pause();
+              Navigator.pop(context);
+            },
+            icon: const Icon(LineIcons.times, size: 32),
+          ),
         ),
-      ),
-      body: Stack(
-        children: [
-          const ClockWaveWidget(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: kDefaultHorizontalPadding,
-                child: Text(
-                  'Activity',
-                  style: GoogleFonts.dmSerifDisplay(
-                    textStyle: Theme.of(context).textTheme.headline5,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: kDefaultHorizontalPadding,
-                child: Text(
-                  context.read<PomodoroCubit>().state.activityName,
-                  style: GoogleFonts.dmSerifDisplay(
-                    textStyle: Theme.of(context).textTheme.headline2,
-                  ),
-                ),
-              ),
-              const VSpace(60),
-              NeonCircularTimer(
-                controller: _countDownController,
-                duration: _seconds,
-                width: 300,
-                isReverse: true,
-                isReverseAnimation: true,
-                // strokeWidth: 4,
-                backgroudColor: Colors.transparent,
-                neonColor: const Color(0xffA1CCA5),
-                innerFillGradient: LinearGradient(
-                  colors: [
-                    kPurpleColor,
-                    kPurpleColor.withOpacity(0.9),
-                  ],
-                ),
-                neonGradient: const LinearGradient(
-                  colors: [kPurpleColor, kPurpleColor],
-                ),
-                textStyle: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline2,
-                ),
-                neumorphicEffect: false,
-                neon: 0,
-                onComplete: () async {
-                  // if initially both count are equal which means either
-                  // start or a set is completed. So start with focus timer.
-                  if (_focusCount == _breakCount) {
-                    // increment the focus count because at first the timer
-                    // is in focus mode
-                    _focusCount++;
-
-                    // TODO(gagan): save it at the end
-                    // get total seconds by multiplying with focusCounts.
-                    context.read<PomodoroCubit>().logActivity(_seconds);
-
-                    // check if needs long break or short break
-                    // if focus count is even then it needs long break
-                    if (_focusCount.isEven) {
-                      _seconds = context
-                          .read<PomodoroCubit>()
-                          .longBreakDurationInSeconds();
-                    } else {
-                      _seconds = context
-                          .read<PomodoroCubit>()
-                          .breakDurationInSeconds();
-                    }
-                  } else {
-                    _breakCount++;
-                    _seconds =
-                        context.read<PomodoroCubit>().focusDurationInSeconds();
-                  }
-
-                  // After incrementing focus or break count check if they
-                  // are equal then count it as a set. We check this at the
-                  // end to avoid counting 0'th set twice when the values
-                  // of _focus and _break are [0] and equal. We first
-                  // increment and then check if they are equal.
-                  if (_focusCount == _breakCount) {
-                    _totalSetCount--;
-                    // if all sets are completed then return.
-                    if (_totalSetCount == 0) {
-                      Navigator.pop(context);
-                      return;
-                    }
-                  }
-
-                  _countDownController
-                    ..restart(duration: _seconds)
-                    ..pause();
-                  await _controller.reverse();
-                  await Future.delayed(const Duration(seconds: 3), () {});
-                  _countDownController.resume();
-                  await _controller.forward();
-                },
-              ),
-              const VSpace(80),
-              Center(
-                child: Padding(
+        body: Stack(
+          children: [
+            const ClockWaveWidget(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
                   padding: kDefaultHorizontalPadding,
-                  child: SizedBox(
-                    height: kRoundedElevatedButtonHeight,
-                    width: kRoundedElevatedButtonWidth,
-                    child: RoundedElevatedButton(
-                      onPressed: () {
-                        if (isPaused) {
-                          _countDownController.resume();
-                          _controller.forward();
-                        } else {
-                          _countDownController.pause();
-                          _controller.reverse();
-                        }
-                        isPaused = !isPaused;
-                      },
-                      prefix: AnimatedIcon(
-                        icon: AnimatedIcons.play_pause,
-                        progress: _controller,
-                      ),
-                      icon: Icons.class_,
-                      label: 'Pause',
+                  child: Text(
+                    'Activity',
+                    style: GoogleFonts.dmSerifDisplay(
+                      textStyle: Theme.of(context).textTheme.headline5,
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                Padding(
+                  padding: kDefaultHorizontalPadding,
+                  child: Text(
+                    context.read<PomodoroCubit>().state.activityName,
+                    style: GoogleFonts.dmSerifDisplay(
+                      textStyle: Theme.of(context).textTheme.headline2,
+                    ),
+                  ),
+                ),
+                const VSpace(60),
+                NeonCircularTimer(
+                  controller: _countDownController,
+                  duration: _seconds,
+                  width: 300,
+                  isReverse: true,
+                  isReverseAnimation: true,
+                  // strokeWidth: 4,
+                  backgroudColor: Colors.transparent,
+                  neonColor: const Color(0xffA1CCA5),
+                  innerFillGradient: LinearGradient(
+                    colors: [
+                      kPurpleColor,
+                      kPurpleColor.withOpacity(0.9),
+                    ],
+                  ),
+                  neonGradient: const LinearGradient(
+                    colors: [kPurpleColor, kPurpleColor],
+                  ),
+                  textStyle: GoogleFonts.dmSerifDisplay(
+                    textStyle: Theme.of(context).textTheme.headline2,
+                  ),
+                  neumorphicEffect: false,
+                  neon: 0,
+                  onComplete: () async {
+                    // if initially both count are equal which means either
+                    // start or a set is completed. So start with focus timer.
+                    if (_focusCount == _breakCount) {
+                      // increment the focus count because at first the timer
+                      // is in focus mode
+                      _focusCount++;
+
+                      // check if needs long break or short break
+                      // if focus count is even then it needs long break
+                      if (_focusCount.isEven) {
+                        _seconds = context
+                            .read<PomodoroCubit>()
+                            .longBreakDurationInSeconds();
+                      } else {
+                        _seconds = context
+                            .read<PomodoroCubit>()
+                            .breakDurationInSeconds();
+                      }
+                    } else {
+                      _breakCount++;
+                      _seconds = context
+                          .read<PomodoroCubit>()
+                          .focusDurationInSeconds();
+                    }
+
+                    // After incrementing focus or break count check if they
+                    // are equal then count it as a set. We check this at the
+                    // end to avoid counting 0'th set twice when the values
+                    // of _focus and _break are [0] and equal. We first
+                    // increment and then check if they are equal.
+                    if (_focusCount == _breakCount) {
+                      _totalSetCount--;
+                      // if all sets are completed then return.
+                      if (_totalSetCount == 0) {
+                        Navigator.pop(context);
+                        return;
+                      }
+                    }
+
+                    _countDownController
+                      ..restart(duration: _seconds)
+                      ..pause();
+                    await _controller.reverse();
+                    await Future.delayed(const Duration(seconds: 3), () {});
+                    _countDownController.resume();
+                    await _controller.forward();
+                  },
+                ),
+                const VSpace(80),
+                Center(
+                  child: Padding(
+                    padding: kDefaultHorizontalPadding,
+                    child: SizedBox(
+                      height: kRoundedElevatedButtonHeight,
+                      width: kRoundedElevatedButtonWidth,
+                      child: RoundedElevatedButton(
+                        onPressed: () {
+                          if (isPaused) {
+                            _countDownController.resume();
+                            _controller.forward();
+                          } else {
+                            _countDownController.pause();
+                            _controller.reverse();
+                          }
+                          isPaused = !isPaused;
+                        },
+                        prefix: AnimatedIcon(
+                          icon: AnimatedIcons.play_pause,
+                          progress: _controller,
+                        ),
+                        icon: Icons.class_,
+                        label: 'Pause',
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

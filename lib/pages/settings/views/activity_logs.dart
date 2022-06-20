@@ -54,6 +54,7 @@ class ActivityLogsPage extends StatelessWidget {
                           ),
                           subtitle: Column(
                             mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('key: ${item.key}'),
                               Text('date: ${item.date.format()}'),
