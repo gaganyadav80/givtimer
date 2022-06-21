@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
-import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:widget_circular_animator/widget_circular_animator.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({Key? key}) : super(key: key);
@@ -15,38 +15,40 @@ class UserAvatar extends StatelessWidget {
     return BlocBuilder<AppBloc, AppState>(
       buildWhen: (previous, current) => previous.user != current.user,
       builder: (context, state) {
-        return CircleAvatar(
-          radius: 65,
-          backgroundColor: kPurpleColor,
-          child: Material(
-            shape: const CircleBorder(),
-            clipBehavior: Clip.hardEdge,
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () async {
-                await showDialog<String?>(
-                  context: context,
-                  builder: (context) => const _UserAvatarDialog(),
-                ).then((value) {
-                  if (value != null) {
-                    context.read<SettingsCubit>().updateProfilePhoto(value);
-                  }
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: state.user.photo == null
-                    ? const Center(
-                        child: Icon(
-                          LineIcons.userPlus,
-                          color: Colors.white,
-                          size: 42,
+        return WidgetCircularAnimator(
+          child: CircleAvatar(
+            radius: 65,
+            backgroundColor: const Color(0xff6e5e5d),
+            child: Material(
+              shape: const CircleBorder(),
+              clipBehavior: Clip.hardEdge,
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () async {
+                  await showDialog<String?>(
+                    context: context,
+                    builder: (context) => const _UserAvatarDialog(),
+                  ).then((value) {
+                    if (value != null) {
+                      context.read<SettingsCubit>().updateProfilePhoto(value);
+                    }
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: state.user.photo == null
+                      ? const Center(
+                          child: Icon(
+                            LineIcons.userPlus,
+                            color: Colors.white,
+                            size: 42,
+                          ),
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: state.user.photo!,
+                          filterQuality: FilterQuality.high,
                         ),
-                      )
-                    : CachedNetworkImage(
-                        imageUrl: state.user.photo!,
-                        filterQuality: FilterQuality.high,
-                      ),
+                ),
               ),
             ),
           ),
