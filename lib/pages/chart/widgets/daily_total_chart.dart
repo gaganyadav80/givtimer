@@ -8,9 +8,18 @@ import 'package:givtimer/pages/chart/widgets/time_info_card.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 
-class DailyTotalChartPage extends StatelessWidget {
+class DailyTotalChartPage extends StatefulWidget {
   const DailyTotalChartPage({Key? key}) : super(key: key);
+
+  @override
+  State<DailyTotalChartPage> createState() => _DailyTotalChartPageState();
+}
+
+class _DailyTotalChartPageState extends State<DailyTotalChartPage> {
+  final ValueNotifier<int> _year = ValueNotifier<int>(DateTime.now().year);
+  final ValueNotifier<int> _month = ValueNotifier<int>(DateTime.now().month);
 
   @override
   Widget build(BuildContext context) {
@@ -50,37 +59,117 @@ class DailyTotalChartPage extends StatelessWidget {
                 ),
               ],
             ),
-            FutureBuilder<List<DailyProductiveTime>>(
-              future: IsarHelper().getAllDailyTotal(),
-              initialData: const [],
-              builder: (_, AsyncSnapshot<List<DailyProductiveTime>> snapshot) {
-                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  final data = snapshot.data;
-                  final showDot = data!.length < 2;
-
-                  return LineChartWidget(
-                    showDot: showDot,
-                    data: List<FlSpot>.generate(
-                      data.length,
-                      (index) => FlSpot(
-                        data[index].date.day.toDouble(),
-                        (data[index].seconds ~/ 60).roundToDouble(),
+            const VSpace(20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(LineIcons.angleLeft),
+                      onPressed: () {
+                        _year.value = _year.value - 1;
+                      },
+                    ),
+                    ValueListenableBuilder<int>(
+                      valueListenable: _year,
+                      builder: (_, int value, __) {
+                        return Text(value.toString());
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(LineIcons.angleRight),
+                      onPressed: () {
+                        _year.value = _year.value + 1;
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(LineIcons.angleLeft),
+                      onPressed: () {
+                        var temp = _month.value - 1;
+                        if (temp == 0) {
+                          temp = 12;
+                          _year.value = _year.value - 1;
+                        }
+                        _month.value = temp;
+                      },
+                    ),
+                    SizedBox(
+                      width: 80,
+                      child: Center(
+                        child: ValueListenableBuilder<int>(
+                          valueListenable: _month,
+                          builder: (_, int value, __) {
+                            return Text(monthNames[value - 1]);
+                          },
+                        ),
                       ),
                     ),
-                  );
-                } else if (snapshot.data!.isEmpty) {
-                  return const EmptyListIndicatorTile();
-                } else {
-                  return const Expanded(
-                    child: Center(child: CircularLoading()),
-                  );
-                }
+                    IconButton(
+                      icon: const Icon(LineIcons.angleRight),
+                      onPressed: () {
+                        var temp = _month.value + 1;
+                        if (temp == 13) {
+                          temp = 1;
+                          _year.value = _year.value + 1;
+                        }
+                        _month.value = temp;
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const VSpace(30),
+            ValueListenableBuilder<int>(
+              valueListenable: _year,
+              builder: (_, int year, __) {
+                return ValueListenableBuilder<int>(
+                  valueListenable: _month,
+                  builder: (_, int month, __) {
+                    return FutureBuilder<List<DailyProductiveTime>>(
+                      future: IsarHelper().getAllDailyTotal(),
+                      initialData: const [],
+                      builder: (_, snapshot) {
+                        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                          final data = snapshot.data!
+                              .where(
+                                (element) =>
+                                    element.date.year == year &&
+                                    element.date.month == month,
+                              )
+                              .toList();
+
+                          final showDot = data.length < 2;
+                          data.sort((a, b) => a.date.day.compareTo(b.date.day));
+
+                          return LineChartWidget(
+                            showDot: showDot,
+                            data: List<FlSpot>.generate(
+                              data.length,
+                              (index) => FlSpot(
+                                data[index].date.day.toDouble(),
+                                (data[index].seconds ~/ 60).roundToDouble(),
+                              ),
+                            ),
+                          );
+                        } else if (snapshot.data!.isEmpty) {
+                          return const EmptyListIndicatorTile();
+                        } else {
+                          return const Expanded(
+                            child: Center(child: CircularLoading()),
+                          );
+                        }
+                      },
+                    );
+                  },
+                );
               },
             ),
-            const VSpace(10),
-            if (HiveHelper().userTotalSeconds >= 60)
-              const Center(child: Text('December')),
-            const VSpace(40),
           ],
         ),
       ),

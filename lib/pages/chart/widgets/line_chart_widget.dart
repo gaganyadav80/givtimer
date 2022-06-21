@@ -12,13 +12,15 @@ class LineChartWidget<T extends Object> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
+      height: 350,
+      // color: Colors.pink,
       child: LineChart(
         LineChartData(
-          minX: 16,
-          maxX: 30,
+          minX: 1,
+          maxX: 31,
           minY: 0,
-          maxY: 200,
+          maxY: 900, // 15 hours
+          // backgroundColor: Colors.amber,
           titlesData: FlTitlesData(
             topTitles: AxisTitles(
               sideTitles: SideTitles(showTitles: false),
@@ -31,8 +33,15 @@ class LineChartWidget<T extends Object> extends StatelessWidget {
             ),
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
-                interval: 1,
+                interval: 5,
                 showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  if (value == 30) return const SizedBox.shrink();
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(value.toInt().toString()),
+                  );
+                },
                 reservedSize: 30,
               ),
             ),

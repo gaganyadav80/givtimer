@@ -34,3 +34,18 @@ const List<String> profileUrls = <String>[
   'https://firebasestorage.googleapis.com/v0/b/givtimer-app.appspot.com/o/avatars%2F8.png?alt=media&token=713176f3-6359-47ec-bdbc-ed64f4670485',
   'https://firebasestorage.googleapis.com/v0/b/givtimer-app.appspot.com/o/avatars%2F9.png?alt=media&token=e3a0c17e-68ff-4e9c-aad7-92aebcd38548',
 ];
+
+const monthNames = <String>[
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
