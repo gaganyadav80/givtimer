@@ -83,15 +83,10 @@ class _TimerPageBody extends StatelessWidget {
                 } else if (!context.read<TimerCubit>().isTimerSet()) {
                   showBasicSnackBar(context, 'Please select duration');
                 } else {
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) {
-                        return BlocProvider.value(
-                          value: context.read<TimerCubit>(),
-                          child: const ActivityClockPage(),
-                        );
-                      },
+                  context.pushMaterial(
+                    BlocProvider.value(
+                      value: context.read<TimerCubit>(),
+                      child: const ActivityClockPage(),
                     ),
                   );
                 }

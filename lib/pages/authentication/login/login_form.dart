@@ -37,12 +37,7 @@ class LoginForm extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Givtimer',
-                style: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline2,
-                ),
-              ),
+              const HeadlineText('Givtimer'),
               _SignUpButton(),
               const VSpace(30),
               _EmailInput(),

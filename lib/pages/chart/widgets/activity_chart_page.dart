@@ -34,12 +34,7 @@ class _ActivityChartPageState extends State<ActivityChartPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.activityKey,
-              style: GoogleFonts.dmSerifDisplay(
-                textStyle: Theme.of(context).textTheme.headline2,
-              ),
-            ),
+            HeadlineText(widget.activityKey),
             const VSpace(10),
             Row(
               children: [

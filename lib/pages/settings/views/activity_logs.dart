@@ -19,12 +19,7 @@ class ActivityLogsPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Activity Logs',
-              style: GoogleFonts.dmSerifDisplay(
-                textStyle: Theme.of(context).textTheme.headline3,
-              ),
-            ),
+            const HeadlineText('Activity Logs'),
             const VSpace(20),
             Expanded(
               child: FutureBuilder<List<ActivityLog>>(

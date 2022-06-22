@@ -37,6 +37,14 @@ class SettingsCubit extends HydratedCubit<SettingsState> {
     await _authenticationRepository.deleteAccount(email, password);
   }
 
+  Future<bool> isEmailVerified() async {
+    return _authenticationRepository.checkVerification();
+  }
+
+  Future<void> resendVerificationMail() async {
+    await _authenticationRepository.sendVerificationMail();
+  }
+
   @override
   SettingsState? fromJson(Map<String, dynamic> json) {
     return const SettingsState();

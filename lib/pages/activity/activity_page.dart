@@ -38,12 +38,7 @@ class ActivityPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              "Let's start.",
-              style: GoogleFonts.dmSerifDisplay(
-                textStyle: Theme.of(context).textTheme.headline2,
-              ),
-            ),
+            const HeadlineText("Let's start."),
             const VSpace(40),
             Hero(
               tag: 'set-pomodoro-button',

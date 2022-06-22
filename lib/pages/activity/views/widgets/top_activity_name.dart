@@ -34,12 +34,7 @@ class _TopHeadAndActivityNameWidgetState
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.title,
-          style: GoogleFonts.dmSerifDisplay(
-            textStyle: Theme.of(context).textTheme.headline2,
-          ),
-        ),
+        HeadlineText(widget.title),
         const VSpace(10),
         Autocomplete<String>(
           optionsBuilder: (textEditingValue) {

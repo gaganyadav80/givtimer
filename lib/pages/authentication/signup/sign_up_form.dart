@@ -32,12 +32,7 @@ class SignUpForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Register',
-                style: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline2,
-                ),
-              ),
+              const HeadlineText('Register'),
               const VSpace(30),
               _NameInput(),
               const VSpace(12),

@@ -78,11 +78,8 @@ class _ActivityClockPageState extends State<ActivityClockPage>
               ),
               Padding(
                 padding: kDefaultHorizontalPadding,
-                child: Text(
+                child: HeadlineText(
                   context.read<TimerCubit>().state.activityName,
-                  style: GoogleFonts.dmSerifDisplay(
-                    textStyle: Theme.of(context).textTheme.headline2,
-                  ),
                 ),
               ),
               const VSpace(60),

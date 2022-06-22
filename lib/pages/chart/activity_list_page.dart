@@ -27,12 +27,7 @@ class ActivityListPage extends StatelessWidget {
                   title: 'Total Time',
                   onTap: () {
                     if (HiveHelper().userActivityTotalTimeData.isNotEmpty) {
-                      Navigator.push<void>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const DailyTotalChartPage(),
-                        ),
-                      );
+                      context.pushMaterial(const DailyTotalChartPage());
                     }
                   },
                 ),
@@ -70,12 +65,8 @@ class ActivityListPage extends StatelessWidget {
                     title: Text(key.toActivityname()),
                     trailing: Text('''$minutes min'''),
                     shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
-                    onTap: () => Navigator.push<void>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ActivityChartPage(activityKey: key),
-                      ),
+                    onTap: () => context.pushMaterial(
+                      ActivityChartPage(activityKey: key),
                     ),
                   );
                 },

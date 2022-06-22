@@ -220,6 +220,30 @@ class AuthenticationRepository {
     }
   }
 
+  Future<void> sendVerificationMail() async {
+    try {
+      final firebaseUser = _firebaseAuth.currentUser!;
+      await firebaseUser.sendEmailVerification();
+      // await firebaseUser.reload();
+    } catch (_) {
+      throw Exception('Failed to send verification email');
+    }
+  }
+
+  Future<bool> checkVerification() async {
+    try {
+      final firebaseUser = _firebaseAuth.currentUser!;
+      if (firebaseUser.emailVerified) {
+        await firebaseUser.reload();
+      }
+
+      return firebaseUser.emailVerified;
+      // await firebaseUser.reload();
+    } catch (_) {
+      throw Exception('Failed to send verification email');
+    }
+  }
+
   /// Signs out the current user which will emit
   /// [User.empty] from the [user] Stream.
   ///

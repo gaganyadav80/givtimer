@@ -49,18 +49,15 @@ class _PomodoroPageBody extends StatelessWidget {
                 if (context.read<PomodoroCubit>().state.activityName.isEmpty) {
                   showBasicSnackBar(context, 'Activity name is empty');
                 } else {
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => BlocProvider.value(
-                        value: context.read<PomodoroCubit>(),
-                        child: PomodoroClockPage(
-                          initialFocusTime: context
-                              .read<PomodoroCubit>()
-                              .focusDurationInSeconds(),
-                          initialSetsCount:
-                              context.read<PomodoroCubit>().state.setsCount,
-                        ),
+                  context.pushMaterial(
+                    BlocProvider.value(
+                      value: context.read<PomodoroCubit>(),
+                      child: PomodoroClockPage(
+                        initialFocusTime: context
+                            .read<PomodoroCubit>()
+                            .focusDurationInSeconds(),
+                        initialSetsCount:
+                            context.read<PomodoroCubit>().state.setsCount,
                       ),
                     ),
                   );

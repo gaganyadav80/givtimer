@@ -38,12 +38,7 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Profile',
-                style: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline2,
-                ),
-              ),
+              const HeadlineText('Profile'),
               const VSpace(20),
               const UserAvatar(),
               const VSpace(20),

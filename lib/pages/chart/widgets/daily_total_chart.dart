@@ -35,12 +35,7 @@ class _DailyTotalChartPageState extends State<DailyTotalChartPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Overall',
-              style: GoogleFonts.dmSerifDisplay(
-                textStyle: Theme.of(context).textTheme.headline2,
-              ),
-            ),
+            const HeadlineText('Overall'),
             const VSpace(10),
             Row(
               children: [
