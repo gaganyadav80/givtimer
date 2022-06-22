@@ -31,80 +31,159 @@ class _EditProfileModalState extends State<EditProfileModal> {
     return FractionallySizedBox(
       heightFactor: 0.9,
       child: BuildModalChild(
-        child: Padding(
-          padding: kDefaultHorizontalPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const VSpace(10),
-              Center(
-                child: Container(
-                  height: 6,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(90),
-                    color: Colors.grey[400],
+        child: Column(
+          children: [
+            Padding(
+              padding: kDefaultHorizontalPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const VSpace(10),
+                  Center(
+                    child: Container(
+                      height: 6,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(90),
+                        color: Colors.grey[400],
+                      ),
+                    ),
                   ),
-                ),
+                  const VSpace(20),
+                  Text(
+                    'Update Details',
+                    style: GoogleFonts.dmSerifDisplay(
+                      textStyle: Theme.of(context).textTheme.headline5,
+                    ),
+                  ),
+                  const VSpace(10),
+                  const Text(
+                    'Please provide old password also which will be used to reauthenticate you.',
+                  ),
+                  const VSpace(20),
+                  _updateDetailTile('Name', user.name!, _nameController),
+                  const Divider(),
+                  _updateDetailTile('Email', user.email!, _emailController),
+                  const Divider(),
+                  _updateDetailTile(
+                    'Old Pass',
+                    '**********',
+                    _oldpasswordController,
+                  ),
+                  const Divider(),
+                  _updateDetailTile(
+                    'New Pass',
+                    '**********',
+                    _passwordController,
+                  ),
+                  const VSpace(50),
+                  BlueButton(
+                    title: 'Update',
+                    onPressed: () {
+                      if (_oldpasswordController.text.isEmpty) {
+                        showEmptyPassDialog();
+                        return;
+                      }
+                      if (user.name! != _nameController.text) {
+                        context
+                            .read<SettingsCubit>()
+                            .updateProfileName(_nameController.text);
+                      }
+                      if (user.email! != _emailController.text) {
+                        context.read<SettingsCubit>().updateProfileEmail(
+                              _emailController.text,
+                            );
+                      }
+                      if (_passwordController.text.isNotEmpty) {
+                        context.read<SettingsCubit>().updateProfilePassword(
+                              user.email!,
+                              _oldpasswordController.text,
+                              _passwordController.text,
+                            );
+                      }
+                    },
+                  ),
+                ],
               ),
-              const VSpace(20),
-              Text(
-                'Update Details',
-                style: GoogleFonts.dmSerifDisplay(
-                  textStyle: Theme.of(context).textTheme.headline5,
-                ),
-              ),
-              const VSpace(10),
-              const Text(
-                'Please provide old password also which will be used to reauthenticate you',
-              ),
-              const VSpace(20),
-              _updateDetailTile('Name', user.name!, _nameController),
-              const Divider(),
-              _updateDetailTile('Email', user.email!, _emailController),
-              const Divider(),
-              _updateDetailTile(
-                'Old Pass',
-                '**********',
-                _oldpasswordController,
-              ),
-              const Divider(),
-              _updateDetailTile(
-                'New Pass',
-                '**********',
-                _passwordController,
-              ),
-              const VSpace(50),
-              BlueButton(
-                onPressed: () {
-                  if (_oldpasswordController.text.isEmpty) {
-                    showBasicSnackBar(context, 'Please enter old password');
-                    return;
-                  }
-                  if (user.name! != _nameController.text) {
-                    context
-                        .read<SettingsCubit>()
-                        .updateProfileName(_nameController.text);
-                  }
-                  if (user.email! != _emailController.text) {
-                    context.read<SettingsCubit>().updateProfileEmail(
-                          _emailController.text,
-                        );
-                  }
-                  if (_passwordController.text.isNotEmpty) {
-                    context.read<SettingsCubit>().updateProfilePassword(
-                          user.email!,
-                          _oldpasswordController.text,
-                          _passwordController.text,
-                        );
-                  }
-                },
-                title: 'Update',
-              ),
-            ],
-          ),
+            ),
+            const VSpace(40),
+            const Divider(height: 0, thickness: 1),
+            Container(
+              height: 50,
+              color: Colors.white,
+              width: context.screenWidth,
+              padding: kDefaultHorizontalPadding,
+              child: 'Delete Account'
+                  .text
+                  .medium
+                  .color(CupertinoColors.destructiveRed.withOpacity(0.8))
+                  .make()
+                  .objectCenterLeft(),
+            ).onTap(
+              () async {
+                if (_oldpasswordController.text.isEmpty) {
+                  await showEmptyPassDialog();
+                } else {
+                  await showDeleteAccountDialog();
+                }
+              },
+            ),
+            const Divider(height: 0, thickness: 1),
+          ],
         ),
       ),
+    );
+  }
+
+  Future<void> showEmptyPassDialog() {
+    return showCupertinoDialog<void>(
+      context: context,
+      builder: (_) {
+        return CupertinoAlertDialog(
+          content: const Text('Please enter old password'),
+          title: const Text('Password'),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () => Navigator.pop(context),
+              isDefaultAction: true,
+              child: const Text('Okay'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> showDeleteAccountDialog() {
+    return showCupertinoDialog<void>(
+      context: context,
+      useRootNavigator: false,
+      builder: (_) {
+        return CupertinoAlertDialog(
+          content: const Text(
+            'Are you sure you want to delete your account?',
+          ),
+          title: const Text('Delete Account'),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () => Navigator.pop(context),
+              isDefaultAction: true,
+              child: const Text('Cancel'),
+            ),
+            CupertinoDialogAction(
+              isDestructiveAction: true,
+              onPressed: () {
+                context.read<SettingsCubit>().deleteProfile(
+                      _emailController.text,
+                      _passwordController.text,
+                    );
+                Navigator.pop(context);
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -201,6 +201,25 @@ class AuthenticationRepository {
     }
   }
 
+  /// Delete the currently signed in user permanently.
+  Future<void> deleteAccount(String email, String password) async {
+    try {
+      final firebaseUser = _firebaseAuth.currentUser!;
+      await firebaseUser.reauthenticateWithCredential(
+        firebase_auth.EmailAuthProvider.credential(
+          email: email,
+          password: password,
+        ),
+      );
+      await firebaseUser.delete();
+      // await firebaseUser.reload();
+    } on FirebaseAuthException catch (e) {
+      throw UpdateProfileFailures.fromCode(e.code);
+    } catch (_) {
+      throw const UpdateProfileFailures('Failed to update user email');
+    }
+  }
+
   /// Signs out the current user which will emit
   /// [User.empty] from the [user] Stream.
   ///

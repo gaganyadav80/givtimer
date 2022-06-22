@@ -33,6 +33,10 @@ class SettingsCubit extends HydratedCubit<SettingsState> {
     );
   }
 
+  Future<void> deleteProfile(String email, String password) async {
+    await _authenticationRepository.deleteAccount(email, password);
+  }
+
   @override
   SettingsState? fromJson(Map<String, dynamic> json) {
     return const SettingsState();
