@@ -1,3 +1,4 @@
+export 'src/build_modal_child.dart';
 export 'src/circular_loading.dart';
 export 'src/cupertino_superellipse.dart';
 export 'src/custom_buttons.dart';

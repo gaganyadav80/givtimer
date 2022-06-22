@@ -140,3 +140,44 @@ class LogOutFailure implements Exception {}
 
 /// Thrown if sending the verification email is failed
 class SendVerificationEmailFailure implements Exception {}
+
+class UpdateProfileFailures implements Exception {
+  /// {@macro log_in_with_google_failure}
+  const UpdateProfileFailures([
+    this.message = 'An unknown exception occurred.',
+  ]);
+
+  /// Create an authentication message
+  /// from a firebase authentication exception code.
+  factory UpdateProfileFailures.fromCode(String code) {
+    switch (code) {
+      case 'user-mismatch':
+        return const UpdateProfileFailures(
+          'The credential given does not correspond to the user.',
+        );
+      case 'user-not-found':
+        return const UpdateProfileFailures(
+          'The credential given does not correspond to any existing user.',
+        );
+      case 'invalid-credential':
+        return const UpdateProfileFailures(
+            "The provided credential is not valid.");
+      case 'invalid-email':
+        return const UpdateProfileFailures('The email provided is invalid.');
+      case 'wrong-password':
+        return const UpdateProfileFailures(
+            'The password provided is not correct.');
+      case 'weak-password':
+        return const UpdateProfileFailures(
+            'The password provided is not strong enough.');
+      case 'requires-recent-login':
+        return const UpdateProfileFailures(
+            'This operation is sensitive and requires recent authentication. Log in again before retrying this request.');
+      default:
+        return const UpdateProfileFailures();
+    }
+  }
+
+  /// The associated error message.
+  final String message;
+}

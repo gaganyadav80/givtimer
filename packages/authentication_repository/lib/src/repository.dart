@@ -146,16 +146,58 @@ class AuthenticationRepository {
   //   }
   // }
 
-  /// Sends verification mail to the user.
-  ///
-  /// Throws a [SendVerificationEmailFailure] if an exception occurs.
+  /// Update profile photo of the currently signed in user.
   Future<void> updateProfilePhoto(String url) async {
     try {
       final firebaseUser = _firebaseAuth.currentUser!;
       await firebaseUser.updatePhotoURL(url);
       await firebaseUser.reload();
     } catch (_) {
-      throw Exception('Failed to update profile photo');
+      throw const UpdateProfileFailures('Failed to update profile photo');
+    }
+  }
+
+  /// Update display name of the currently signed in user.
+  Future<void> updateDisplayName(String name) async {
+    try {
+      final firebaseUser = _firebaseAuth.currentUser!;
+      await firebaseUser.updateDisplayName(name);
+      await firebaseUser.reload();
+    } catch (_) {
+      throw const UpdateProfileFailures('Failed to update display name');
+    }
+  }
+
+  /// Update email used to authenticate the currently signed in user.
+  Future<void> updateProfileEmail(String email) async {
+    try {
+      final firebaseUser = _firebaseAuth.currentUser!;
+      await firebaseUser.verifyBeforeUpdateEmail(email);
+      // await firebaseUser.reload();
+    } on FirebaseAuthException catch (e) {
+      throw UpdateProfileFailures.fromCode(e.code);
+    } catch (_) {
+      throw const UpdateProfileFailures('Failed to update user email');
+    }
+  }
+
+  /// Update password used to authenticate the currently signed in user.
+  Future<void> updateProfilePassword(
+      String email, String oldpass, String newpass) async {
+    try {
+      final firebaseUser = _firebaseAuth.currentUser!;
+      await firebaseUser.reauthenticateWithCredential(
+        firebase_auth.EmailAuthProvider.credential(
+          email: email,
+          password: oldpass,
+        ),
+      );
+      await firebaseUser.updatePassword(newpass);
+      // await firebaseUser.reload();
+    } on FirebaseAuthException catch (e) {
+      throw UpdateProfileFailures.fromCode(e.code);
+    } catch (_) {
+      throw const UpdateProfileFailures('Failed to update user email');
     }
   }
 

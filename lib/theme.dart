@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 const Color kPurpleColor = Color(0xFF6200ED);
 
 final theme = ThemeData(
-  textTheme: GoogleFonts.openSansTextTheme(),
+  textTheme: GoogleFonts.robotoTextTheme(),
   primaryColorDark: const Color(0xFF0097A7),
   primaryColorLight: const Color(0xFFB2EBF2),
   // primaryColor: const Color(0xFF00BCD4),

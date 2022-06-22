@@ -27,7 +27,10 @@ class _TimerPageBody extends StatelessWidget {
   void _showDialog(Widget child, BuildContext context) {
     showCupertinoModalPopup<void>(
       context: context,
-      builder: (BuildContext context) => _BuildDailog(child),
+      builder: (BuildContext context) => BuildModalChild(
+        height: 280,
+        child: child,
+      ),
     );
   }
 
@@ -95,37 +98,6 @@ class _TimerPageBody extends StatelessWidget {
               },
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _BuildDailog extends StatelessWidget {
-  const _BuildDailog(this.child, {Key? key}) : super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: kDefaultModalPadding,
-      child: Container(
-        height: 280,
-        // The Bottom margin is provided to align the popup above
-        // the system navigation bar.
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: kModalBorderRadius,
-          // Provide a background color for the popup.
-          color: CupertinoColors.systemBackground.resolveFrom(context),
-        ),
-        // Use a SafeArea widget to avoid system overlaps.
-        child: SafeArea(
-          top: false,
-          child: child,
         ),
       ),
     );

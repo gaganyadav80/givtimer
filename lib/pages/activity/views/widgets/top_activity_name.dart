@@ -100,7 +100,7 @@ class _TopHeadAndActivityNameWidgetState
               onChanged: widget.onTextChanged,
               textCapitalization: TextCapitalization.characters,
               inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp('[0-9a-zA-Z]')),
+                FilteringTextInputFormatter.allow(RegExp('[0-9 a-z A-Z]')),
               ],
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(

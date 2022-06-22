@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
+import 'package:givtimer/pages/settings/widgets/edit_profile_modal.dart';
 import 'package:givtimer/pages/settings/widgets/user_avatar.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
@@ -17,7 +18,20 @@ class ProfilePage extends StatelessWidget {
     final user = context.read<AppBloc>().state.user;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          TextButton(
+            onPressed: () => showModalBottomSheet<void>(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (_) => const EditProfileModal(),
+            ),
+            child: 'Edit'.text.size(18).make(),
+          ).pSymmetric(v: 6),
+          const HSpace(10),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: kDefaultHorizontalPadding,
@@ -62,24 +76,13 @@ class DetailTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: title.text.gray400
-              .textStyle(
-                GoogleFonts.poppins(
-                  fontWeight: FontWeight.w400,
-                ),
-              )
-              .make(),
-        ),
+        Expanded(child: title.text.gray400.make()),
         Expanded(
           flex: 3,
           child: CupertinoTextField.borderless(
             readOnly: true,
             placeholder: text,
-            placeholderStyle: GoogleFonts.poppins(
-              color: Colors.black,
-              fontWeight: FontWeight.w400,
-            ),
+            placeholderStyle: const TextStyle(color: Colors.black),
           ),
         ),
       ],
