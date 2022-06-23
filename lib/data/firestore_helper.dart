@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:givtimer/data/data.dart';
 import 'package:givtimer/data/models/user_data.dart';
@@ -57,8 +59,9 @@ class FireDBHelper {
       _userDataModel = UserKeyTotalTime();
     } else {
       _userDataRef.get().then((value) {
-        _userDataModel = UserKeyTotalTime()
-            .fromMap((value.data() as Map<String, dynamic>?)!);
+        final dataMap = Map<String, dynamic>.from((value.data() as Map?)!);
+        log(dataMap.toString());
+        _userDataModel = UserKeyTotalTime().fromMap(dataMap);
       });
     }
   }

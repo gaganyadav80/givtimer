@@ -6,15 +6,15 @@ class UserKeyTotalTime {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'totalTime': totalTime,
-      'nameTimeMap': nameTimeMap,
+      'KEY_TOTAL_TIME': totalTime,
+      'KEY_NAME_TIME_MAP': nameTimeMap,
     };
   }
 
   UserKeyTotalTime fromMap(Map<String, dynamic> map) {
     return UserKeyTotalTime()
-      ..totalTime = (map['totalTime'] ?? 0) as int
-      ..nameTimeMap = Map<String, int>.from(map['nameTimeMap'] as Map);
+      ..totalTime = (map['KEY_TOTAL_TIME'] ?? 0) as int
+      ..nameTimeMap = Map<String, int>.from(map['KEY_NAME_TIME_MAP'] as Map);
   }
 
   @override
