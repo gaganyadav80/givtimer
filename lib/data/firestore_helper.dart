@@ -34,13 +34,12 @@ class FireDBHelper {
   int get userTotalSeconds => _userDataModel.totalTime;
 
   Future<Map<String, int>> get userActivityTotalTimeData async =>
-      _userDataModel.nameTimeMap!;
+      _userDataModel.nameTimeMap;
 
-  List<String> get userActivityKeys =>
-      _userDataModel.nameTimeMap!.keys.toList();
+  List<String> get userActivityKeys => _userDataModel.nameTimeMap.keys.toList();
 
   int getActivityTotalSeconds(String key) =>
-      _userDataModel.nameTimeMap![key] ?? 0;
+      _userDataModel.nameTimeMap[key] ?? 0;
 
   void init(String id, {bool onSignUp = false}) {
     userId = id;
@@ -55,11 +54,11 @@ class FireDBHelper {
         KEY_NAME_TIME_MAP: <String, int>{},
       });
 
-      _userDataModel = UserKeyTotalTime(nameTimeMap: {});
+      _userDataModel = UserKeyTotalTime();
     } else {
       _userDataRef.get().then((value) {
-        _userDataModel =
-            UserKeyTotalTime.fromMap((value.data() as Map<String, dynamic>?)!);
+        _userDataModel = UserKeyTotalTime()
+            .fromMap((value.data() as Map<String, dynamic>?)!);
       });
     }
   }
@@ -145,15 +144,16 @@ class FireDBHelper {
 
   Future<void> _addUserTotalTime(String key, int seconds) async {
     try {
-      _userDataModel.copyWith(totalTime: _userDataModel.totalTime + seconds);
       await _userDataRef
           .update({KEY_TOTAL_TIME: _userDataModel.totalTime + seconds});
 
       final totalTimeMap = _userDataModel.nameTimeMap;
-      totalTimeMap![key] = (totalTimeMap[key] ?? 0) + seconds;
-
-      _userDataModel.copyWith(nameTimeMap: totalTimeMap);
+      totalTimeMap[key] = (totalTimeMap[key] ?? 0) + seconds;
       await _userDataRef.update({KEY_NAME_TIME_MAP: totalTimeMap});
+
+      _userDataModel
+        ..totalTime = _userDataModel.totalTime + seconds
+        ..nameTimeMap = totalTimeMap;
       //
     } on Exception catch (e) {
       throw Exception('$e');
