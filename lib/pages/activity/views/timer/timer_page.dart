@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/data/data.dart';
 import 'package:givtimer/logic/logic.dart';
-import 'package:givtimer/pages/activity/views/timer/timer_clock_page.dart';
 import 'package:givtimer/pages/activity/views/timer/widgets/timer_select_time.dart';
 import 'package:givtimer/pages/activity/views/widgets/widgets.dart';
 import 'package:givtimer/utils/utils.dart';
@@ -74,22 +73,27 @@ class _TimerPageBody extends StatelessWidget {
             BottomStartButton(
               heroTag: 'set-timer-button',
               onPressed: () {
-                context
-                    .read<TimerCubit>()
-                    .setDuration(const Duration(seconds: 60));
+                FireDBHelper().createActivity(
+                  ActivityType.timer,
+                  'DSA'.toActivitykey(),
+                  60,
+                );
+                // context
+                //     .read<TimerCubit>()
+                //     .setDuration(const Duration(seconds: 60));
 
-                if (context.read<TimerCubit>().state.activityName.isEmpty) {
-                  showBasicSnackBar(context, 'Please enter activity name');
-                } else if (!context.read<TimerCubit>().isTimerSet()) {
-                  showBasicSnackBar(context, 'Please select duration');
-                } else {
-                  context.pushMaterial(
-                    BlocProvider.value(
-                      value: context.read<TimerCubit>(),
-                      child: const ActivityClockPage(),
-                    ),
-                  );
-                }
+                // if (context.read<TimerCubit>().state.activityName.isEmpty) {
+                //   showBasicSnackBar(context, 'Please enter activity name');
+                // } else if (!context.read<TimerCubit>().isTimerSet()) {
+                //   showBasicSnackBar(context, 'Please select duration');
+                // } else {
+                //   context.pushMaterial(
+                //     BlocProvider.value(
+                //       value: context.read<TimerCubit>(),
+                //       child: const ActivityClockPage(),
+                //     ),
+                //   );
+                // }
               },
             ),
           ],

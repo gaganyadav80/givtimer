@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:givtimer/data/data.dart';
+import 'package:givtimer/data/models/user_data.dart';
 import 'package:givtimer/utils/utils.dart';
 
 class FireDBHelper {
@@ -10,7 +11,10 @@ class FireDBHelper {
   static final FireDBHelper _shared = FireDBHelper._sharedInstance();
 
   final _firestore = FirebaseFirestore.instance;
-  late String? userId;
+  String? userId;
+
+  late UserKeyTotalTime _userDataModel;
+
   late DocumentReference _userDataRef;
   late CollectionReference _activityLogsRef;
   late CollectionReference _dailyActivityRef;
@@ -22,34 +26,21 @@ class FireDBHelper {
   static const String KEY_DAILY_ACTIVITY = 'KEY_DAILY_ACTIVITY';
   static const String KEY_DAILY_TOTAL = 'KEY_DAILY_TOTAL';
   static const String KEY_NAME_TIME_MAP = 'KEY_NAME_TIME_MAP';
-  // static const String KEY_USER_TOTAL_TIME = 'KEY_USER_TOTAL_TIME';
 
-  Map<String, dynamic>? get userData {
-    // return (await _userDataRef.get()).data() as Map<String, dynamic>?;
-    Map<String, dynamic>? value;
-    _userDataRef.get().then((snapshot) {
-      value = snapshot.data() as Map<String, dynamic>?;
-    });
+  // Future<Map<String, dynamic>?> get userData async {
+  //   return (await _userDataRef.get()).data() as Map<String, dynamic>?;
+  // }
 
-    return value;
-  }
+  int get userTotalSeconds => _userDataModel.totalTime;
 
-  int get userTotalSeconds => (userData?[KEY_TOTAL_TIME] ?? 0) as int;
+  Future<Map<String, int>> get userActivityTotalTimeData async =>
+      _userDataModel.nameTimeMap!;
 
-  Map<String, int> get userActivityTotalTimeData {
-    Map<String, int>? value;
-    _userDataRef.get().then((snapshot) {
-      final temp = snapshot.data() as Map<String, dynamic>?;
-      value = Map<String, int>.from(temp![KEY_NAME_TIME_MAP] as Map);
-    });
-
-    return value ?? {};
-  }
-
-  List<String> get userActivityKeys => userActivityTotalTimeData.keys.toList();
+  List<String> get userActivityKeys =>
+      _userDataModel.nameTimeMap!.keys.toList();
 
   int getActivityTotalSeconds(String key) =>
-      userActivityTotalTimeData[key] ?? 0;
+      _userDataModel.nameTimeMap![key] ?? 0;
 
   void init(String id, {bool onSignUp = false}) {
     userId = id;
@@ -63,6 +54,13 @@ class FireDBHelper {
         KEY_TOTAL_TIME: 0,
         KEY_NAME_TIME_MAP: <String, int>{},
       });
+
+      _userDataModel = UserKeyTotalTime(nameTimeMap: {});
+    } else {
+      _userDataRef.get().then((value) {
+        _userDataModel =
+            UserKeyTotalTime.fromMap((value.data() as Map<String, dynamic>?)!);
+      });
     }
   }
 
@@ -71,62 +69,95 @@ class FireDBHelper {
     String activityKey,
     int seconds,
   ) async {
-    final dataSnapshot = await _dailyActivityRef
-        .where(
-          'date',
-          isEqualTo: Timestamp.fromDate(DateTime.now().removeTime()),
-        )
-        .where('key', isEqualTo: activityKey)
-        .limit(1)
-        .get();
-    final dataRef = dataSnapshot.docs.first;
+    try {
+      final dataSnapshot = await _dailyActivityRef
+          .where(
+            'date',
+            isEqualTo: Timestamp.fromDate(DateTime.now().removeTime()),
+          )
+          .where('key', isEqualTo: activityKey)
+          .limit(1)
+          .get();
 
-    if (dataRef.exists) {
-      final initSeconds =
-          (dataRef.data() as Map<String, dynamic>?)!['seconds'] as int;
-      await _dailyActivityRef
-          .doc(dataRef.id)
-          .update({'seconds': initSeconds + seconds});
-    } else {
-      await _dailyActivityRef.add(
-        DailyActivityData(
-          date: DateTime.now().removeTime(),
-          seconds: seconds,
-          key: activityKey,
-          type: type,
-        ).toMap(),
-      );
+      final QueryDocumentSnapshot<Object?>? dataRef;
+      if (dataSnapshot.docs.isNotEmpty) {
+        dataRef = dataSnapshot.docs.first;
+      } else {
+        dataRef = null;
+      }
+
+      if (dataRef != null) {
+        final initSeconds =
+            (dataRef.data() as Map<String, dynamic>?)!['seconds'] as int;
+        await _dailyActivityRef
+            .doc(dataRef.id)
+            .update({'seconds': initSeconds + seconds});
+      } else {
+        await _dailyActivityRef.add(
+          DailyActivityData(
+            date: DateTime.now().removeTime(),
+            seconds: seconds,
+            key: activityKey,
+            type: type,
+          ).toMap(),
+        );
+      }
+    } on Exception catch (e) {
+      throw Exception('$e');
     }
   }
 
   Future<void> _addDailyTotalData(int seconds) async {
-    final dataSnapshot = await _dailyTotalRef
-        .where(
-          'date',
-          isEqualTo: Timestamp.fromDate(DateTime.now().removeTime()),
-        )
-        .limit(1)
-        .get();
-    final dataRef = dataSnapshot.docs.first;
+    try {
+      final dataSnapshot = await _dailyTotalRef
+          .where(
+            'date',
+            isEqualTo: Timestamp.fromDate(DateTime.now().removeTime()),
+          )
+          .limit(1)
+          .get();
 
-    if (dataRef.exists) {
-      final initSeconds =
-          (dataRef.data() as Map<String, dynamic>?)!['seconds'] as int;
-      await _dailyActivityRef
-          .doc(dataRef.id)
-          .update({'seconds': initSeconds + seconds});
-    } else {
-      await _dailyActivityRef.add(
-        DailyProductiveTime(
-          date: DateTime.now().removeTime(),
-          seconds: seconds,
-        ).toMap(),
-      );
+      final QueryDocumentSnapshot<Object?>? dataRef;
+      if (dataSnapshot.docs.isNotEmpty) {
+        dataRef = dataSnapshot.docs.first;
+      } else {
+        dataRef = null;
+      }
+
+      if (dataRef != null) {
+        final initSeconds =
+            (dataRef.data() as Map<String, dynamic>?)!['seconds'] as int;
+        await _dailyTotalRef
+            .doc(dataRef.id)
+            .update({'seconds': initSeconds + seconds});
+      } else {
+        await _dailyTotalRef.add(
+          DailyProductiveTime(
+            date: DateTime.now().removeTime(),
+            seconds: seconds,
+          ).toMap(),
+        );
+      }
+    } on Exception catch (e) {
+      throw Exception('$e');
     }
   }
 
-  Future<void> _addUserTotalTime(int seconds) async {
-    await _userDataRef.update({KEY_TOTAL_TIME: userTotalSeconds + seconds});
+  Future<void> _addUserTotalTime(String key, int seconds) async {
+    try {
+      _userDataModel.copyWith(totalTime: _userDataModel.totalTime + seconds);
+      await _userDataRef
+          .update({KEY_TOTAL_TIME: _userDataModel.totalTime + seconds});
+
+      final totalTimeMap = _userDataModel.nameTimeMap;
+      totalTimeMap![key] = (totalTimeMap[key] ?? 0) + seconds;
+
+      _userDataModel.copyWith(nameTimeMap: totalTimeMap);
+      await _userDataRef.update({KEY_NAME_TIME_MAP: totalTimeMap});
+      //
+    } on Exception catch (e) {
+      throw Exception('$e');
+    }
   }
 
   Future<void> createActivity(
@@ -134,22 +165,17 @@ class FireDBHelper {
     String activityKey,
     int seconds,
   ) async {
-    try {
-      await _addDailyActivityData(type, activityKey, seconds);
-      await _addDailyTotalData(seconds);
-      await _activityLogsRef.add(
-        ActivityLog(
-          date: DateTime.now(),
-          type: type,
-          key: activityKey,
-          seconds: seconds,
-        ).toMap(),
-      );
-      await _addUserTotalTime(seconds);
-      //
-    } on Exception catch (e) {
-      throw Exception('Failed to create activity: $e');
-    }
+    await _addDailyActivityData(type, activityKey, seconds);
+    await _addDailyTotalData(seconds);
+    await _activityLogsRef.add(
+      ActivityLog(
+        date: DateTime.now(),
+        type: type,
+        key: activityKey,
+        seconds: seconds,
+      ).toMap(),
+    );
+    await _addUserTotalTime(activityKey, seconds);
   }
 
   Future<List<DailyActivityData>> getAllActivityByKey(String key) async {
@@ -168,7 +194,8 @@ class FireDBHelper {
 
   Future<List<ActivityLog>> getAllLogs() async {
     try {
-      final snapshot = await _activityLogsRef.get();
+      final snapshot =
+          await _activityLogsRef.orderBy('date', descending: true).get();
       return snapshot.docs
           .map((e) => ActivityLog.fromMap(e.data()! as Map<String, dynamic>))
           .toList();

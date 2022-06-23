@@ -26,7 +26,7 @@ class ActivityListPage extends StatelessWidget {
                   time: FireDBHelper().userTotalSeconds ~/ 60,
                   title: 'Total Time',
                   onTap: () {
-                    if (FireDBHelper().userActivityTotalTimeData.isNotEmpty) {
+                    if (FireDBHelper().userTotalSeconds > 60) {
                       context.pushMaterial(const DailyTotalChartPage());
                     }
                   },
@@ -43,32 +43,43 @@ class ActivityListPage extends StatelessWidget {
             ],
           ),
           const VSpace(10),
-          if (FireDBHelper().userActivityTotalTimeData.isEmpty)
-            const Expanded(child: EmptyListIndicatorRow()),
-          if (FireDBHelper().userActivityTotalTimeData.isNotEmpty)
-            Expanded(
-              child: ListView.separated(
-                itemCount: FireDBHelper().userActivityTotalTimeData.length,
-                separatorBuilder: (_, __) => const Divider(thickness: 1),
-                itemBuilder: (_, int index) {
-                  final activityMap = FireDBHelper().userActivityTotalTimeData;
-                  final keyList = activityMap.keys.toList()
-                    ..sort((a, b) => a.compareTo(b));
+          Expanded(
+            child: FutureBuilder<Map<String, int>>(
+              future: FireDBHelper().userActivityTotalTimeData,
+              initialData: const <String, int>{},
+              builder: (_, snapshot) {
+                final activityMap = snapshot.data;
 
-                  final key = keyList[index];
-                  final minutes = activityMap[key]! ~/ 60;
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Center(child: CircularLoading());
+                } else if (activityMap != null && activityMap.isNotEmpty) {
+                  return ListView.separated(
+                    itemCount: activityMap.length,
+                    separatorBuilder: (_, __) => const Divider(thickness: 1),
+                    itemBuilder: (_, int index) {
+                      final keyList = activityMap.keys.toList()
+                        ..sort((a, b) => a.compareTo(b));
 
-                  return ListTile(
-                    title: Text(key.toActivityname()),
-                    trailing: Text('''$minutes min'''),
-                    shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
-                    onTap: () => context.pushMaterial(
-                      ActivityChartPage(activityKey: key),
-                    ),
+                      final key = keyList[index];
+                      final minutes = activityMap[key]! ~/ 60;
+
+                      return ListTile(
+                        title: Text(key.toActivityname()),
+                        trailing: Text('''$minutes min'''),
+                        shape:
+                            RoundedRectangleBorder(borderRadius: kBorderRadius),
+                        onTap: () => context.pushMaterial(
+                          ActivityChartPage(activityKey: key),
+                        ),
+                      );
+                    },
                   );
-                },
-              ),
+                } else {
+                  return const EmptyListIndicatorRow();
+                }
+              },
             ),
+          ),
         ],
       ),
     );
