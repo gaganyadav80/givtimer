@@ -40,14 +40,14 @@ class _DailyTotalChartPageState extends State<DailyTotalChartPage> {
               children: [
                 Expanded(
                   child: TimeInfoCard(
-                    time: HiveHelper().userTotalSeconds ~/ 60,
+                    time: FireDBHelper().userTotalSeconds ~/ 60,
                     title: 'Total Time',
                   ),
                 ),
                 const HSpace(10),
                 Expanded(
                   child: TimeInfoCard(
-                    time: HiveHelper().userTotalSeconds ~/ (60 * totalDays),
+                    time: FireDBHelper().userTotalSeconds ~/ (60 * totalDays),
                     title: 'Daily Average',
                   ),
                 ),
@@ -126,7 +126,7 @@ class _DailyTotalChartPageState extends State<DailyTotalChartPage> {
                   valueListenable: _month,
                   builder: (_, int month, __) {
                     return FutureBuilder<List<DailyProductiveTime>>(
-                      future: IsarHelper().getAllDailyTotal(),
+                      future: FireDBHelper().getAllDailyTotal(),
                       initialData: const [],
                       builder: (_, snapshot) {
                         if (snapshot.hasData && snapshot.data!.isNotEmpty) {

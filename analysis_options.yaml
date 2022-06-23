@@ -13,3 +13,4 @@ linter:
     public_member_api_docs: false
     library_private_types_in_public_api: false
     implicit_dynamic_method: false
+    lines_longer_than_80_chars: false

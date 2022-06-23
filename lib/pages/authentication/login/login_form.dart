@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:givtimer/data/hive_helper.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/routes.dart';
 import 'package:givtimer/utils/utils.dart';
@@ -17,7 +17,7 @@ class LoginForm extends StatelessWidget {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state.status.isSubmissionSuccess) {
-          HiveHelper().initUserData(context.read<AppBloc>().state.user.id);
+          FireDBHelper().init(context.read<AppBloc>().state.user.id);
         }
         if (state.status.isSubmissionFailure) {
           ScaffoldMessenger.of(context)

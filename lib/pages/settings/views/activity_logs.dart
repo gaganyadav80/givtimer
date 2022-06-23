@@ -22,7 +22,7 @@ class ActivityLogsPage extends StatelessWidget {
             const VSpace(20),
             Expanded(
               child: FutureBuilder<List<ActivityLog>>(
-                future: IsarHelper().getAllLogs(),
+                future: FireDBHelper().getAllLogs(),
                 builder: (_, snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {
                     return const Center(

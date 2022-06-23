@@ -20,7 +20,6 @@ class ActivityChartPage extends StatefulWidget {
 }
 
 class _ActivityChartPageState extends State<ActivityChartPage> {
-  // TODO(gagan): maybe use bloc
   final ValueNotifier<int> _year = ValueNotifier<int>(DateTime.now().year);
   final ValueNotifier<int> _month = ValueNotifier<int>(DateTime.now().month);
 
@@ -39,7 +38,7 @@ class _ActivityChartPageState extends State<ActivityChartPage> {
               children: [
                 Expanded(
                   child: TimeInfoCard(
-                    time: HiveHelper()
+                    time: FireDBHelper()
                             .getActivityTotalSeconds(widget.activityKey) ~/
                         60,
                     title: 'Total Time',
@@ -48,7 +47,7 @@ class _ActivityChartPageState extends State<ActivityChartPage> {
                 const HSpace(10),
                 Expanded(
                   child: TimeInfoCard(
-                    time: HiveHelper()
+                    time: FireDBHelper()
                             .getActivityTotalSeconds(widget.activityKey) ~/
                         (15 * 60),
                     title: 'Daily Average',
@@ -129,7 +128,8 @@ class _ActivityChartPageState extends State<ActivityChartPage> {
                   valueListenable: _month,
                   builder: (_, int month, __) {
                     return FutureBuilder<List<DailyActivityData>>(
-                      future: IsarHelper().getActivityByKey(widget.activityKey),
+                      future: FireDBHelper()
+                          .getAllActivityByKey(widget.activityKey),
                       initialData: const [],
                       builder: (_, snapshot) {
                         if (snapshot.hasData && snapshot.data!.isNotEmpty) {

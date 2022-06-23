@@ -33,7 +33,7 @@ class PomodoroCubit extends HydratedCubit<PomodoroState> {
 
   void logActivity(int seconds) {
     // PomodoroModel().addActivity(state.activityKey, seconds);
-    IsarHelper().createActivity(
+    FireDBHelper().createActivity(
       ActivityType.pomodoro,
       state.activityName.toActivitykey(),
       seconds,

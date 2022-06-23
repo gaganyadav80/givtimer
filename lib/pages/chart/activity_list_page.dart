@@ -23,10 +23,10 @@ class ActivityListPage extends StatelessWidget {
             children: [
               Expanded(
                 child: TimeInfoCard(
-                  time: HiveHelper().userTotalSeconds ~/ 60,
+                  time: FireDBHelper().userTotalSeconds ~/ 60,
                   title: 'Total Time',
                   onTap: () {
-                    if (HiveHelper().userActivityTotalTimeData.isNotEmpty) {
+                    if (FireDBHelper().userActivityTotalTimeData.isNotEmpty) {
                       context.pushMaterial(const DailyTotalChartPage());
                     }
                   },
@@ -43,18 +43,15 @@ class ActivityListPage extends StatelessWidget {
             ],
           ),
           const VSpace(10),
-          // TODO(gagan): fix this conditional formatting
-          if (HiveHelper().userActivityTotalTimeData.isEmpty)
-            const Expanded(
-              child: EmptyListIndicatorRow(),
-            ),
-          if (HiveHelper().userActivityTotalTimeData.isNotEmpty)
+          if (FireDBHelper().userActivityTotalTimeData.isEmpty)
+            const Expanded(child: EmptyListIndicatorRow()),
+          if (FireDBHelper().userActivityTotalTimeData.isNotEmpty)
             Expanded(
               child: ListView.separated(
-                itemCount: HiveHelper().userActivityTotalTimeData.length,
+                itemCount: FireDBHelper().userActivityTotalTimeData.length,
                 separatorBuilder: (_, __) => const Divider(thickness: 1),
                 itemBuilder: (_, int index) {
-                  final activityMap = HiveHelper().userActivityTotalTimeData;
+                  final activityMap = FireDBHelper().userActivityTotalTimeData;
                   final keyList = activityMap.keys.toList()
                     ..sort((a, b) => a.compareTo(b));
 

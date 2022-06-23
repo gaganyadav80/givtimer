@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:givtimer/data/hive_helper.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/chart/activity_list_page.dart';
 import 'package:givtimer/pages/pages.dart';
@@ -40,7 +40,7 @@ class _HomePageBody extends StatefulWidget {
 class _HomePageBodyState extends State<_HomePageBody> {
   @override
   void initState() {
-    if (HiveHelper().userId == null) HiveHelper().initUserData(widget.userId);
+    if (FireDBHelper().userId == null) FireDBHelper().init(widget.userId);
     super.initState();
   }
 

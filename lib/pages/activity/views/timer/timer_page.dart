@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:givtimer/data/hive_helper.dart';
+import 'package:givtimer/data/data.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/activity/views/timer/timer_clock_page.dart';
 import 'package:givtimer/pages/activity/views/timer/widgets/timer_select_time.dart';
@@ -50,7 +50,7 @@ class _TimerPageBody extends StatelessWidget {
                   title: 'Timer',
                   onTextChanged: (String value) =>
                       context.read<TimerCubit>().setActivityName(value),
-                  activityKeys: HiveHelper().userActivityKeys,
+                  activityKeys: FireDBHelper().userActivityKeys,
                 ),
                 const TimerShowTimeWidget(),
                 const VSpace(40),

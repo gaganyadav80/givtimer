@@ -20,7 +20,7 @@ class TimerCubit extends Cubit<TimerState> {
       emit(state.copyWith(activityName: value));
 
   void logActivity() {
-    IsarHelper().createActivity(
+    FireDBHelper().createActivity(
       ActivityType.timer,
       state.activityName.toActivitykey(),
       state.seconds,
