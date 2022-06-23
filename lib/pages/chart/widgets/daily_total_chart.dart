@@ -7,7 +7,6 @@ import 'package:givtimer/pages/chart/widgets/line_chart_widget.dart';
 import 'package:givtimer/pages/chart/widgets/time_info_card.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 
 class DailyTotalChartPage extends StatefulWidget {

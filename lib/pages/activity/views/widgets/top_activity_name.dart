@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 

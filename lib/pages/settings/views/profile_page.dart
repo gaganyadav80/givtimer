@@ -7,7 +7,6 @@ import 'package:givtimer/pages/settings/widgets/user_avatar.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ProfilePage extends StatelessWidget {
