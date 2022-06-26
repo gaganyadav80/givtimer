@@ -8,11 +8,11 @@ final theme = ThemeData(
   textTheme: GoogleFonts.robotoTextTheme(),
   primaryColorDark: const Color(0xFF0097A7),
   primaryColorLight: const Color(0xFFB2EBF2),
-  // primaryColor: const Color(0xFF00BCD4),
+  // scaffoldBackgroundColor: const Color(0xFFF2F2F6),
   colorScheme: const ColorScheme.light(secondary: Color(0xFF009688)),
-  // scaffoldBackgroundColor: const Color(0xFFF2F2F7),
   appBarTheme: const AppBarTheme(
     elevation: 0,
+    // backgroundColor: Color(0xFFF2F2F6),
     backgroundColor: Color(0xFFFAFAFA),
     iconTheme: IconThemeData(color: Colors.black),
     toolbarTextStyle: TextStyle(color: Colors.black),

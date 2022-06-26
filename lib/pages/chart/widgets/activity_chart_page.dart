@@ -36,15 +36,15 @@ class _ActivityChartPageState extends State<ActivityChartPage> {
             const VSpace(10),
             Row(
               children: [
-                Expanded(
-                  child: TimeInfoCard(
-                    time: FireDBHelper()
-                            .getActivityTotalSeconds(widget.activityKey) ~/
-                        60,
-                    title: 'Total Time',
-                  ),
-                ),
-                const HSpace(10),
+                // Expanded(
+                //   child: TimeInfoCard(
+                //     time: FireDBHelper()
+                //             .getActivityTotalSeconds(widget.activityKey) ~/
+                //         60,
+                //     title: 'Total Time',
+                //   ),
+                // ),
+                // const HSpace(10),
                 Expanded(
                   child: TimeInfoCard(
                     time: FireDBHelper()
@@ -146,6 +146,7 @@ class _ActivityChartPageState extends State<ActivityChartPage> {
 
                           return LineChartWidget(
                             showDot: showDot,
+                            month: _month.value - 1,
                             data: List<FlSpot>.generate(
                               data.length,
                               (index) => FlSpot(

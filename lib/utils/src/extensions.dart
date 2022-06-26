@@ -11,6 +11,14 @@ extension Activity on String {
   String toActivityname() {
     return toUpperCase().replaceAll('-', ' ');
   }
+
+  String capitalizeFirst() {
+    final words = trim().replaceAll('-', ' ').split(' ');
+    for (var i = 0; i < words.length; i++) {
+      words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+    }
+    return words.join(' ');
+  }
 }
 
 extension ActivityDate on DateTime {

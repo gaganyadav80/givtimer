@@ -1,13 +1,19 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:givtimer/theme.dart';
+import 'package:givtimer/utils/utils.dart';
 
 class LineChartWidget<T extends Object> extends StatelessWidget {
-  const LineChartWidget({Key? key, required this.data, this.showDot = false})
-      : super(key: key);
+  const LineChartWidget({
+    Key? key,
+    required this.data,
+    required this.month,
+    this.showDot = false,
+  }) : super(key: key);
 
   final bool showDot;
   final List<FlSpot> data;
+  final int month;
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +79,21 @@ class LineChartWidget<T extends Object> extends StatelessWidget {
               ).toList();
             },
             touchTooltipData: LineTouchTooltipData(
-              tooltipBgColor: Colors.white,
-            ),
+                tooltipBgColor: Colors.white,
+                getTooltipItems: (list) {
+                  return list.map(
+                    (item) {
+                      return LineTooltipItem(
+                        '${item.x.toInt()} ${monthNames[month]}, ${item.y} min',
+                        const TextStyle(
+                          color: kPurpleColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      );
+                    },
+                  ).toList();
+                }),
           ),
           lineBarsData: [
             LineChartBarData(

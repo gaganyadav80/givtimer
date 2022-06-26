@@ -4,6 +4,7 @@ import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class ActivityLogsPage extends StatelessWidget {
   const ActivityLogsPage({Key? key}) : super(key: key);
@@ -36,19 +37,30 @@ class ActivityLogsPage extends StatelessWidget {
                       itemBuilder: (_, index) {
                         final item = snapshot.data![index];
 
+                        final minutes = item.seconds ~/ 60;
+
                         return ListTile(
-                          title: Text(item.key.toActivityname()),
+                          title: Text(item.key.toActivityname())
+                              .text
+                              .semiBold
+                              .headline6(context)
+                              .make(),
                           trailing: Padding(
                             padding: const EdgeInsets.only(top: 10),
-                            child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              children: [Text('${item.seconds ~/ 60} min')],
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                '$minutes'.text.black.headline4(context).make(),
+                                'min'.text.make(),
+                              ],
                             ),
                           ),
                           subtitle: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const VSpace(5),
                               Text('key: ${item.key}'),
                               Text('date: ${item.date.format()}'),
                             ],

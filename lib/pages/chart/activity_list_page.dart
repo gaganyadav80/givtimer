@@ -7,6 +7,7 @@ import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class ActivityListPage extends StatelessWidget {
   const ActivityListPage({Key? key}) : super(key: key);
@@ -64,8 +65,25 @@ class ActivityListPage extends StatelessWidget {
                       final minutes = activityMap[key]! ~/ 60;
 
                       return ListTile(
-                        title: Text(key.toActivityname()),
-                        trailing: Text('''$minutes min'''),
+                        title: key
+                            .toActivityname()
+                            .text
+                            .semiBold
+                            .headline6(context)
+                            .make(),
+                        trailing: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            '$minutes'
+                                .text
+                                .bold
+                                .black
+                                .headline4(context)
+                                .make(),
+                            'min'.text.make(),
+                          ],
+                        ),
                         shape:
                             RoundedRectangleBorder(borderRadius: kBorderRadius),
                         onTap: () => context.pushMaterial(

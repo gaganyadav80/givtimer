@@ -38,13 +38,13 @@ class _DailyTotalChartPageState extends State<DailyTotalChartPage> {
             const VSpace(10),
             Row(
               children: [
-                Expanded(
-                  child: TimeInfoCard(
-                    time: FireDBHelper().userTotalSeconds ~/ 60,
-                    title: 'Total Time',
-                  ),
-                ),
-                const HSpace(10),
+                // Expanded(
+                //   child: TimeInfoCard(
+                //     time: FireDBHelper().userTotalSeconds ~/ 60,
+                //     title: 'Total Time',
+                //   ),
+                // ),
+                // const HSpace(10),
                 Expanded(
                   child: TimeInfoCard(
                     time: FireDBHelper().userTotalSeconds ~/ (60 * totalDays),
@@ -143,6 +143,7 @@ class _DailyTotalChartPageState extends State<DailyTotalChartPage> {
 
                           return LineChartWidget(
                             showDot: showDot,
+                            month: _month.value - 1,
                             data: List<FlSpot>.generate(
                               data.length,
                               (index) => FlSpot(
