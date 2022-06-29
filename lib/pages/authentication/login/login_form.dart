@@ -8,6 +8,7 @@ import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -29,29 +30,57 @@ class LoginForm extends StatelessWidget {
             );
         }
       },
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: kDefaultHorizontalPadding,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const HeadlineText('Givtimer'),
-              _SignUpButton(),
-              const VSpace(30),
-              _EmailInput(),
-              const VSpace(12),
-              _PasswordInput(),
-              const VSpace(30),
-              _LoginButton(),
-              const VSpace(12),
-              _GoogleLoginButton(),
-            ],
+      child: Row(
+        children: [
+          const ResponsiveVisibility(
+            visible: false,
+            visibleWhen: [Condition<bool>.largerThan(name: TABLET)],
+            child: Expanded(
+              child: FlutterLogo(
+                size: 128,
+              ),
+            ),
           ),
-        ),
+          Expanded(
+            child: ResponsiveValue<int>(
+                      context,
+                      defaultValue: 0,
+                      valueWhen: [
+                        const Condition<int>.smallerThan(
+                          name: TABLET,
+                          value: 0,
+                        ),
+                        const Condition<int>.largerThan(name: MOBILE, value: 1),
+                      ],
+                    ).value ==
+                    0
+                ? SingleChildScrollView(child: _buildBody())
+                : _buildBody(),
+          ),
+        ],
       ),
     );
   }
+
+  Padding _buildBody() => Padding(
+        padding: kDefaultHorizontalPadding,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const HeadlineText('Givtimer'),
+            _SignUpButton(),
+            const VSpace(30),
+            _EmailInput(),
+            const VSpace(12),
+            _PasswordInput(),
+            const VSpace(30),
+            _LoginButton(),
+            const VSpace(12),
+            _GoogleLoginButton(),
+          ],
+        ),
+      );
 }
 
 class _EmailInput extends StatelessWidget {

@@ -4,7 +4,9 @@ import 'package:givtimer/data/data.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/chart/activity_list_page.dart';
 import 'package:givtimer/pages/pages.dart';
+import 'package:givtimer/theme.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class HomeCubit extends Cubit<int> {
   HomeCubit() : super(0);
@@ -48,41 +50,90 @@ class _HomePageBodyState extends State<_HomePageBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocBuilder<HomeCubit, int>(
-          builder: (_, state) {
-            return [
-              const ActivityPage(),
-              const ActivityListPage(),
-              const SettingsPage(),
-            ][state];
-          },
+        child: ResponsiveRowColumn(
+          layout: ResponsiveRowColumnType.ROW,
+          children: [
+            ResponsiveRowColumnItem(
+              child: ResponsiveVisibility(
+                visible: false,
+                visibleWhen: const [Condition<bool>.largerThan(name: TABLET)],
+                child: BlocBuilder<HomeCubit, int>(
+                  builder: (_, state) {
+                    return NavigationRail(
+                      selectedIndex: state,
+                      onDestinationSelected: (idx) =>
+                          context.read<HomeCubit>().updateIdx(idx),
+                      elevation: 6,
+                      selectedLabelTextStyle:
+                          const TextStyle(color: kPurpleColor, fontSize: 12),
+                      unselectedLabelTextStyle:
+                          const TextStyle(color: Colors.grey, fontSize: 12),
+                      labelType: NavigationRailLabelType.all,
+                      groupAlignment: 0,
+                      destinations: const [
+                        NavigationRailDestination(
+                          icon: Icon(LineIcons.home),
+                          label: Text('Home'),
+                        ),
+                        NavigationRailDestination(
+                          icon: Icon(LineIcons.lineChart),
+                          label: Text('Chart'),
+                        ),
+                        NavigationRailDestination(
+                          icon: Icon(LineIcons.cog),
+                          label: Text('Settings'),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+            ResponsiveRowColumnItem(
+              child: Expanded(
+                child: BlocBuilder<HomeCubit, int>(
+                  builder: (_, state) {
+                    return [
+                      const ActivityPage(),
+                      const ActivityListPage(),
+                      const SettingsPage(),
+                    ][state];
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-      bottomNavigationBar: BlocBuilder<HomeCubit, int>(
-        builder: (context, state) {
-          return BottomNavigationBar(
-            currentIndex: state,
-            onTap: (value) => context.read<HomeCubit>().updateIdx(value),
-            selectedFontSize: 12,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(LineIcons.home),
-                label: 'Home',
-                tooltip: '',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(LineIcons.lineChart),
-                label: 'Chart',
-                tooltip: '',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(LineIcons.cog),
-                label: 'Settings',
-                tooltip: '',
-              ),
-            ],
-          );
-        },
+      bottomNavigationBar: ResponsiveVisibility(
+        visible: false,
+        visibleWhen: const [Condition<bool>.smallerThan(name: DESKTOP)],
+        child: BlocBuilder<HomeCubit, int>(
+          builder: (context, state) {
+            return BottomNavigationBar(
+              currentIndex: state,
+              onTap: (value) => context.read<HomeCubit>().updateIdx(value),
+              selectedFontSize: 12,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(LineIcons.home),
+                  label: 'Home',
+                  tooltip: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(LineIcons.lineChart),
+                  label: 'Chart',
+                  tooltip: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(LineIcons.cog),
+                  label: 'Settings',
+                  tooltip: '',
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

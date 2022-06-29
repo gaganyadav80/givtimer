@@ -5,6 +5,7 @@ import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/authentication/signup/sign_up_form.dart';
 import 'package:go_router/go_router.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -15,9 +16,13 @@ class SignUpPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: const Icon(LineIcons.arrowLeft, color: Colors.black),
+        leading: ResponsiveVisibility(
+          visible: false,
+          visibleWhen: const [Condition<bool>.smallerThan(name: DESKTOP)],
+          child: IconButton(
+            onPressed: () => context.pop(),
+            icon: const Icon(LineIcons.arrowLeft, color: Colors.black),
+          ),
         ),
       ),
       body: Padding(

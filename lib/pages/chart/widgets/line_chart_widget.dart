@@ -79,21 +79,22 @@ class LineChartWidget<T extends Object> extends StatelessWidget {
               ).toList();
             },
             touchTooltipData: LineTouchTooltipData(
-                tooltipBgColor: Colors.white,
-                getTooltipItems: (list) {
-                  return list.map(
-                    (item) {
-                      return LineTooltipItem(
-                        '${item.x.toInt()} ${monthNames[month]}, ${item.y} min',
-                        const TextStyle(
-                          color: kPurpleColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      );
-                    },
-                  ).toList();
-                }),
+              tooltipBgColor: Colors.white,
+              getTooltipItems: (list) {
+                return list.map(
+                  (item) {
+                    return LineTooltipItem(
+                      '${item.x.toInt()} ${monthNames[month]}, ${item.y} min',
+                      const TextStyle(
+                        color: kPurpleColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    );
+                  },
+                ).toList();
+              },
+            ),
           ),
           lineBarsData: [
             LineChartBarData(

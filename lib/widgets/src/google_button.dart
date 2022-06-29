@@ -11,29 +11,32 @@ class GoogleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        // color: Theme.of(context).scaffoldBackgroundColor,
-        // primary: Theme.of(context).scaffoldBackgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: kBorderRadius,
-          side: kInputBorderStyle.borderSide,
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            'assets/svg/google.svg',
-            // fit: BoxFit.contain,
-            height: 26,
-            width: 26,
+    return SizedBox(
+      height: 50,
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          // color: Theme.of(context).scaffoldBackgroundColor,
+          // primary: Theme.of(context).scaffoldBackgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: kBorderRadius,
+            side: kInputBorderStyle.borderSide,
           ),
-          const HSpace(20),
-          Text(title, style: Theme.of(context).textTheme.button)
-        ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/svg/google.svg',
+              // fit: BoxFit.contain,
+              height: 26,
+              width: 26,
+            ),
+            const HSpace(20),
+            Text(title, style: Theme.of(context).textTheme.button)
+          ],
+        ),
       ),
     );
   }

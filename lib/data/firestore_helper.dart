@@ -45,6 +45,7 @@ class FireDBHelper {
 
   void init(String id, {bool onSignUp = false}) {
     userId = id;
+    print(userId);
     _userDataRef = _firestore.collection(KEY_USER_DATA).doc(userId);
     _dailyActivityRef = _userDataRef.collection(KEY_DAILY_ACTIVITY);
     _dailyTotalRef = _userDataRef.collection(KEY_DAILY_TOTAL);

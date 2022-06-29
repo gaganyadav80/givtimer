@@ -7,6 +7,7 @@ import 'package:givtimer/utils/utils.dart';
 import 'package:givtimer/widgets/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -27,30 +28,86 @@ class SignUpForm extends StatelessWidget {
           showBasicSnackBar(context, state.errorMessage ?? 'Sign Up Failure');
         }
       },
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: kDefaultHorizontalPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const HeadlineText('Register'),
-              const VSpace(30),
-              _NameInput(),
-              const VSpace(12),
-              _EmailInput(),
-              const VSpace(12),
-              _PasswordInput(),
-              const VSpace(12),
-              _ConfirmPasswordInput(),
-              const VSpace(30),
-              _SignUpButton(),
-              const VSpace(12),
-              _GoogleLoginButton(),
-            ],
+      child: Row(
+        children: [
+          const ResponsiveVisibility(
+            visible: false,
+            visibleWhen: [Condition<bool>.largerThan(name: TABLET)],
+            child: Expanded(
+              child: FlutterLogo(
+                size: 128,
+              ),
+            ),
           ),
-        ),
+          Expanded(
+            child: ResponsiveValue<int>(
+                      context,
+                      defaultValue: 0,
+                      valueWhen: [
+                        const Condition<int>.smallerThan(
+                          name: TABLET,
+                          value: 0,
+                        ),
+                        const Condition<int>.largerThan(name: MOBILE, value: 1),
+                      ],
+                    ).value ==
+                    0
+                ? SingleChildScrollView(child: _buildBody())
+                : _buildBody(),
+          ),
+        ],
       ),
+    );
+  }
+
+  Padding _buildBody() => Padding(
+        padding: kDefaultHorizontalPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const HeadlineText('Register'),
+            const ResponsiveVisibility(
+              visible: false,
+              visibleWhen: [Condition<bool>.largerThan(name: TABLET)],
+              child: _BackToLoginButton(),
+            ),
+            const VSpace(30),
+            _NameInput(),
+            const VSpace(12),
+            _EmailInput(),
+            const VSpace(12),
+            _PasswordInput(),
+            const VSpace(12),
+            _ConfirmPasswordInput(),
+            const VSpace(30),
+            _SignUpButton(),
+            const VSpace(12),
+            _GoogleLoginButton(),
+          ],
+        ),
+      );
+}
+
+class _BackToLoginButton extends StatelessWidget {
+  const _BackToLoginButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'Back to login?',
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+        const HSpace(5),
+        TextButton(
+          key: const Key('loginForm_createAccount_flatButton'),
+          onPressed: () => context.pop(),
+          child: const Text('Login instead'),
+        ),
+      ],
     );
   }
 }
