@@ -6,5 +6,5 @@ export 'models/logs_model.dart';
 enum ActivityType {
   pomodoro,
   timer,
-  // alarm,
+  custom,
 }

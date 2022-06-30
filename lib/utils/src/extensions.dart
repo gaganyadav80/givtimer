@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 extension Activity on String {
   // WORK @DSA ==> work-@dsa
@@ -18,6 +19,14 @@ extension Activity on String {
       words[i] = words[i][0].toUpperCase() + words[i].substring(1);
     }
     return words.join(' ');
+  }
+
+  Condition<bool> toLargerResponsiveCondition() {
+    return Condition<bool>.largerThan(name: this);
+  }
+
+  Condition<bool> toSmallerResponsiveCondition() {
+    return Condition<bool>.smallerThan(name: this);
   }
 }
 

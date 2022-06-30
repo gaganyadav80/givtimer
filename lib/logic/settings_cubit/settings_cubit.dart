@@ -9,6 +9,10 @@ class SettingsCubit extends HydratedCubit<SettingsState> {
 
   final AuthenticationRepository _authenticationRepository;
 
+  void toggleMenuLayout() {
+    emit(state.copyWith(menuToRight: !state.menuToRight));
+  }
+
   Future<void> updateProfilePhoto(String url) async {
     await _authenticationRepository.updateProfilePhoto(url);
   }
@@ -47,11 +51,11 @@ class SettingsCubit extends HydratedCubit<SettingsState> {
 
   @override
   SettingsState? fromJson(Map<String, dynamic> json) {
-    return const SettingsState();
+    return SettingsState.fromMap(json);
   }
 
   @override
   Map<String, dynamic>? toJson(SettingsState state) {
-    return <String, dynamic>{};
+    return state.toMap();
   }
 }

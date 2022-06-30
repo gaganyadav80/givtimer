@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/settings/views/verify_email.dart';
 import 'package:givtimer/routes.dart';
+import 'package:givtimer/theme.dart';
 import 'package:givtimer/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:line_icons/line_icons.dart';
@@ -44,6 +45,19 @@ class SettingsPage extends StatelessWidget {
               leading: const Icon(LineIcons.user),
               trailing: const Icon(LineIcons.angleRight, color: Colors.grey),
               onPressed: (_) => context.pushNamed(RouterName.profileRoute),
+            ),
+          ],
+        ),
+        SettingsSection(
+          title: const Text('Appearance'),
+          tiles: [
+            SettingsTile.switchTile(
+              title: const Text('Menu Position to Right'),
+              leading: const Icon(LineIcons.history),
+              initialValue: context.read<SettingsCubit>().state.menuToRight,
+              onToggle: (_) => context.read<SettingsCubit>().toggleMenuLayout(),
+              activeSwitchColor: kPurpleColor,
+              // onPressed: (_) => context.read<SettingsCubit>().changeMenuLayout(),
             ),
           ],
         ),

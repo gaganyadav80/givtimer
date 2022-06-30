@@ -5,6 +5,7 @@ import 'package:givtimer/logic/logic.dart';
 import 'package:givtimer/pages/chart/activity_list_page.dart';
 import 'package:givtimer/pages/pages.dart';
 import 'package:givtimer/theme.dart';
+import 'package:givtimer/utils/utils.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -12,6 +13,14 @@ class HomeCubit extends Cubit<int> {
   HomeCubit() : super(0);
 
   void updateIdx(int idx) => emit(idx);
+
+  void addCustomActivity(String activityName, int seconds) {
+    FireDBHelper().createActivity(
+      ActivityType.custom,
+      activityName.toActivitykey(),
+      seconds,
+    );
+  }
 }
 
 class HomePage extends StatelessWidget {
@@ -50,59 +59,72 @@ class _HomePageBodyState extends State<_HomePageBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ResponsiveRowColumn(
-          layout: ResponsiveRowColumnType.ROW,
-          children: [
-            ResponsiveRowColumnItem(
-              child: ResponsiveVisibility(
-                visible: false,
-                visibleWhen: const [Condition<bool>.largerThan(name: TABLET)],
-                child: BlocBuilder<HomeCubit, int>(
-                  builder: (_, state) {
-                    return NavigationRail(
-                      selectedIndex: state,
-                      onDestinationSelected: (idx) =>
-                          context.read<HomeCubit>().updateIdx(idx),
-                      elevation: 6,
-                      selectedLabelTextStyle:
-                          const TextStyle(color: kPurpleColor, fontSize: 12),
-                      unselectedLabelTextStyle:
-                          const TextStyle(color: Colors.grey, fontSize: 12),
-                      labelType: NavigationRailLabelType.all,
-                      groupAlignment: 0,
-                      destinations: const [
-                        NavigationRailDestination(
-                          icon: Icon(LineIcons.home),
-                          label: Text('Home'),
-                        ),
-                        NavigationRailDestination(
-                          icon: Icon(LineIcons.lineChart),
-                          label: Text('Chart'),
-                        ),
-                        NavigationRailDestination(
-                          icon: Icon(LineIcons.cog),
-                          label: Text('Settings'),
-                        ),
-                      ],
-                    );
-                  },
+        child: BlocBuilder<SettingsCubit, SettingsState>(
+          buildWhen: (previous, current) =>
+              current.menuToRight != previous.menuToRight,
+          builder: (context, state) {
+            return ResponsiveRowColumn(
+              layout: ResponsiveRowColumnType.ROW,
+              children: [
+                ResponsiveRowColumnItem(
+                  rowOrder: state.menuToRight ? 1 : 0,
+                  child: ResponsiveVisibility(
+                    visible: false,
+                    visibleWhen: const [
+                      Condition<bool>.largerThan(name: TABLET)
+                    ],
+                    child: BlocBuilder<HomeCubit, int>(
+                      builder: (_, state) {
+                        return NavigationRail(
+                          selectedIndex: state,
+                          onDestinationSelected: (idx) =>
+                              context.read<HomeCubit>().updateIdx(idx),
+                          elevation: 6,
+                          selectedLabelTextStyle: const TextStyle(
+                              color: kPurpleColor, fontSize: 12),
+                          unselectedLabelTextStyle:
+                              const TextStyle(color: Colors.grey, fontSize: 12),
+                          labelType: NavigationRailLabelType.all,
+                          groupAlignment: -0.1,
+                          leading: const Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: FlutterLogo(size: 30),
+                          ),
+                          destinations: const [
+                            NavigationRailDestination(
+                              icon: Icon(LineIcons.home),
+                              label: Text('Home'),
+                            ),
+                            NavigationRailDestination(
+                              icon: Icon(LineIcons.lineChart),
+                              label: Text('Chart'),
+                            ),
+                            NavigationRailDestination(
+                              icon: Icon(LineIcons.cog),
+                              label: Text('Settings'),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            ResponsiveRowColumnItem(
-              child: Expanded(
-                child: BlocBuilder<HomeCubit, int>(
-                  builder: (_, state) {
-                    return [
-                      const ActivityPage(),
-                      const ActivityListPage(),
-                      const SettingsPage(),
-                    ][state];
-                  },
+                ResponsiveRowColumnItem(
+                  child: Expanded(
+                    child: BlocBuilder<HomeCubit, int>(
+                      builder: (_, state) {
+                        return [
+                          const ActivityPage(),
+                          const ActivityListPage(),
+                          const SettingsPage(),
+                        ][state];
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ),
       ),
       bottomNavigationBar: ResponsiveVisibility(

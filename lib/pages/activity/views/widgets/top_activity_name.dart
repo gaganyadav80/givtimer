@@ -12,11 +12,13 @@ class TopHeadAndActivityNameWidget extends StatefulWidget {
     required this.title,
     required this.activityKeys,
     this.onTextChanged,
+    this.showDivider = true,
   }) : super(key: key);
 
-  final String title;
+  final String? title;
   final TextChangeCallback? onTextChanged;
   final List<String> activityKeys;
+  final bool showDivider;
 
   @override
   State<TopHeadAndActivityNameWidget> createState() =>
@@ -33,7 +35,10 @@ class _TopHeadAndActivityNameWidgetState
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        HeadlineText(widget.title),
+        Visibility(
+          visible: widget.title != null,
+          child: HeadlineText(widget.title ?? ''),
+        ),
         const VSpace(10),
         Autocomplete<String>(
           optionsBuilder: (textEditingValue) {
@@ -111,21 +116,14 @@ class _TopHeadAndActivityNameWidgetState
             );
           },
         ),
-        // CustomTextField(
-        //   hintText: 'Activity Name',
-        //   textInputType: TextInputType.name,
-        //   prefixIcon: const Icon(LineIcons.alternateFeather),
-        //   textInputAction: TextInputAction.done,
-        //   maxLines: 1,
-        //   textCapitalization: TextCapitalization.words,
-        //   onChanged: onTextChanged,
-        //   enabledBorder: OutlineInputBorder(
-        //     borderRadius: BorderRadius.circular(10),
-        //     borderSide: const BorderSide(color: kPurpleColor),
-        //   ),
-        // ),
-        const VSpace(20),
-        const Divider(thickness: 1),
+        Visibility(
+          visible: widget.showDivider,
+          child: const VSpace(20),
+        ),
+        Visibility(
+          visible: widget.showDivider,
+          child: const Divider(thickness: 1),
+        ),
       ],
     );
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 final BorderRadius kBorderRadius = BorderRadius.circular(kDefaultRadius);
-final BorderRadius kModalBorderRadius =
-    BorderRadius.circular(kDefaultModalRadius);
+const BorderRadius kModalBorderRadius =
+    BorderRadius.vertical(top: Radius.circular(kDefaultModalRadius));
 
 const double kDefaultRadius = 8;
 const double kDefaultModalRadius = 24;

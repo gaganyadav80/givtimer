@@ -78,13 +78,14 @@ class CustomTextField extends StatelessWidget {
         suffixIcon: suffix,
         errorText: errorText,
         enabledBorder: enabledBorder,
+        errorMaxLines: showErrorText ? 1 : 0,
         // border: kInputBorderStyle,
         // focusedBorder: kInputBorderStyle,
         // enabledBorder: kInputBorderStyle,
         // hintStyle:
         // Theme.of(context).textTheme.caption!.copyWith(fontSize: 14.w),
-        errorStyle:
-            showErrorText ? null : const TextStyle(fontSize: 0, height: 0),
+        // errorStyle:
+        //     showErrorText ? null : const TextStyle(fontSize: 0, height: 0),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 15, vertical: 19),
         hintText: hintText,
