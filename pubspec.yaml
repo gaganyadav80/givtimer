@@ -29,6 +29,7 @@ dependencies:
   go_router: ^3.1.1
   google_fonts: ^3.0.1
   hydrated_bloc: ^9.0.0-dev.2
+  icons_launcher: ^1.2.1
   intl: ^0.17.0
   line_icons: ^2.0.1
   neon_circular_timer: ^0.0.7
@@ -54,3 +55,14 @@ flutter:
   assets:
     - assets/svg/
     - assets/notification/
+
+flutter_icons:
+  image_path: 'assets/logo/givtimer-logo.png'
+  ios: true
+  macos: true
+  remove_alpha_ios: true
+  remove_alpha_macos: true
+  android: true
+  windows: true
+  linux: true
+  web: true
